@@ -1,5 +1,7 @@
 .DS_STORE
 backend/target/
+*.iml
 frontend/node_modules/
 frontend/target/
 backend/.idea/
+backend/target/backend-1.0.0-SNAPSHOT.jar
