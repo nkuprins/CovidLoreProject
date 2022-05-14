@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>CovidLore</title>
+    <link rel="icon" href="../static/img/profiles/profile1.png">
+
+    <link rel="stylesheet" href="../static/css/spinner.css">
+    <link rel="stylesheet" href="../static/css/news.css">
+    <link rel="stylesheet" href="../static/css/selected_news.css">
+    <link rel="stylesheet" href="../static/css/absolute_centre-block.css">
+    <link rel="stylesheet" href="../static/css/nav.css">
+    <script defer src="/webjars/frontend/1.0.0-SNAPSHOT/newsController.js" type="module"></script>
+
+</head>
+<body>
+<header>
+    <nav class="nav">
+        <img class="nav__logo" src="../static/img/logo.png" alt="Logotype of the App">
+        <ul class="nav__box">
+            <li class="nav__element nav__btn_el"><a id="0" class="nav__button" href="map.html">Map</a></li>
+            <li class="nav__element nav__btn_el"><a id="1" class="nav__button" href="news.html">News</a></li>
+            <li class="nav__element nav__btn_el"><a id="2" class="nav__button" href="forum.html">Forum</a></li>
+            <li class="nav__element nav__img_el"><img class="nav__img" src="../static/img/profiles/profile2.png" alt="Profile image"></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div class="absolute__block__body disabled-obj">
+        <div class="absolute__block__background"></div>
+        <div class="absolute__block">
+            <button class="absolute__block__button">X</button>
+            <h2 class="absolute__block__title"></h2>
+            <div class="selected__news__description"></div>
+            <div class="selected__news__resource"></div>
+            <div class="selected__news__date"></div>
+        </div>
+    </div>
+    <div class="news__section">
+        <table>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>

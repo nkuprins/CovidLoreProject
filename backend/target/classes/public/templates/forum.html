@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>CovidLore</title>
+    <link rel="icon" href="../static/img/profiles/profile1.png">
+    <link rel="stylesheet" href="../static/css/nav.css">
+    <link rel="stylesheet" href="../static/css/forum.css">
+    <link rel="stylesheet" href="../static/css/add_thread.css">
+    <link rel="stylesheet" href="../static/css/absolute_centre-block.css">
+
+    <script defer src="/webjars/frontend/1.0.0-SNAPSHOT/forumController.js" type="module"></script>
+
+</head>
+<body>
+<header>
+    <nav class="nav">
+        <img class="nav__logo" src="../static/img/logo.png" alt="Logotype of the App">
+        <ul class="nav__box">
+            <li class="nav__element nav__btn_el"><a id="0" class="nav__button" href="map.html">Map</a></li>
+            <li class="nav__element nav__btn_el"><a id="1" class="nav__button" href="news.html">News</a></li>
+            <li class="nav__element nav__btn_el"><a id="2" class="nav__button" href="discussion.html">Forum</a></li>
+            <li class="nav__element nav__img_el"><img class="nav__img" src="../static/img/profiles/profile2.png" alt="Profile image"></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div class="absolute__block__body disabled-obj">
+        <div class="absolute__block__background"></div>
+        <div class="absolute__block">
+            <button class="absolute__block__button">X</button>
+            <h2 class="absolute__block__title add__block__title">Add New Thread</h2>
+            <form action="" method="POST">
+                <label>
+                    <input name="title" type="text" placeholder="Title">
+                </label>
+                <textarea name="opinion" type="text" placeholder="Description"></textarea>
+                <button class="form__button" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="options__box">
+        <div class="options__sort-box">
+            <p class="options__element add__new__thread">NEW THREAD</p>
+            <div class="options__element sort__element">
+                TOP<img class="sort__icon" src="../static/img/show-replies.png" alt="List sort icon">
+            </div>
+            <div class="options__element sort__element">
+                LATEST<img class="sort__icon" src="../static/img/show-replies.png" alt="List sort icon">
+            </div>
+        </div>
+    </div>
+    <hr class="article__line">
+    <table>
+        <thead>
+            <td class="col1 option__title">
+                Topic
+            </td>
+            <td class="col2 option__title">
+                Author
+            </td>
+            <td class="col3 option__title">
+                Likes
+            </td>
+            <td class="col4 option__title">
+                Views
+            </td>
+            <td class="col5 option__title">
+                Activity
+            </td>
+        </thead>
+        <tbody>
+        <tr class="thread__body">
+            <td class="col1">Does US really have world's highest Covid death toll? - BBC News</td>
+            <td>James Jamesly Jamesely</td>
+            <td>
+                <div>
+                    999 <img class="thread__image" src="../static/img/like.png" alt="like">
+                </div>
+                <div>
+                    123 <img class="thread__image" src="../static/img/dislike.png" alt="dislike">
+                </div>
+            </td>
+            <td>220</td>
+            <td>1 min</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

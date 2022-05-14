@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>CovidLore</title>
+    <link rel="icon" href="../static/img/profiles/profile1.png">
+
+    <link rel="stylesheet" href="../static/css/charts.css">
+    <link rel="stylesheet" href="../static/css/map.css">
+    <link rel="stylesheet" href="../static/css/nav.css">
+    <link rel="stylesheet" href="../static/css/spinner.css">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+
+    <script defer src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+
+    <script defer src="/webjars/frontend/1.0.0-SNAPSHOT/mapController.js" type="module"></script>
+
+</head>
+<body>
+<header>
+    <nav class="nav">
+        <img class="nav__logo" src="../static/img/logo.png" alt="Logotype of the App">
+        <ul class="nav__box">
+            <li class="nav__element nav__btn_el"><a id="0" class="nav__button" href="map.html">Map</a></li>
+            <li class="nav__element nav__btn_el"><a id="1" class="nav__button" href="news.html">News</a></li>
+            <li class="nav__element nav__btn_el"><a id="2" class="nav__button" href="forum.html">Forum</a></li>
+            <li class="nav__element nav__img_el"><img class="nav__img" src="../static/img/profiles/profile2.png" alt="Profile image"></li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+    <div id="map">
+
+    </div>
+</main>
+<section class="section" id="section--1">
+    <h2 class="section__title">Graph Confirmed</h2>
+    <img class="arrow__section" src="../static/img/section-arrow.png" alt="Show arrow to section">
+    <table id="country__chart-1" class="charts-css column show-heading show-5-secondary-axes show-labels hidden-obj">
+        <caption class="section__description">The statistics of top 5 covid countries by cases</caption>
+        <tbody id="chartTBody-1">
+
+        </tbody>
+    </table>
+</section>
+<section class="section" id="section--2">
+    <h2 class="section__title">Graph Death</h2>
+    <table id="country__chart-2" class="charts-css column show-heading show-5-secondary-axes show-labels hidden-obj">
+        <caption class="section__description">The statistics of top 5 covid countries by death</caption>
+        <tbody id="chartTBody-2">
+
+        </tbody>
+    </table>
+</section>
+</body>
+</html>
