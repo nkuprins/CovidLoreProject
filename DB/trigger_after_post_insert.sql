@@ -1,0 +1,6 @@
+DROP TRIGGER IF EXISTS covid_lore.post_AFTER_INSERT;
+delimiter $
+CREATE TRIGGER post_AFTER_INSERT AFTER INSERT ON post FOR EACH ROW 
+BEGIN
+	INSERT INTO post_scores VALUES (NEW.post_id, NEW.creator_id, DEFAULT);
+END$

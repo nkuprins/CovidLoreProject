@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
@@ -72,8 +72,8 @@
             </td>
         </thead>
         <tbody>
-        <tr class="thread__body">
-            <td class="col1">Does US really have world's highest Covid death toll? - BBC News</td>
+        <tr class="thread__body" th:each="tempPost: ${postsAttr}">
+            <td class="col1" th:text="${tempPost.title}"></td>
             <td>James Jamesly Jamesely</td>
             <td>
                 <div>
