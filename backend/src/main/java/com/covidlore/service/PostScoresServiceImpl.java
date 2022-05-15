@@ -12,8 +12,4 @@ public class PostScoresServiceImpl implements PostScoresService {
         this.postScoresRepository = postScoresRepository;
     }
 
-    @Override
-    public int sumLikes() {
-        return postScoresRepository.total();
-    }
 }

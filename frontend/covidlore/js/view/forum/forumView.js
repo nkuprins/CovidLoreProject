@@ -1,7 +1,6 @@
 
 class ForumView {
 
-
     constructor() {
         this._addNewsBody = document.querySelector('.absolute__block__body');
     }

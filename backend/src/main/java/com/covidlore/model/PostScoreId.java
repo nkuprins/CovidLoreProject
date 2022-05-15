@@ -5,7 +5,7 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @Embeddable
-public class PostScoresId implements Serializable {
+public class PostScoreId implements Serializable {
 
     private static final long serialVersionUID = -4543385774779230646L;
     @Column(name = "post_id")

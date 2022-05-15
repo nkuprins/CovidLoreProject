@@ -22,6 +22,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Post findById(int postId) {
+        return postRepository.getById(postId);
+    }
+
+    @Override
     public void save(Post post) {
         postRepository.save(post);
     }

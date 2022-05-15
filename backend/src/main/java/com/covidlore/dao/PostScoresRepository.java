@@ -1,12 +1,11 @@
 package com.covidlore.dao;
 
-import com.covidlore.model.Post;
-import com.covidlore.model.PostScores;
+import com.covidlore.model.PostScore;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
-public interface PostScoresRepository extends JpaRepository<PostScores, Integer> {
+@Repository
+public interface PostScoresRepository extends JpaRepository<PostScore, Integer> {
 
-    @Query("select sum(ps.scoreLike) from PostScores ps where ps.postScoreId.postId = 1")
-    int total();
 }

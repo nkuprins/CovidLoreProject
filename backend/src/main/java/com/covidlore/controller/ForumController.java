@@ -34,6 +34,12 @@ public class ForumController {
         return "forum";
     }
 
+    @GetMapping("/discussion")
+    public String showDiscussion() {
+
+        return "discussion";
+    }
+
     @PostMapping("/saveThread")
     public String saveThread(@RequestParam String title, @RequestParam String description) {
 

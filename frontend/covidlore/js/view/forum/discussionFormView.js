@@ -1,5 +1,6 @@
-import DiscussionRowView from "./discussionRowView";
+import CommentRow from "./commentRow";
 import DiscussionData from "../../model/DiscussionData";
+import {dataToNormalFormat} from "../../helper";
 
 class DiscussionFormView {
 
@@ -48,9 +49,19 @@ class DiscussionFormView {
         replyFormArticle.remove(); // Remove the form article
 
         DiscussionData.updateToNextId();
-        const discussionRowView = new DiscussionRowView(this._parentDiscussion, replyText);
-        discussionRowView.addReplyListener();
-        discussionRowView.addLikesListener();
+        const commentRow = new CommentRow(this._parentDiscussion, {
+            commentDate: dataToNormalFormat(new Date()),
+            commentId: DiscussionData.getLastId(),
+            description: replyText,
+            numOfChildren: 0,
+            parentCommentId: this._parentDiscussion.id,
+            sumDisLike: 0,
+            sumLike: 0,
+            user: { username: 'You' }
+        });
+        commentRow.createArticle();
+        commentRow.addReplyListener();
+        commentRow.addScoreListener();
     }
 }
 

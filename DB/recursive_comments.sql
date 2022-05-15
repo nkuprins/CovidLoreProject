@@ -4,7 +4,8 @@ WITH RECURSIVE comments_rec AS (
      c.comment_id,
      c.comment_date,
      u.username,
-     cs.score,
+     cs.score_like,
+     cs.score_dislike,
      c.description,
      c.parent_comment_id
    FROM comments c
@@ -18,7 +19,8 @@ WITH RECURSIVE comments_rec AS (
      CURRENT.comment_id,
      CURRENT.comment_date,
      u.username,
-     cs.score,
+     cs.score_like,
+     cs.score_dislike,
      CURRENT.description,
 	 previous.comment_id
    FROM comments AS CURRENT

@@ -2,7 +2,6 @@ package com.covidlore.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 
@@ -10,10 +9,10 @@ import javax.persistence.*;
 @Table(name = "post_scores")
 @NoArgsConstructor
 @Getter
-public class PostScores {
+public class PostScore {
 
     @EmbeddedId
-    private PostScoresId postScoreId;
+    private PostScoreId postScoreId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
@@ -25,10 +24,7 @@ public class PostScores {
     @MapsId("userId")
     private User userScore;
 
-    @Column(name = "score_like")
-    private int scoreLike;
-
-    @Column(name = "score_dislike")
-    private int scoreDislike;
+    @Column(name = "score")
+    private int score;
 
 }

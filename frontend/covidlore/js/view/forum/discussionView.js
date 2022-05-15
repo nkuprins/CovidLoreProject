@@ -1,31 +1,50 @@
-import DiscussionRowView from "./discussionRowView";
+import CommentRow from "./commentRow";
 import DiscussionData from "../../model/DiscussionData";
-import {readJSONExampleData} from "../../helper";
+import QuestionRow from "./questionRow";
 
 class DiscussionView {
 
+    static _loadedSubReplies = [];
+    static _discussionData = new DiscussionData();
+
     constructor() {
-        this._showData()
+
     }
 
-    _showData() {
-        Object.entries(readJSONExampleData()).forEach((data) => {
-            const [discussionId, discussionData] = data;
-            DiscussionData.setNextId(discussionId);
+    showQuestion(questionData) {
+        console.log("Question:");
+        console.log(questionData);
+        const parentNode = document.querySelector('main');
+        const questionRow = new QuestionRow(parentNode, questionData);
+        questionRow.createQuestionArticle();
+        questionRow.addReplyListener();
+        questionRow.addScoreListener();
+    }
 
-            let parentNode;
-            if (discussionId !== '0')
-                parentNode = document.querySelector(`#post-${discussionData.parentNode}`);
-            else
-                parentNode = document.querySelector('main');
+    static showComments(parentId) {
 
-            const discussionRowView = new DiscussionRowView(parentNode, discussionData.description);
-            discussionRowView.addReplyListener();
-            discussionRowView.addLikesListener();
+        if (this._loadedSubReplies.indexOf(parentId) !== -1)
+            return;
 
-            if (discussionId !== '0')
-                discussionRowView.addRepliesListener();
-        });
+        this._discussionData.loadCommentData(parentId).then(commentData => {
+            Object.entries(commentData).forEach((entries) => {
+                const [id, data] = entries;
+                console.log("Comment:");
+                console.log(commentData);
+
+                DiscussionData.setNextId(id);
+                const parentNode = document.querySelector(`#post-${data.parentCommentId == null ? 0 : data.parentCommentId}`);
+                console.log(parentNode);
+                console.log("BEFORE parent node");
+                const commentRow = new CommentRow(parentNode, data);
+                commentRow.createArticle();
+                commentRow.addReplyListener();
+                commentRow.addRepliesListenerForLoadedData();
+                commentRow.addScoreListener();
+            });
+        })
+
+        this._loadedSubReplies.push(parentId);
     }
 }
 

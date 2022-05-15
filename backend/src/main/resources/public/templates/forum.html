@@ -55,35 +55,34 @@
     <hr class="article__line">
     <table>
         <thead>
-            <td class="col1 option__title">
+            <td class="col1 thead__title">
                 Topic
             </td>
-            <td class="col2 option__title">
+            <td class="col2 thead__title">
                 Author
             </td>
-            <td class="col3 option__title">
+            <td class="col3 thead__title">
                 Likes
             </td>
-            <td class="col4 option__title">
-                Views
-            </td>
-            <td class="col5 option__title">
+            <td class="col5 thead__title">
                 Activity
             </td>
         </thead>
         <tbody>
-        <tr class="thread__body" th:each="post: ${allPosts}">
+        <tr class="thread__body" th:each="post: ${allPosts}"
+            th:onclick="|window.location.href='/discussion?p=${post.id}'|">
             <td class="col1" th:text="${post.title}"></td>
             <td th:text="${post.getUser().getUsername()}"></td>
             <td>
                 <div>
-                    <p th:text="${post.sumLike}"></p> <img class="thread__image" src="../static/img/like.png" alt="like">
+                    <p class="thread__score-block" th:text="${post.sumLike}"></p>
+                    <img class="thread__score-block thread__image" src="../static/img/like.png" alt="like">
                 </div>
                 <div>
-                    <p th:text="${post.sumDisLike}"></p> <img class="thread__image" src="../static/img/dislike.png" alt="dislike">
+                    <p class="thread__score-block" th:text="${post.sumDisLike}"></p>
+                    <img class="thread__score-block thread__image" src="../static/img/dislike.png" alt="dislike">
                 </div>
             </td>
-            <td>220</td>
             <td th:text="${post.getDate()}"></td>
         </tr>
         </tbody>
