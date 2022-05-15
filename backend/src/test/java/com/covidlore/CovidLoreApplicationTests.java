@@ -1,10 +1,15 @@
 package com.covidlore;
 
 import com.covidlore.model.Post;
-import com.covidlore.service.TestService;
+import com.covidlore.service.PostScoresService;
+import com.covidlore.service.PostScoresServiceImpl;
+import com.covidlore.service.PostServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.management.Query;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -12,12 +17,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class CovidLoreApplicationTests {
 
     @Autowired
-    private TestService testService;
+    private PostServiceImpl postService;
+
+    @Autowired
+    private PostScoresServiceImpl postScoresService;
 
     @Test
     void contextLoads() {
-        Post post = testService.getPost();
-        System.out.println(post.toString());
+        List<Post> post = postService.findAll();
+        System.out.println(post.get(1));
         assertTrue(true);
     }
 

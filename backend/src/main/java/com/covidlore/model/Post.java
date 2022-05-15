@@ -2,8 +2,10 @@ package com.covidlore.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "post")
@@ -16,9 +18,18 @@ public class Post {
     @Column(name = "post_id")
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "creator_id")
-    private Users creatorId;
+    private User user;
+
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "postScore")
+//    private Set<PostScores> postScores;
+
+    @Formula("(select sum(ps.score_like) from post_scores ps where ps.post_id = post_id)")
+    private long sumLike;
+
+    @Formula("(select sum(ps.score_dislike) from post_scores ps where ps.post_id = post_id)")
+    private long sumDisLike;
 
     @Column(name = "post_date")
     private String date;

@@ -1,0 +1,10 @@
+INSERT INTO users VALUES (1, 'Fabiano');
+INSERT INTO users VALUES (2, 'Anish');
+INSERT INTO users VALUES (3, 'Alireza');
+INSERT INTO users VALUES (4, 'Levon');
+INSERT INTO users VALUES (5, 'Tal');
+INSERT INTO users VALUES (6, 'Bob');
+INSERT INTO users VALUES (7, 'Bruce');
+INSERT INTO users VALUES (8, 'Tom');
+INSERT INTO users VALUES (9, 'Harry');
+INSERT INTO users VALUES (10, 'Ron');

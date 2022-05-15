@@ -1,27 +1,28 @@
 package com.covidlore.model;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
-public class Users {
+@Getter
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private int userId;
 
-    @OneToMany(mappedBy = "creatorId")
-    private List<Post> foreignUserId;
+    @OneToMany(mappedBy = "user")
+    private Set<Post> foreignUserId;
+
+//    @OneToMany(mappedBy = "userScore")
+//    private List<PostScores> postScores;
 
     @Column(name = "username")
     private String username;
-
-    public String getUsername() {
-        return username;
-    }
 }

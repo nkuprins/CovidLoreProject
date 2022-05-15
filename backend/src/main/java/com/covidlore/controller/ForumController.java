@@ -1,25 +1,29 @@
 package com.covidlore.controller;
 
-import com.covidlore.service.TestService;
+import com.covidlore.service.PostServiceImpl;
+import com.covidlore.service.UserServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class ForumController {
 
-    private final TestService testService;
+    private final PostServiceImpl postService;
+    private final UserServiceImpl userService;
 
-    public ForumController(TestService testService) {
-        this.testService = testService;
+    public ForumController(PostServiceImpl postService, UserServiceImpl userService) {
+        this.postService = postService;
+        this.userService = userService;
     }
 
     @GetMapping("forum")
     public String showForum(Model model) {
 
-        model.addAttribute("postsAttr", testService.getPost());
+        model.addAttribute("allPosts", postService.findAll());
 
         return "forum";
     }
+
+
 }
