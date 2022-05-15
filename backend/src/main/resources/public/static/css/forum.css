@@ -24,9 +24,7 @@ main {
  .rotate__sort__icon {
 	 transform: rotate(180deg);
 }
- .options__add-box {
-	 float: right;
-}
+
  .options__element {
 	 color: #6a6d72;
 	 cursor: pointer;
@@ -59,29 +57,33 @@ main {
 	 line-height: 1.5vh;
 	 visibility: hidden;
 }
- .option__title {
-	 font-size: 0.9rem;
+ .thead__title {
+	 font-size: 1rem;
+	 padding-top: 1.3vh;
 }
  .col1 {
 	 padding-left: 1rem;
 	 text-align: left;
-	 width: 50%;
+	 width: 53%;
 }
  .col2 {
-	 width: 15%;
+	 width: 18%;
 }
  .col3 {
-	 width: 15%;
+	 width: 17%;
 }
  .col4 {
-	 width: 10%;
+	 width: 12%;
 }
- .col5 {
-	 width: 10%;
-}
+
  tbody {
 	 font-size: 1.05rem;
 }
+
+.thread__score-block {
+	display: inline-block;
+}
+
  .thread__body {
 	 cursor: pointer;
 	 border-top: 0.2rem solid #c8c8c8;

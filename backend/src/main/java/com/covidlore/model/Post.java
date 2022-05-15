@@ -26,10 +26,10 @@ public class Post {
 //    @OneToMany(fetch = FetchType.EAGER, mappedBy = "postScore")
 //    private Set<PostScores> postScores;
 
-    @Formula("(select sum(ps.score_like) from post_scores ps where ps.post_id = post_id)")
+    @Formula("(select COALESCE(sum(ps.score), 0) from post_scores ps where ps.post_id = post_id AND ps.score > 0)")
     private long sumLike;
 
-    @Formula("(select sum(ps.score_dislike) from post_scores ps where ps.post_id = post_id)")
+    @Formula("(select COALESCE(sum(ps.score), 0) from post_scores ps where ps.post_id = post_id AND ps.score < 0)")
     private long sumDisLike;
 
     @Column(name = "post_date")

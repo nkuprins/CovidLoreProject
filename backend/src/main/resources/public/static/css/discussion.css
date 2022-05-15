@@ -96,22 +96,22 @@ main {
  .rotate__replies__icon {
 	 transform: rotate(180deg);
 }
- .like__buttons {
+ .score__buttons {
 	 float: right;
 	 cursor: pointer;
 	 display: flex;
 	 padding-right: 1vh;
 }
- .like__buttons div {
+ .score__buttons div {
 	 opacity: 0.7;
 	 font-size: 1rem;
 	 display: flex;
 	 align-items: center;
 }
- .like__buttons img {
+ .score__buttons img {
 	 padding: 0.7vh;
 }
- .like__image {
+ .score__image {
 	 width: 2.5vh;
 	 height: 3vh;
 }
