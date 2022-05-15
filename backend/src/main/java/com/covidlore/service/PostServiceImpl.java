@@ -18,8 +18,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> findAll() {
-
         return postRepository.findAll();
+    }
+
+    @Override
+    public void save(Post post) {
+        postRepository.save(post);
     }
 }
 

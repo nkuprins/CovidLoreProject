@@ -3,9 +3,10 @@ package com.covidlore.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "post")
@@ -18,7 +19,7 @@ public class Post {
     @Column(name = "post_id")
     private int id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "creator_id")
     private User user;
 
@@ -40,13 +41,28 @@ public class Post {
     @Column(name = "description")
     private String description;
 
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", date='" + date + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+    public Post(User user, String date, String title, String description) {
+        this.user = user;
+        this.date = date;
+        this.title = title;
+        this.description = description;
+    }
+
+    public Post(int id, User user, String date, String title, String description) {
+        this.id = id;
+        this.user = user;
+        this.date = date;
+        this.title = title;
+        this.description = description;
+    }
+
+    public Post(int id, User user, long sumLike, long sumDisLike, String date, String title, String description) {
+        this.id = id;
+        this.user = user;
+        this.sumLike = sumLike;
+        this.sumDisLike = sumDisLike;
+        this.date = date;
+        this.title = title;
+        this.description = description;
     }
 }

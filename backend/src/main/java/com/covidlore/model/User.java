@@ -17,12 +17,17 @@ public class User {
     @Column(name = "user_id")
     private int userId;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Post> foreignUserId;
+//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+//    private Set<Post> foreignUserId;
 
 //    @OneToMany(mappedBy = "userScore")
 //    private List<PostScores> postScores;
 
     @Column(name = "username")
     private String username;
+
+    public User(int userId, String username) {
+        this.userId = userId;
+        this.username = username;
+    }
 }

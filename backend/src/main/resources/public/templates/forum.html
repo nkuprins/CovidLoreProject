@@ -31,11 +31,11 @@
         <div class="absolute__block">
             <button class="absolute__block__button">X</button>
             <h2 class="absolute__block__title add__block__title">Add New Thread</h2>
-            <form action="" method="POST">
+            <form th:action="@{/saveThread}" method="POST">
                 <label>
                     <input name="title" type="text" placeholder="Title">
                 </label>
-                <textarea name="opinion" type="text" placeholder="Description"></textarea>
+                <textarea name="description" type="text" placeholder="Description"></textarea>
                 <button class="form__button" type="submit">Submit</button>
             </form>
         </div>
