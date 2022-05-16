@@ -72,6 +72,7 @@ main {
 	 opacity: 1;
 }
  .reply__button {
+	 background-color: rgba(0, 0, 0, 0);
 	 border: 0;
 	 font-weight: bold;
 	 font-size: 1rem;
@@ -121,7 +122,8 @@ main {
 	 min-height: 6vh;
 	 white-space: pre-wrap;
 }
- .sub__discussion__article, .sub__discussion__reply {
+
+ .sub__discussion__article {
 	 background-color: #dcdcdc;
 }
  .sub__discussion__article, .form__article {
