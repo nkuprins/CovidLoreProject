@@ -47,7 +47,7 @@ class CovidLoreApplicationTests {
 ////        System.out.println(newPost.getUser());
 
         Set<Comment> comments = commentService.findByPostAndParent(1, 0);
-        comments.forEach(c -> System.out.println(c.getSumLike()));
+        comments.forEach(c -> System.out.println(c.getNumOfChildren()));
         assertTrue(true);
     }
 

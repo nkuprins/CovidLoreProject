@@ -49,16 +49,20 @@ class DiscussionFormView {
         const replyText = replyFormArticle.querySelector('textarea').value; // Get text in the form
         replyFormArticle.remove(); // Remove the form article
 
-        DiscussionData.updateToNextId();
+        console.log("Parent id:");
+        console.log(this._parentDiscussion.id);
+        const parentId = this._parentDiscussion.id.slice(5);
 
-        const commentData = processCommentsDataCreate(this._parentDiscussion.id, replyText);
-
-        processCommentsDataLoad(Number(this._parentDiscussion.id.slice(-1))).then(() => {
+        processCommentsDataLoad(parentId).then(() => {
+            const commentData = processCommentsDataCreate(parentId, replyText);
+            console.log("we insert" + commentData);
             const commentRow = new CommentRow(this._parentDiscussion, commentData, true);
             commentRow.createArticle();
             commentRow.addReplyListener();
             commentRow.addScoreListener();
         })
+
+        DiscussionData.nextPrimaryKey();
     }
 }
 

@@ -6,7 +6,6 @@ import com.covidlore.service.CommentServiceImpl;
 import com.covidlore.service.PostServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -27,6 +26,13 @@ public class DiscussionController {
         return postService.findById(postId);
     }
 
+    @GetMapping(value = "/lastCommentId", produces = { "application/json" })
+    public @ResponseBody
+    int readComments() {
+        return commentService.maxCommentId();
+    }
+
+
     @GetMapping(value = "comment/{postId}", produces = { "application/json" })
     public @ResponseBody
     Set<Comment> readComments(@PathVariable int postId) {
@@ -40,7 +46,14 @@ public class DiscussionController {
     }
 
     @PostMapping(value = "/createComment")
-    public void createComment(@RequestBody Comment payload) {
-        System.out.println(payload.getDescription());
+    public void createComment(@RequestBody Comment comment) {
+        System.out.println(comment.toString());
+        commentService.save(comment);
+
+        if (comment.getParentCommentId() != null) {
+            Comment parentComment = commentService.findById(comment.getParentCommentId());
+            parentComment.increaseChildren();
+            commentService.save(parentComment);
+        }
     }
 }

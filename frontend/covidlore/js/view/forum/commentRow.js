@@ -50,7 +50,7 @@ class CommentRow {
     }
 
     calculateScore() {
-        const likeType = localStorage.getItem(`likeType-post-${DiscussionData.getLastId()}`);
+        const likeType = localStorage.getItem(`likeType-post-${DiscussionData.getLastPrimary()}`);
         if (likeType !== null)
             if (likeType === 'like')
                 return {like: 1, dislike: 0};
@@ -69,7 +69,8 @@ class CommentRow {
             beyondLine: type.isSubReply ? '' : '<hr class="article__line">',
             articleClass: type.isSubReply ? 'sub__discussion__article' : 'main__discussion__article',
             replyButtonClass: type.isSubReply ? 'sub__discussion__reply' : '',
-            replyButtonMarkup: this._commentData.numOfChildren > 0 ? this._getRepliesButtonMarkup(type, 2) : ''
+            replyButtonMarkup: this._commentData.numOfChildren > 0 ?
+                this._getRepliesButtonMarkup(type, this._commentData.numOfChildren) : ''
         }
     }
 
@@ -88,7 +89,7 @@ class CommentRow {
     _generateRowMarkup(options) {
         const d = this._commentData;
 
-        return `<article id="post-${d.commentId ?? DiscussionData.getLastId()}" 
+        return `<article id="post-${d.commentId}" 
                             class="discussion__post ${options.articleClass}" ${options.overflow}>
              <div class="discussion__row">
                 ${options.aboveLine}
@@ -129,9 +130,6 @@ class CommentRow {
     }
 
     _getRepliesButtonMarkup(type, numReplies) {
-
-        console.log("TYPE");
-        console.log(type);
 
         return `<div class="reply replies__block">
                 <button class="reply__button reply__button-replies">${numReplies} Replies</button>
@@ -199,7 +197,7 @@ class CommentRow {
 
     _handleRepliesList(e) {
         const article = e.target.closest('.discussion__post');
-        const parentId = Number(article.id.slice(-1));
+        const parentId = Number(article.id.slice(5));
         processCommentsDataLoad(parentId).then((hasLoadedNewData) => {
             e.target.parentNode.querySelector('.replies__icon').classList.toggle('rotate__replies__icon');
             if (!hasLoadedNewData)

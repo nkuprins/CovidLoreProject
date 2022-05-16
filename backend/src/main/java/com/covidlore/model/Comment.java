@@ -47,4 +47,22 @@ public class Comment {
 
     @Formula("(select COALESCE(sum(cs.score), 0) from comment_scores cs where cs.comment_id = comment_id AND cs.score < 0)")
     private long sumDisLike;
+
+    public void increaseChildren() {
+        this.numOfChildren++;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "commentId=" + commentId +
+                ", postId=" + postId +
+                ", commentDate='" + commentDate + '\'' +
+                ", description='" + description + '\'' +
+                ", parentCommentId=" + parentCommentId +
+                ", numOfChildren=" + numOfChildren +
+                ", sumLike=" + sumLike +
+                ", sumDisLike=" + sumDisLike +
+                '}';
+    }
 }

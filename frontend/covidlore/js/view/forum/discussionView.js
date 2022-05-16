@@ -1,5 +1,6 @@
 import CommentRow from "./commentRow";
 import QuestionRow from "./questionRow";
+import DiscussionData from "../../model/DiscussionData";
 
 class DiscussionView {
 
@@ -8,8 +9,7 @@ class DiscussionView {
     }
 
     showQuestion(questionData) {
-        console.log("Question:");
-        console.log(questionData);
+        questionData.commentId = 0;
         const parentNode = document.querySelector('main');
         const questionRow = new QuestionRow(parentNode, questionData);
         questionRow.createQuestionArticle();
@@ -19,11 +19,11 @@ class DiscussionView {
 
     showComments(parentNode, commentData) {
 
-            const commentRow = new CommentRow(parentNode, commentData, false);
-            commentRow.createArticle();
-            commentRow.addReplyListener();
-            commentRow.addRepliesListenerForLoadedData();
-            commentRow.addScoreListener();
+        const commentRow = new CommentRow(parentNode, commentData, false);
+        commentRow.createArticle();
+        commentRow.addReplyListener();
+        commentRow.addRepliesListenerForLoadedData();
+        commentRow.addScoreListener();
     }
 }
 

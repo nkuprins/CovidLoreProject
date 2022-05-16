@@ -24,4 +24,19 @@ public class CommentServiceImpl implements CommentService {
 
         return commentRepository.findByPostIdAndParentCommentId(postId, parentId);
     }
+
+    @Override
+    public void save(Comment comment) {
+        commentRepository.save(comment);
+    }
+
+    @Override
+    public Comment findById(int commentId) {
+        return commentRepository.getById(commentId);
+    }
+
+    @Override
+    public int maxCommentId() {
+        return commentRepository.maxCommentId();
+    }
 }
