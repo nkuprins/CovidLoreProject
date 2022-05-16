@@ -5,11 +5,13 @@ form {
 	 border: 1px solid white;
 	 overflow: hidden;
 }
+
  textarea:focus {
-	 outline: none !important;
+	 outline: none;
 	 background-color: transparent;
 	 color: #000;
 }
+
  textarea:enabled {
 	 color: #40424a;
 }

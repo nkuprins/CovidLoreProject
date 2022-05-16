@@ -29,8 +29,8 @@ class CovidLoreApplicationTests {
     @Autowired
     private PostScoresServiceImpl postScoresService;
 
-    @Autowired
-    private UserServiceImpl userService;
+//    @Autowired
+//    private UserServiceImpl userService;
 
     @Test
     @Transactional

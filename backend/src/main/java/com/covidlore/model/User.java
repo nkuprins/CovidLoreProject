@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
 @Table(name = "users")
@@ -17,17 +17,22 @@ public class User {
     @Column(name = "user_id")
     private int userId;
 
-//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-//    private Set<Post> foreignUserId;
-
-//    @OneToMany(mappedBy = "userScore")
-//    private List<PostScores> postScores;
-
     @Column(name = "username")
     private String username;
 
-    public User(int userId, String username) {
-        this.userId = userId;
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "enabled")
+    private int enabled;
+
+    @Column(name = "profile_image")
+    private int profileImage;
+
+    public User(String username, String password) {
         this.username = username;
+        this.password = password;
+        this.enabled = 1;
+        this.profileImage = ThreadLocalRandom.current().nextInt(1, 7);
     }
 }

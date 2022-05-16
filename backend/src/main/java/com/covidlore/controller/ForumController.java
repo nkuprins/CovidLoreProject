@@ -3,7 +3,7 @@ package com.covidlore.controller;
 import com.covidlore.model.Post;
 import com.covidlore.model.User;
 import com.covidlore.service.PostServiceImpl;
-import com.covidlore.service.UserServiceImpl;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,18 +17,23 @@ import java.time.format.DateTimeFormatter;
 public class ForumController {
 
     private final PostServiceImpl postService;
-    private final UserServiceImpl userService;
+    //private final UserServiceImpl userService;
     private User userMain;
 
-    public ForumController(PostServiceImpl postService, UserServiceImpl userService) {
+    public ForumController(PostServiceImpl postService) {
         this.postService = postService;
-        this.userService = userService;
+        //this.userService = userService;
+    }
+
+    @GetMapping("/login")
+    public String showLogin() {
+        return "login";
     }
 
     @GetMapping("/forum")
     public String showForum(Model model) {
-
-        this.userMain = userService.findById(1);
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+        //this.userMain = userService.findById(1);
         model.addAttribute("allPosts", postService.findAll());
 
         return "forum";
