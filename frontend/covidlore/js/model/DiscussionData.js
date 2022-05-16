@@ -1,12 +1,9 @@
-import {AJAX} from "../helper";
+import {AJAX, dataToNormalFormat} from "../helper";
 
 export default class DiscussionData {
 
     _loadedSubReplies = [];
     static _lastId = 0;
-    static _hasLoaded = false;
-
-
 
     loadPostData() {
         const queryString = window.location.search;
@@ -30,12 +27,29 @@ export default class DiscussionData {
         return this._loadedSubReplies.push(id);
     }
 
-    static getLastId() {
-        return this._lastId;
+    assembleCommentData(parentDiscussionId, replyText) {
+        return {
+            commentDate: dataToNormalFormat(new Date()),
+            commentId: 0,
+            description: replyText,
+            numOfChildren: 0,
+            parentCommentId: parentDiscussionId.slice(-1),
+            postId: new URLSearchParams(window.location.search).get('p'),
+            sumDisLike: 0,
+            sumLike: 0,
+            user: {userId: 2, username: 'Anish' }
+        }
     }
 
-    static getHasLoaded() {
-        return this._hasLoaded;
+    sendCreateRequest(commentData) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", 'http://localhost:8080/api/discussion/createComment', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(commentData));
+    }
+
+    static getLastId() {
+        return this._lastId;
     }
 
     static setNextId(newLastId) {
@@ -44,7 +58,6 @@ export default class DiscussionData {
 
     static updateToNextId() {
         this._lastId++;
-        this._hasLoaded = true;
     }
 
 }

@@ -3,7 +3,7 @@ import CommentRow from "./commentRow";
 class QuestionRow extends CommentRow {
 
     constructor(parentDiscussion, questionData) {
-        super(parentDiscussion, questionData);
+        super(parentDiscussion, questionData, false);
     }
 
     createQuestionArticle() {
@@ -17,7 +17,6 @@ class QuestionRow extends CommentRow {
         return {
             likeBlockOpacity: score.like === 1 ? 1 : 0.7,
             dislikeBlockOpacity: score.dislike === 1 ? 1 : 0.7,
-            hidden: '',
             overflow: '',
             aboveLine: '',
             beyondLine: '<hr class="article__line__big">',

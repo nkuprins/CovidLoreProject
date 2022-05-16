@@ -1,6 +1,7 @@
 import CommentRow from "./commentRow";
 import DiscussionData from "../../model/DiscussionData";
 import {dataToNormalFormat} from "../../helper";
+import {processCommentsDataCreate, processCommentsDataLoad} from "../../controller/discussionController";
 
 class DiscussionFormView {
 
@@ -49,19 +50,15 @@ class DiscussionFormView {
         replyFormArticle.remove(); // Remove the form article
 
         DiscussionData.updateToNextId();
-        const commentRow = new CommentRow(this._parentDiscussion, {
-            commentDate: dataToNormalFormat(new Date()),
-            commentId: DiscussionData.getLastId(),
-            description: replyText,
-            numOfChildren: 0,
-            parentCommentId: this._parentDiscussion.id,
-            sumDisLike: 0,
-            sumLike: 0,
-            user: { username: 'You' }
-        });
-        commentRow.createArticle();
-        commentRow.addReplyListener();
-        commentRow.addScoreListener();
+
+        const commentData = processCommentsDataCreate(this._parentDiscussion.id, replyText);
+
+        processCommentsDataLoad(Number(this._parentDiscussion.id.slice(-1))).then(() => {
+            const commentRow = new CommentRow(this._parentDiscussion, commentData, true);
+            commentRow.createArticle();
+            commentRow.addReplyListener();
+            commentRow.addScoreListener();
+        })
     }
 }
 

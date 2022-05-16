@@ -1,5 +1,4 @@
 import CommentRow from "./commentRow";
-import DiscussionData from "../../model/DiscussionData";
 import QuestionRow from "./questionRow";
 
 class DiscussionView {
@@ -20,7 +19,7 @@ class DiscussionView {
 
     showComments(parentNode, commentData) {
 
-            const commentRow = new CommentRow(parentNode, commentData);
+            const commentRow = new CommentRow(parentNode, commentData, false);
             commentRow.createArticle();
             commentRow.addReplyListener();
             commentRow.addRepliesListenerForLoadedData();

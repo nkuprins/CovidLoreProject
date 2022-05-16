@@ -5,15 +5,16 @@ import dislikeImage from "../../../img/dislike.png";
 import DiscussionFormView from "./discussionFormView";
 import DiscussionData from "../../model/DiscussionData";
 import showReplies from "../../../img/show-replies.png";
-import {processCommentsData} from "../../controller/discussionController";
+import {processCommentsDataLoad} from "../../controller/discussionController";
 
 class CommentRow {
 
-    discussion;
+    _discussion;
 
-    constructor(parentDiscussion, commentData) {
+    constructor(parentDiscussion, commentData, isNewInsert) {
         this._parentDiscussion = parentDiscussion;
         this._commentData = commentData;
+        this._isNewInsert = isNewInsert;
     }
 
     createArticle() {
@@ -23,7 +24,9 @@ class CommentRow {
         if (!type.isSubReply)
             this.insertDirectly(rowMarkup, 'afterend');
         else {
-            this._processParent(type);
+            if (this._isNewInsert)
+                    this._processParent(type);
+
             this._insertSubReply(this._parentDiscussion, rowMarkup);
         }
     }
@@ -47,16 +50,13 @@ class CommentRow {
     }
 
     calculateScore() {
-        let likeValue = 0;
-        let dislikeValue = 0;
         const likeType = localStorage.getItem(`likeType-post-${DiscussionData.getLastId()}`);
         if (likeType !== null)
             if (likeType === 'like')
-                likeValue = 1;
+                return {like: 1, dislike: 0};
             else
-                dislikeValue = 1;
-
-        return {like: likeValue, dislike: dislikeValue};
+                return {like: 0, dislike: 1};
+        return {like: 0, dislike: 0};
     }
 
     _getRowMarkupDesignOption(type) {
@@ -64,7 +64,6 @@ class CommentRow {
         return {
             likeBlockOpacity: score.like === 1 ? 1 : 0.7,
             dislikeBlockOpacity: score.dislike === 1 ? 1 : 0.7,
-            hidden: DiscussionData.getHasLoaded() || !type.isSubReply ? '' : 'hidden-obj',
             overflow: type.isReplyToMain ? `style="overflow-x: scroll; overflow-y: hidden"` : '',
             aboveLine: !type.isSubReply || type.isFirstSubReply ? '' : `<hr class="article__line">`,
             beyondLine: type.isSubReply ? '' : '<hr class="article__line">',
@@ -76,22 +75,21 @@ class CommentRow {
 
     _insertSubReply(parentDiscussion, rowMarkup) {
         parentDiscussion.lastElementChild.insertAdjacentHTML('afterend', rowMarkup);
-        this.discussion = parentDiscussion.lastElementChild;
+        this._discussion = parentDiscussion.lastElementChild;
     }
 
     insertDirectly(rowMarkup, after) {
         const main = document.querySelector('main');
         const el = main.lastElementChild ?? main;
         el.insertAdjacentHTML(after, rowMarkup);
-        this.discussion = main.lastElementChild.previousElementSibling;
+        this._discussion = main.lastElementChild.previousElementSibling;
     }
 
     _generateRowMarkup(options) {
         const d = this._commentData;
 
-        return `<article id="post-${d.commentId ?? DiscussionData.getLastId()}" class="discussion__post ${options.articleClass} 
-                    ${options.hidden}"
-                        ${options.overflow}>
+        return `<article id="post-${d.commentId ?? DiscussionData.getLastId()}" 
+                            class="discussion__post ${options.articleClass}" ${options.overflow}>
              <div class="discussion__row">
                 ${options.aboveLine}
                 <div class="discussion__row-body">
@@ -146,9 +144,16 @@ class CommentRow {
     _processParent(type) {
 
         // Show replies of the parent node if they were hidden
-        if (DiscussionData.getHasLoaded())
-            this._processRepliesListView(this._parentDiscussion, (el) => el.classList?.remove('hidden-obj'));
-
+        // or if the replies of the parent node were not loaded yet, then load them
+        this._processRepliesListView(this._parentDiscussion, (el) => {
+            let hadHidden = false;
+            if (el.classList.contains('hidden-obj')) {
+                el.classList.remove('hidden-obj');
+                hadHidden = true;
+            }
+            if (hadHidden)
+                this._parentDiscussion.querySelector('.replies__icon').classList.toggle('rotate__replies__icon');
+        });
 
         const repliesButton = this._parentDiscussion.querySelector('.reply__button-replies');
         if (repliesButton !== null) {
@@ -170,12 +175,12 @@ class CommentRow {
     }
 
     addReplyListener() {
-        this.discussion.querySelector('.reply__block')
+        this._discussion.querySelector('.reply__block')
             .addEventListener('click', this._handleReply.bind(this));
     }
 
     addRepliesListenerForLoadedData() {
-        this.discussion.querySelector('.replies__block')?.addEventListener('click', this._handleRepliesList.bind(this));
+        this._discussion.querySelector('.replies__block')?.addEventListener('click', this._handleRepliesList.bind(this));
     }
 
     addRepliesListenerForNew() {
@@ -195,14 +200,15 @@ class CommentRow {
     _handleRepliesList(e) {
         const article = e.target.closest('.discussion__post');
         const parentId = Number(article.id.slice(-1));
-        processCommentsData(parentId).then(() => {
+        processCommentsDataLoad(parentId).then((hasLoadedNewData) => {
             e.target.parentNode.querySelector('.replies__icon').classList.toggle('rotate__replies__icon');
-            this._processRepliesListView(article, (el) => el.classList.toggle('hidden-obj'));
+            if (!hasLoadedNewData)
+                this._processRepliesListView(article, (el) => el.classList.toggle('hidden-obj'));
         });
     }
 
     addScoreListener() {
-        this.discussion.querySelectorAll('.score__buttons div')
+        this._discussion.querySelectorAll('.score__buttons div')
             .forEach(el => el.addEventListener('click', this._handleScoreClick.bind(this)))
     }
 

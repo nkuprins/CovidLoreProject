@@ -6,6 +6,7 @@ import com.covidlore.service.CommentServiceImpl;
 import com.covidlore.service.PostServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -36,5 +37,10 @@ public class DiscussionController {
     public @ResponseBody
     Set<Comment> readCommentsOnLevel(@PathVariable int postId, @PathVariable int level) {
         return commentService.findByPostAndParent(postId, level);
+    }
+
+    @PostMapping(value = "/createComment")
+    public void createComment(@RequestBody Comment payload) {
+        System.out.println(payload.getDescription());
     }
 }
