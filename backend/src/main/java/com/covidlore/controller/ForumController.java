@@ -46,6 +46,7 @@ public class ForumController {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = LocalDateTime.now().format(dateFormatter);
         Post newPost = new Post(userMain, date, title, description);
+
         postService.save(newPost);
 
         return "redirect:/forum";
