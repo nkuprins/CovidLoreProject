@@ -5,7 +5,7 @@ import dislikeImage from "../../../img/dislike.png";
 import DiscussionFormView from "./discussionFormView";
 import DiscussionData from "../../model/DiscussionData";
 import showReplies from "../../../img/show-replies.png";
-import DiscussionView from "./discussionView";
+import {processCommentsData} from "../../controller/discussionController";
 
 class CommentRow {
 
@@ -35,7 +35,6 @@ class CommentRow {
 
         // Is sub-reply of main__discussion__article
         const isReplyToMain = isSubReply && this._parentDiscussion.classList.contains('main__discussion__article');
-
 
         // Is first sub-reply of main__discussion__article
         const isFirstSubReply = isReplyToMain && this._parentDiscussion.querySelectorAll('.sub__discussion__article').length === 0;
@@ -89,11 +88,7 @@ class CommentRow {
 
     _generateRowMarkup(options) {
         const d = this._commentData;
-        console.log(d);
-        console.log("BEFORE LOOK");
-        console.log("markup options")
-        console.log(options);
-        console.log("===========");
+
         return `<article id="post-${d.commentId ?? DiscussionData.getLastId()}" class="discussion__post ${options.articleClass} 
                     ${options.hidden}"
                         ${options.overflow}>
@@ -115,7 +110,7 @@ class CommentRow {
                     <nav class="discussion__menu">
                         <div class="reply reply__block">
                             <img class="reply__icon" src="${talkIcon}" alt="Reply icon">
-                            <button class="reply__button reply__button-reply ${options.replyButtonClass}">Reply</button>
+                            <button class="reply__button reply__button-reply">Reply</button>
                         </div>
                         ${options.replyButtonMarkup}
                         <div class="score__buttons">
@@ -136,9 +131,12 @@ class CommentRow {
     }
 
     _getRepliesButtonMarkup(type, numReplies) {
+
+        console.log("TYPE");
+        console.log(type);
+
         return `<div class="reply replies__block">
-                <button class="reply__button reply__button-replies 
-                            ${type.isFirstSubReply || !type.isSubReply ? '' : 'sub__discussion__reply'}">${numReplies} Replies</button>
+                <button class="reply__button reply__button-replies">${numReplies} Replies</button>
                 <img class="replies__icon" src="${showReplies}" alt="List reply icon">
                 </div>`
     }
@@ -196,10 +194,11 @@ class CommentRow {
 
     _handleRepliesList(e) {
         const article = e.target.closest('.discussion__post');
-        console.log(Number(article.id.slice(-1)));
-        DiscussionView.showComments(Number(article.id.slice(-1)));
-        e.target.parentNode.querySelector('.replies__icon').classList.toggle('rotate__replies__icon');
-        this._processRepliesListView(article, (el) => el.classList.toggle('hidden-obj'));
+        const parentId = Number(article.id.slice(-1));
+        processCommentsData(parentId).then(() => {
+            e.target.parentNode.querySelector('.replies__icon').classList.toggle('rotate__replies__icon');
+            this._processRepliesListView(article, (el) => el.classList.toggle('hidden-obj'));
+        });
     }
 
     addScoreListener() {
