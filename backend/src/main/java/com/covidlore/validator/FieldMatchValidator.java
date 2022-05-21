@@ -11,31 +11,21 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
     private String secondFieldName;
 
     @Override
-    public void initialize(final FieldMatch constraintAnnotation) {
-	    	firstFieldName = constraintAnnotation.first();
-	    	secondFieldName = constraintAnnotation.second();
+    public void initialize(FieldMatch annotation) {
+        this.firstFieldName = annotation.first();
+        this.secondFieldName = annotation.second();
     }
 
     @Override
-    public boolean isValid(final Object value, final ConstraintValidatorContext context) {
+    public boolean isValid(Object value, ConstraintValidatorContext context) {
 
-        boolean valid = true;
-        try {
-            final Object firstObj = new BeanWrapperImpl(value).getPropertyValue(firstFieldName);
-            final Object secondObj = new BeanWrapperImpl(value).getPropertyValue(secondFieldName);
+        Object firstObj = new BeanWrapperImpl(value).getPropertyValue(firstFieldName);
+        Object secondObj = new BeanWrapperImpl(value).getPropertyValue(secondFieldName);
 
-            valid =  firstObj == null && secondObj == null || firstObj != null && firstObj.equals(secondObj);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        if (firstObj != null && secondObj != null)
+            return firstObj.equals(secondObj);
 
-        if (!valid)
-            context.buildConstraintViolationWithTemplate("")
-                    .addPropertyNode(firstFieldName)
-                    .addConstraintViolation()
-                    .disableDefaultConstraintViolation();
-
-        return valid;
+        return false;
     }
 	
 }

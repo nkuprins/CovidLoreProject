@@ -1,9 +1,8 @@
 package com.covidlore.controller;
 
-import com.covidlore.model.Post;
-import com.covidlore.model.User;
-import com.covidlore.service.PostServiceImpl;
-import org.springframework.security.core.context.SecurityContextHolder;
+import com.covidlore.entity.Post;
+import com.covidlore.entity.User;
+import com.covidlore.service.PostService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,33 +15,21 @@ import java.time.format.DateTimeFormatter;
 @Controller
 public class ForumController {
 
-    private final PostServiceImpl postService;
-    //private final UserServiceImpl userService;
-    private User userMain;
+    private final PostService postService;
+    private final User loggedInUser;
 
-    public ForumController(PostServiceImpl postService) {
+    public ForumController(PostService postService, User loggedInUser) {
         this.postService = postService;
-        //this.userService = userService;
-    }
-
-    @GetMapping("/login")
-    public String showLogin() {
-        return "login";
+        this.loggedInUser = loggedInUser;
     }
 
     @GetMapping("/forum")
     public String showForum(Model model) {
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
-        //this.userMain = userService.findById(1);
+
+        model.addAttribute("profileImage", loggedInUser.getProfileImage());
         model.addAttribute("allPosts", postService.findAll());
 
         return "forum";
-    }
-
-    @GetMapping("/discussion")
-    public String showDiscussion() {
-
-        return "discussion";
     }
 
     @PostMapping("/saveThread")
@@ -50,11 +37,15 @@ public class ForumController {
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = LocalDateTime.now().format(dateFormatter);
-        Post newPost = new Post(userMain, date, title, description);
 
+        Post newPost = new Post(loggedInUser, date, title, description);
         postService.save(newPost);
 
         return "redirect:/forum";
     }
 
+    @GetMapping("/discussion")
+    public String showDiscussion() {
+        return "discussion";
+    }
 }

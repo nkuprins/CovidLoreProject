@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import javax.sql.DataSource;
 
@@ -28,17 +30,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/static/img/**", "/static/css/**").permitAll()
+                    .antMatchers("/login", "/register/**", "/static/img/**", "/static/css/**").permitAll()
+                    .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/login").defaultSuccessUrl("/forum", true).permitAll();
-
+                    .formLogin()
+                    .loginPage("/login").defaultSuccessUrl("/forum", true).permitAll()
+                .and()
+                    .csrf()
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .and()
+                    .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .addLogoutHandler(new SecurityContextLogoutHandler()));
     }
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) {
-//        auth.authenticationProvider(authenticationProvider());
-//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -56,9 +60,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
+
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
         auth.setUserDetailsService(userService);
-        auth.setPasswordEncoder(passwordEncoder());
+        auth.setPasswordEncoder(this.passwordEncoder());
         return auth;
     }
 }

@@ -25,8 +25,14 @@ export const dataToNormalFormat = function (date) {
     return date.toISOString().substring(0, date.toISOString().indexOf('T'));
 }
 
-export const AJAX = async function (url) {
+export const AJAX_JSON = async function (url) {
     const fetchData = fetch(url);
     const response = (await fetchData).json();
+    return await response;
+}
+
+export const AJAX_PLAIN = async function (url) {
+    const fetchData = fetch(url);
+    const response = (await fetchData).text();
     return await response;
 }

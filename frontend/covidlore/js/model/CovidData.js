@@ -1,5 +1,5 @@
 import {API_COVID_URL} from "../config";
-import {AJAX, dataToNormalFormat, getTopByProperty} from "../helper";
+import {AJAX_JSON, dataToNormalFormat, getTopByProperty} from "../helper";
 
 class CovidData {
 
@@ -62,7 +62,7 @@ class CovidData {
         lastDataDate.setDate(lastDataDate.getDate() - dayOffset); // set Date to last available covid data day
         const dateFormatted = dataToNormalFormat(lastDataDate);
 
-        const result = await AJAX(API_COVID_URL +
+        const result = await AJAX_JSON(API_COVID_URL +
             `inject=true&cols=date_stamp,iso3166_1,cnt_confirmed,cnt_death&where=(date_stamp=${dateFormatted})` +
             `&format=amcharts&limit=5000`);
 

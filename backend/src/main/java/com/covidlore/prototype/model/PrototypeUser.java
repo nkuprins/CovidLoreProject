@@ -1,4 +1,4 @@
-package com.covidlore.user;
+package com.covidlore.prototype.model;
 
 import com.covidlore.validator.FieldMatch;
 import lombok.Getter;
@@ -8,13 +8,17 @@ import lombok.Setter;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-//@FieldMatch.List({
-//        @FieldMatch(first = "password", second = "matchingPassword")
-//})
+/*
+@class      - Represent a mask model for User during registration form
+@validation - password and matching password should be equal
+            - all fields are not null and at least of 1 length
+*/
+
+@FieldMatch.List({@FieldMatch(first = "password", second = "matchingPassword")})
 @Getter
 @Setter
 @NoArgsConstructor
-public class CrmUser {
+public class PrototypeUser {
 
     @NotNull
     @Size(min = 1)
@@ -27,5 +31,4 @@ public class CrmUser {
     @NotNull
     @Size(min = 1)
     private String matchingPassword;
-
 }

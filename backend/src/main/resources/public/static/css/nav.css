@@ -34,7 +34,6 @@
 	 text-decoration: none;
 }
  .nav__img {
-	 cursor: pointer;
 	 width: 7vh;
 	 height: 7vh;
 }
@@ -42,5 +41,29 @@
 	 padding-top: 0.4vh;
 	 padding-left: 2vh;
 	 width: 22vh;
+}
+
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #40424a;
+	width: 90%;
+	padding: 0.5vh;
+	align-items: center;
+	z-index: 10;
+}
+
+.dropdown-content a {
+	margin: auto;
+	color: white;
+}
+
+.dropdown:hover .dropdown-content {
+	display: flex;
 }
  

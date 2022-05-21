@@ -21,154 +21,17 @@
       <li class="nav__element nav__btn_el"><a id="0" class="nav__button" href="map.html">Map</a></li>
       <li class="nav__element nav__btn_el"><a id="1" class="nav__button" href="news.html">News</a></li>
       <li class="nav__element nav__btn_el"><a id="2" class="nav__button" href="forum">Forum</a></li>
-      <li class="nav__element nav__img_el"><img class="nav__img" src="../static/img/profiles/profile2.png" alt="Profile image"></li>
-    </ul>
+      <li class="nav__element nav__img_el">
+        <div class="dropdown">
+          <img class="nav__img" src="../static/img/profiles/profile2.png" alt="Profile image">
+          <div class="dropdown-content">
+            <a href="/logout">Logout</a>
+          </div>
+        </div>
+      </li>    </ul>
   </nav>
 </header>
 <main id="main">
-<!--  <article id="post-0" class="discussion__post question__article">-->
-<!--    <div class="discussion__row">-->
-<!--      <div class="discussion__row-body">-->
-<!--      <div class="discussion__avatar"><img class="avatar" src="img/profiles/profile4.png" alt="Profile image"></div>-->
-<!--      <div class="discussion__body">-->
-<!--        <div class="discussion__metadata">-->
-<!--          <div class="metadata__account">-->
-<!--            <span class="nickname">Lucifer</span><span class="points">3000</span>-->
-<!--          </div>-->
-<!--          <div class="metadata__post-time">28 d</div>-->
-<!--        </div>-->
-<!--        <div class="discussion__content">-->
-<!--          <div class="discussion__opinion">If you don’t plan on finishing, don’t join. It really is that simple. Key leavers deserve a 24 hour de-buff, stacking, that doesn’t allow you to join/queue for a dungeon for the duration of the time.-->
-<!--          </div>-->
-<!--          <nav class="discussion__menu">-->
-<!--            <div class="reply reply__block">-->
-<!--              <img class="reply__icon" src="img/talk-icon.png" alt="Reply icon">-->
-<!--              <button class="reply__button reply__button-reply">Reply</button>-->
-<!--            </div>-->
-<!--            <div class="like__buttons">-->
-<!--              <div>-->
-<!--                999 <img class="like__image" src="img/like.png" alt="like">-->
-<!--              </div>-->
-<!--              <div>-->
-<!--                123 <img class="like__image" src="img/dislike.png" alt="dislike">-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </nav>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      </div>-->
-<!--      <hr class="article__line__big">-->
-<!--    </div>-->
-<!--  </article>-->
-
-<!--  <article class="discussion__post main__discussion__article">-->
-<!--    <div class="discussion__row">-->
-<!--      <div class="discussion__row-body">-->
-<!--      <div class="discussion__avatar"><img class="avatar" src="img/profiles/profile4.png" alt="Profile image"></div>-->
-<!--      <div class="discussion__body">-->
-<!--        <div class="discussion__metadata">-->
-<!--          <div class="metadata__account">-->
-<!--            <span class="nickname">Lucifer</span><span class="points">1000</span>-->
-<!--          </div>-->
-<!--          <div class="metadata__post-time">28 d</div>-->
-<!--        </div>-->
-<!--        <div class="discussion__content">-->
-<!--          <div class="discussion__opinion">If you don’t plan on finishing, don’t join. It really is that simple. Key leavers deserve a 24 hour de-buff, stacking, that doesn’t allow you to join/queue for a dungeon for the duration of the time.-->
-<!--          </div>-->
-<!--          <nav class="discussion__menu">-->
-<!--            <div class="reply reply__block">-->
-<!--              <img class="reply__icon" src="img/talk-icon.png" alt="Reply icon">-->
-<!--              <button class="reply__button reply__button-reply">Reply</button>-->
-<!--            </div>-->
-<!--            <div class="reply replies__block">-->
-<!--              <button class="reply__button reply__button-replies">3 Replies</button>-->
-<!--              <img class="replies__icon" src="img/show-replies.png" alt="List reply icon">-->
-<!--            </div>-->
-<!--            <div class="like__buttons">-->
-<!--              <div>-->
-<!--                999 <img class="like__image" src="img/like.png" alt="like">-->
-<!--              </div>-->
-<!--              <div>-->
-<!--                123 <img class="like__image" src="img/dislike.png" alt="dislike">-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </nav>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <article class="discussion__post sub__discussion__article hidden-obj" style="overflow-x: scroll; overflow-y: hidden">-->
-<!--      <div class="discussion__row">-->
-<!--        <div class="discussion__row-body">-->
-<!--        <div class="discussion__avatar"><img class="avatar" src="img/profiles/profile6.png" alt="Profile image"></div>-->
-<!--        <div class="discussion__body">-->
-<!--          <div class="discussion__metadata">-->
-<!--            <div class="metadata__account">-->
-<!--              <span class="nickname">Lucifer</span><span class="points">2000</span>-->
-<!--            </div>-->
-<!--            <div class="metadata__post-time">28 d</div>-->
-<!--          </div>-->
-<!--          <div class="discussion__content">-->
-<!--            <div class="discussion__opinion">If you don’t plan on finishing, don’t join.-->
-<!--            </div>-->
-<!--            <nav class="discussion__menu">-->
-<!--              <div class="reply reply__block">-->
-<!--                <img class="reply__icon" src="img/talk-icon.png" alt="Reply icon">-->
-<!--                <button class="reply__button reply__button-reply sub__discussion__reply">Reply</button>-->
-<!--              </div>-->
-<!--              <div class="reply replies__block">-->
-<!--                <button class="reply__button reply__button-replies sub__discussion__reply">3 Replies</button>-->
-<!--                <img class="replies__icon" src="img/show-replies.png" alt="List reply icon">-->
-<!--              </div>-->
-<!--              <div class="like__buttons">-->
-<!--                <div>-->
-<!--                  999 <img class="like__image" src="img/like.png" alt="like">-->
-<!--                </div>-->
-<!--                <div>-->
-<!--                  123 <img class="like__image" src="img/dislike.png" alt="dislike">-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </nav>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <article class="discussion__post sub__discussion__article hidden-obj">-->
-<!--        <div class="discussion__row">-->
-<!--          <hr class="article__line">-->
-<!--          <div class="discussion__row-body">-->
-<!--            <div class="discussion__avatar"><img class="avatar" src="img/profiles/profile6.png" alt="Profile image"></div>-->
-<!--            <div class="discussion__body">-->
-<!--              <div class="discussion__metadata">-->
-<!--                <div class="metadata__account">-->
-<!--                  <span class="nickname">Lucifer</span><span class="points">2000</span>-->
-<!--                </div>-->
-<!--                <div class="metadata__post-time">28 d</div>-->
-<!--              </div>-->
-<!--              <div class="discussion__content">-->
-<!--                <div class="discussion__opinion">If you don’t plan on finishing, don’t join.-->
-<!--                </div>-->
-<!--                <nav class="discussion__menu">-->
-<!--                  <div class="reply reply__block">-->
-<!--                    <img class="reply__icon" src="img/talk-icon.png" alt="Reply icon">-->
-<!--                    <button class="reply__button reply__button-reply sub__discussion__reply">Reply</button>-->
-<!--                  </div>-->
-<!--                  <div class="like__buttons">-->
-<!--                    <div>-->
-<!--                      999 <img class="like__image" src="img/like.png" alt="like">-->
-<!--                    </div>-->
-<!--                    <div>-->
-<!--                      123 <img class="like__image" src="img/dislike.png" alt="dislike">-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </nav>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </article>-->
-<!--    </article>-->
-<!--  <hr class="article__line">-->
 
 </main>
 </body>

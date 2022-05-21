@@ -15,7 +15,7 @@ class DiscussionFormView {
              <div class="discussion__row">
                   <form action="" method="POST">
                     <label>
-                      <textarea name="opinion" type="text"></textarea>
+                      <textarea name="description" type="text"></textarea>
                     </label>
                     <div class="form__actions">
                       <button class="form__button form__submit" type="submit">Reply</button>

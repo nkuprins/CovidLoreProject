@@ -1,4 +1,4 @@
-package com.covidlore.model;
+package com.covidlore.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,4 +35,5 @@ public class User {
         this.enabled = 1;
         this.profileImage = ThreadLocalRandom.current().nextInt(1, 7);
     }
+
 }

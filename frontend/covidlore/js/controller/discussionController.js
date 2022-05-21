@@ -9,7 +9,7 @@ const init = function () {
 
     new NavView(2).addHandlerNavHover();
 
-    discussionData.setInitialId().then(() =>
+    discussionData.setInitialData().then(() =>
         discussionData.loadPostData().then(data => {
             discussionView.showQuestion(data)
             processCommentsDataLoad(0).then();

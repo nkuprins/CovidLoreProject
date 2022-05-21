@@ -1,35 +1,33 @@
 package com.covidlore.controller;
 
-import com.covidlore.model.User;
-import com.covidlore.service.UserServiceImpl;
-import com.covidlore.user.CrmUser;
+import com.covidlore.entity.User;
+import com.covidlore.service.UserService;
+import com.covidlore.prototype.model.PrototypeUser;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.*;
-import java.util.Set;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public RegisterController(UserServiceImpl userService, BCryptPasswordEncoder passwordEncoder) {
+    public RegisterController(UserService userService, BCryptPasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
 
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {
-
+        // Trim all input(no spaces)
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
@@ -37,31 +35,27 @@ public class RegisterController {
     @GetMapping("/showRegistrationForm")
     public String showRegister(Model model) {
 
-        model.addAttribute("crmUser", new CrmUser());
+        model.addAttribute("protUser", new PrototypeUser());
         return "register";
     }
 
     @PostMapping("/processRegistration")
-    public String processRegistrationForm(@Valid @ModelAttribute("crmUser") CrmUser crmUser,
+    public String processRegistrationForm(@Valid @ModelAttribute("protUser") PrototypeUser prototypeUser,
                                           BindingResult bindingResult, Model model) {
 
-        if (bindingResult.hasErrors()) {
-            return "register";
-        }
+        if (bindingResult.hasErrors())
+            return "redirect:/register/showRegistrationForm";
 
-        String userName = crmUser.getUsername();
 
-        // check the database if user already exists
-        User existing = userService.findByUsername(userName);
-        if (existing != null){
-            model.addAttribute("crmUser", new CrmUser());
-            return "register";
-        }
+        // Check if user already exists
+        User existingUser = userService.findByUsername(prototypeUser.getUsername());
+        if (existingUser != null)
+            return "redirect:/register/showRegistrationForm";
 
-        String plainPassword = crmUser.getPassword();
-        crmUser.setPassword(passwordEncoder.encode(plainPassword));
-        userService.save(crmUser);
+        String plainPassword = prototypeUser.getPassword(); // Non encrypted password
+        prototypeUser.setPassword(passwordEncoder.encode(plainPassword)); // Set encrypted password
+        userService.save(prototypeUser); // Save new user
 
-        return "forum";
+        return "redirect:/login";
     }
 }

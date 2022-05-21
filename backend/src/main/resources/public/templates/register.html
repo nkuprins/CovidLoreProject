@@ -7,16 +7,16 @@
 </head>
 <body>
 <div class="container">
-  <form class="login" th:action="@{/register/processRegistration}" th:object="${crmUser}" method="post">
+  <form class="login" th:action="@{/register/processRegistration}" th:object="${protUser}" method="post">
     <ul>
       <li onclick="window.location='/login'"><h3 class="login__heading">LOGIN</h3></li>
       <li><h3 class="login__heading">REGISTER</h3></li>
     </ul>
-    <input th:field="${crmUser.username}" id="username" name="username" class="login__field login__username"
+    <input th:field="${protUser.username}" id="username" name="username" class="login__field login__username"
            type="text" placeholder="Register Username" autocomplete="off">
-    <input th:field="${crmUser.password}" id="password" name="password" class="login__field login__password"
+    <input th:field="${protUser.password}" id="password" name="password" class="login__field login__password"
            type="password" placeholder="Register Password" autocomplete="off">
-    <input th:field="${crmUser.matchingPassword}" id="password-matcher" name="password" class="login__field login__password"
+    <input th:field="${protUser.matchingPassword}" id="password-matcher" name="password" class="login__field login__password"
            type="password" placeholder="Match Password" autocomplete="off">
     <input class="submit__btn" type="submit" value="REGISTER">
   </form>

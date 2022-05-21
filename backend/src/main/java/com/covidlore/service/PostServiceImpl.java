@@ -1,8 +1,7 @@
 package com.covidlore.service;
 
 import com.covidlore.dao.PostRepository;
-import com.covidlore.dao.UserRepository;
-import com.covidlore.model.Post;
+import com.covidlore.entity.Post;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +22,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post findById(int postId) {
-        return postRepository.getById(postId);
+        return postRepository.findById(postId).orElse(null);
     }
 
     @Override

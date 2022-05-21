@@ -1,32 +1,27 @@
-import {AJAX, dataToNormalFormat} from "../helper";
+import {AJAX_JSON, AJAX_PLAIN, dataToNormalFormat} from "../helper";
 
 export default class DiscussionData {
 
-    _loadedSubReplies = [];
     static _lastPrimaryKey = 0;
-
-    constructor() {
-
-    }
+    _loadedSubReplies = [];
+    _username;
+    _csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
 
     loadPostData() {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const postId = urlParams.get('p');
-        return AJAX(`http://localhost:8080/api/discussion/post/${postId}`);
+        return AJAX_JSON(`http://localhost:8080/api/discussion/post/${postId}`);
     }
 
     loadCommentData(level) {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         const postId = urlParams.get('p');
-        return AJAX(`http://localhost:8080/api/discussion/comment/${postId}${level ? `/${level}` : ''}`);
+        return AJAX_JSON(`http://localhost:8080/api/discussion/comment/${postId}${level ? `/${level}` : ''}`);
     }
 
     hasLoadedSubReplies(id) {
-        console.log(this._loadedSubReplies);
-        console.log(id);
-        console.log(this._loadedSubReplies.indexOf(Number(id)) !== -1);
         return this._loadedSubReplies.indexOf(Number(id)) !== -1;
     }
 
@@ -35,8 +30,6 @@ export default class DiscussionData {
     }
 
     assembleCommentData(parentCommentId, replyText) {
-        console.log("LAAAAST");
-        console.log(parentCommentId);
         return {
             parentCommentId: Number(parentCommentId) === 0 ? null : parentCommentId,
             commentDate: dataToNormalFormat(new Date()),
@@ -46,27 +39,31 @@ export default class DiscussionData {
             postId: new URLSearchParams(window.location.search).get('p'),
             sumDisLike: 0,
             sumLike: 0,
-            user: {userId: 2, username: 'Anish' }
+            user: { username: this._username }
         }
     }
 
     sendCreateRequest(commentData) {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", 'http://localhost:8080/api/discussion/createComment', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(commentData));
+        const url = 'http://localhost:8080/api/discussion/createComment';
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(commentData),
+            headers: { 'Content-Type': 'application/json', 'X-XSRF-TOKEN': this._csrfToken },
+        }).then();
     }
 
-    async setInitialId() {
-        DiscussionData._lastPrimaryKey = await AJAX(`http://localhost:8080/api/discussion/lastCommentId`);
+    async setInitialData() {
+        this._username = await AJAX_PLAIN(`http://localhost:8080/api/discussion/loggedInUser`);
+        DiscussionData._lastPrimaryKey = await AJAX_PLAIN(`http://localhost:8080/api/discussion/lastCommentId`);
     }
 
     static getLastPrimary() {
-        return this._lastPrimaryKey;
+        return DiscussionData._lastPrimaryKey;
     }
 
     static nextPrimaryKey() {
         this._lastPrimaryKey++;
+        console.log(this._lastPrimaryKey)
     }
 
 }

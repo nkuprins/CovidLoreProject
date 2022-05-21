@@ -1,4 +1,4 @@
-package com.covidlore.model;
+package com.covidlore.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,13 +17,10 @@ public class Comment {
     @Column(name = "comment_id")
     private int commentId;
 
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-//    @JoinColumn(name = "post_id")
-//    private Post post;
     @Column(name = "post_id")
     private int postId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -33,9 +30,6 @@ public class Comment {
     @Column(name = "description")
     private String description;
 
-//    @OneToMany
-//    @JoinColumn(name = "parent_comment_id")
-//    private Set<Comment> childComments;
     @Column(name = "parent_comment_id")
     private Integer parentCommentId;
 
@@ -50,19 +44,5 @@ public class Comment {
 
     public void increaseChildren() {
         this.numOfChildren++;
-    }
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "commentId=" + commentId +
-                ", postId=" + postId +
-                ", commentDate='" + commentDate + '\'' +
-                ", description='" + description + '\'' +
-                ", parentCommentId=" + parentCommentId +
-                ", numOfChildren=" + numOfChildren +
-                ", sumLike=" + sumLike +
-                ", sumDisLike=" + sumDisLike +
-                '}';
     }
 }

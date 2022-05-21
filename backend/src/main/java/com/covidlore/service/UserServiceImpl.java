@@ -1,13 +1,11 @@
 package com.covidlore.service;
 
 import com.covidlore.dao.UserRepository;
-import com.covidlore.model.User;
-import com.covidlore.user.CrmUser;
-import org.springframework.security.core.GrantedAuthority;
+import com.covidlore.entity.User;
+import com.covidlore.prototype.model.PrototypeUser;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -31,7 +29,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(CrmUser user) {
+    public void save(PrototypeUser user) {
         User newUser = new User(user.getUsername(), user.getPassword());
 
         userRepository.save(newUser);

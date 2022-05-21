@@ -1,7 +1,7 @@
 package com.covidlore.service;
 
 import com.covidlore.dao.CommentRepository;
-import com.covidlore.model.Comment;
+import com.covidlore.entity.Comment;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -36,7 +36,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public int maxCommentId() {
-        return commentRepository.maxCommentId();
+    public int lastCommentId() {
+        return commentRepository.lastCommentId();
     }
 }

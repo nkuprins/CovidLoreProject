@@ -1,9 +1,12 @@
 package com.covidlore.rest;
 
-import com.covidlore.model.Comment;
-import com.covidlore.model.Post;
-import com.covidlore.service.CommentServiceImpl;
-import com.covidlore.service.PostServiceImpl;
+import com.covidlore.entity.Comment;
+import com.covidlore.entity.Post;
+import com.covidlore.entity.User;
+import com.covidlore.service.CommentService;
+import com.covidlore.service.PostService;
+import com.covidlore.service.UserService;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
@@ -12,26 +15,30 @@ import java.util.Set;
 @RequestMapping("/api/discussion")
 public class DiscussionController {
 
-    private final CommentServiceImpl commentService;
-    private final PostServiceImpl postService;
+    private final CommentService commentService;
+    private final PostService postService;
+    private final User loggedInUser;
 
-    public DiscussionController(CommentServiceImpl commentService, PostServiceImpl postService) {
+    public DiscussionController(CommentService commentService, PostService postService, User loggedInUser) {
         this.commentService = commentService;
         this.postService = postService;
+        this.loggedInUser = loggedInUser;
+    }
+
+    @GetMapping(value = "lastCommentId", produces = MediaType.TEXT_PLAIN_VALUE)
+    public @ResponseBody int readLastCommentId() {
+        return commentService.lastCommentId();
+    }
+
+    @GetMapping(value = "loggedInUser", produces = { "application/json" })
+    public @ResponseBody User readLoggedInUser() {
+        return loggedInUser;
     }
 
     @GetMapping(value = "post/{postId}", produces = { "application/json" })
-    public @ResponseBody
-    Post readPost(@PathVariable int postId) {
+    public @ResponseBody Post readPost(@PathVariable int postId) {
         return postService.findById(postId);
     }
-
-    @GetMapping(value = "/lastCommentId", produces = { "application/json" })
-    public @ResponseBody
-    int readComments() {
-        return commentService.maxCommentId();
-    }
-
 
     @GetMapping(value = "comment/{postId}", produces = { "application/json" })
     public @ResponseBody
@@ -45,15 +52,15 @@ public class DiscussionController {
         return commentService.findByPostAndParent(postId, level);
     }
 
-    @PostMapping(value = "/createComment")
+    @PostMapping(value = "createComment")
     public void createComment(@RequestBody Comment comment) {
-        System.out.println(comment.toString());
-        commentService.save(comment);
+        System.out.println(comment.getUser().getUserId());
+//        commentService.save(comment);
 
         if (comment.getParentCommentId() != null) {
             Comment parentComment = commentService.findById(comment.getParentCommentId());
             parentComment.increaseChildren();
-            commentService.save(parentComment);
+//            commentService.save(parentComment);
         }
     }
 }

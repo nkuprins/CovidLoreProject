@@ -1,13 +1,13 @@
 import NavView from "../view/navView";
 import newsView from "../view/news/newsView";
-import {AJAX} from "../helper";
+import {AJAX_JSON} from "../helper";
 import {API_NEWS_URL} from "../config";
 
 const init = function () {
 
     new NavView(1).addHandlerNavHover();
 
-    AJAX(API_NEWS_URL).then((data) => {
+    AJAX_JSON(API_NEWS_URL).then((data) => {
         if (data.news.length < 12)
             return;
 

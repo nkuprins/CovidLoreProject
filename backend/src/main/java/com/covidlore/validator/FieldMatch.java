@@ -5,22 +5,25 @@ import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Constraint(validatedBy = FieldMatchValidator.class)
-@Target({ ElementType.TYPE, ElementType.ANNOTATION_TYPE })
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface FieldMatch {
-	String message() default "";
-	Class<?>[] groups() default {};
-	Class<? extends Payload>[] payload() default {};
-	
+
+    String message() default "Values don't match!";
 	String first();
     String second();
-    
-    @Target({ ElementType.TYPE, ElementType.ANNOTATION_TYPE })
+
+    // Groups allow to restrict the set of constraints when we deal with various validations
+    Class<?>[] groups() default{};
+
+    // Allows assigning custom payloads(idea is similar to Exceptions)
+    Class<? extends Payload>[] payload() default{};
+
+    @Target({ ElementType.TYPE })
     @Retention(RetentionPolicy.RUNTIME)
     @Documented
-    @interface List
-    {
+    @interface List {
     	FieldMatch[] value();
     }
 }

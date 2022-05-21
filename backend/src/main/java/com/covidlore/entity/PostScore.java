@@ -1,4 +1,4 @@
-package com.covidlore.model;
+package com.covidlore.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

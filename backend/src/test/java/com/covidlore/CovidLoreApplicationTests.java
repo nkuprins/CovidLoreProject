@@ -1,17 +1,13 @@
 package com.covidlore;
 
-import com.covidlore.model.Comment;
-import com.covidlore.model.Post;
-import com.covidlore.model.User;
+import com.covidlore.entity.Comment;
+import com.covidlore.entity.Post;
 import com.covidlore.service.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.management.Query;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 

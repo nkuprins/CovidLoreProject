@@ -1,6 +1,6 @@
 package com.covidlore.service;
 
-import com.covidlore.model.Post;
+import com.covidlore.entity.Post;
 
 import java.util.List;
 
