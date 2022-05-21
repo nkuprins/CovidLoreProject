@@ -1,5 +1,11 @@
 package com.covidlore.controller;
 
+import com.covidlore.entity.User;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.DefaultSingletonBeanRegistry;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -12,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class LoginController {
 
+    @Autowired
+    private BeanFactory beanFactory;
+
     @GetMapping("/login")
     public String showLogin() {
         return "login";
@@ -20,9 +29,15 @@ public class LoginController {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
 
+        DefaultSingletonBeanRegistry registry = (DefaultSingletonBeanRegistry) beanFactory;
+        registry.destroySingleton("loggedInUser"); //destroys the bean object
+
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null)
+        if (authentication != null) {
             new SecurityContextLogoutHandler().logout(request, response, authentication);
+
+        }
 
         return "redirect:/login";
     }

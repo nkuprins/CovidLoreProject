@@ -10,9 +10,9 @@ const init = function () {
     new NavView(2).addHandlerNavHover();
 
     discussionData.setInitialData().then(() =>
-        discussionData.loadPostData().then(data => {
+        discussionData.loadQuestionData().then(data => {
             discussionView.showQuestion(data)
-            processCommentsDataLoad(0).then();
+            processCommentsDataLoad(`question-${data.postId}`).then();
         }))
 }
 
@@ -21,13 +21,11 @@ export const processCommentsDataLoad = async function (parentId) {
     if (discussionData.hasLoadedSubReplies(parentId))
         return false;
 
-    console.log("LOAD NEW DATA");
     discussionData.addLoadedSubReplies(parentId);
     await discussionData.loadCommentData(parentId).then(comments => {
         Object.entries(comments).forEach((entries) => {
             const [id, commentData] = entries;
-            console.log("we await" + commentData);
-            const parentNode = document.querySelector(`#post-${parentId}`);
+            const parentNode = document.querySelector(`#comment-post-${parentId}`);
             discussionView.showComments(parentNode, commentData);
         });
     })
@@ -38,8 +36,16 @@ export const processCommentsDataLoad = async function (parentId) {
 export const processCommentsDataCreate = function (parentCommentId, replyText) {
 
     const commentData = discussionData.assembleCommentData(parentCommentId, replyText);
-    discussionData.sendCreateRequest(commentData)
+    discussionData.sendCreateCommentRequest(commentData)
     return commentData;
+}
+
+export const processChangeCommentScoreRequest = function (commentId, score) {
+    discussionData.sendChangeScoreRequest(commentId.slice(13), score, true);
+}
+
+export const processChangePostScoreRequest = function (postId, score) {
+    discussionData.sendChangeScoreRequest(postId.slice(22), score, false);
 }
 
 init();

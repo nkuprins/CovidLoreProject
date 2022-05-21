@@ -1,9 +1,8 @@
 import CommentRow from "./commentRow";
 import DiscussionData from "../../model/DiscussionData";
-import {dataToNormalFormat} from "../../helper";
 import {processCommentsDataCreate, processCommentsDataLoad} from "../../controller/discussionController";
 
-class DiscussionFormView {
+class ReplyFormView {
 
     constructor(parentDiscussionRow) {
         this._parentDiscussion = parentDiscussionRow.parentNode;
@@ -49,21 +48,18 @@ class DiscussionFormView {
         const replyText = replyFormArticle.querySelector('textarea').value; // Get text in the form
         replyFormArticle.remove(); // Remove the form article
 
-        console.log("Parent id:");
-        console.log(this._parentDiscussion.id);
-        const parentId = this._parentDiscussion.id.slice(5);
+        const parentId = this._parentDiscussion.id.slice(13);
 
         processCommentsDataLoad(parentId).then(() => {
             const commentData = processCommentsDataCreate(parentId, replyText);
-            console.log("we insert" + commentData);
             const commentRow = new CommentRow(this._parentDiscussion, commentData, true);
             commentRow.createArticle();
             commentRow.addReplyListener();
-            commentRow.addScoreListener();
+            commentRow.addCommentsScoreListener();
         })
 
         DiscussionData.nextPrimaryKey();
     }
 }
 
-export default DiscussionFormView;
+export default ReplyFormView;

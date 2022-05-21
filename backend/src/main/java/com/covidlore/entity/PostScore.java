@@ -1,5 +1,6 @@
 package com.covidlore.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,19 +13,22 @@ import javax.persistence.*;
 public class PostScore {
 
     @EmbeddedId
-    private PostScoreId postScoreId;
+    private PostScoreId scoreId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "post_id")
-    @MapsId("postId")
-    private Post postScore;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    @MapsId("userId")
-    private User userScore;
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "post_id")
+//    @MapsId("postId")
+//    private Post postScore;
+//
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "user_id")
+//    @MapsId("userId")
+//    private User userScore;
 
     @Column(name = "score")
     private int score;
 
+    public void setScore(int score) {
+        this.score = score;
+    }
 }

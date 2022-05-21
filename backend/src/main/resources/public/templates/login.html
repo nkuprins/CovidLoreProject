@@ -10,7 +10,7 @@
   <form class="login" th:action="@{/login}" method="post">
     <ul>
       <li><h3 class="login__heading">LOGIN</h3></li>
-      <li><h3 class="login__heading">REGISTER</h3></li>
+      <li onclick="window.location='/register/showRegistrationForm'"><h3 class="login__heading">REGISTER</h3></a></li>
     </ul>
     <input id="username" name="username" class="login__field login__username"
            type="text" placeholder="Username" autocomplete="off">
@@ -18,7 +18,6 @@
            type="password" placeholder="Password" autocomplete="off">
     <input class="submit__btn" type="submit" value="LOGIN">
   </form>
-  <a href="/register/showRegistrationForm">Register New User</a>
 </div>
 </body>
 </html>

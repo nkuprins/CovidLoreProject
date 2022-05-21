@@ -4,6 +4,7 @@ import com.covidlore.entity.User;
 import com.covidlore.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @Configuration
@@ -16,6 +17,7 @@ public class UserConfig {
     }
 
     @Bean
+    @Lazy
     public User loggedInUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return userService.findByUsername(username);

@@ -11,7 +11,7 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
     Set<Comment> findByPostIdAndParentCommentId(int postId, int parentId);
     Set<Comment> findByPostIdAndParentCommentIdIsNull(int postId);
 
-    @Query("SELECT max(commentId) FROM Comment")
+    @Query("SELECT COALESCE(max(commentId), 0) FROM Comment")
     int lastCommentId();
 
 }

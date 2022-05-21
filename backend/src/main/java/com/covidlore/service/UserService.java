@@ -9,4 +9,5 @@ public interface UserService extends UserDetailsService {
     User findById(int userId);
     User findByUsername(String username);
     void save(PrototypeUser user);
+    void save(User user);
 }
