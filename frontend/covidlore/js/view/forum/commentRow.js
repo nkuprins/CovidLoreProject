@@ -19,20 +19,20 @@ class CommentRow {
     }
 
     createArticle() {
-        const type = this._processCommentType();
+        const type = this._calculateCommentType();
         const rowMarkup = this._generateRowMarkup(this._getRowMarkupDesignOption(type));
 
         if (!type.isSubReply)
             this.insertDirectly(rowMarkup, 'afterend');
         else {
             if (this._isNewInsert)
-                    this._processParent(type);
+                this._processParent(type);
 
             this._insertSubReply(this._parentDiscussion, rowMarkup);
         }
     }
 
-    _processCommentType() {
+    _calculateCommentType() {
         // Not direct reply to question__article
         const isSubReply = this._parentDiscussion.id !== 'main' &&
             !this._parentDiscussion.classList.contains('question__article');
@@ -50,10 +50,11 @@ class CommentRow {
         }
     }
 
+    // If we find on local storage a liketype, then load it, otherwise return {0, 0}
     calculateScore() {
-        const likeType = localStorage.getItem(`score-comment-post-${this._commentData.commentId}-${DiscussionData.getLoggedInUsername()}`);
-        if (likeType !== null)
-            if (likeType === 'like')
+        const scoreType = localStorage.getItem(`score-comment-post-${this._commentData.commentId}-${DiscussionData.getLoggedInUsername()}`);
+        if (scoreType !== null)
+            if (scoreType === 'like')
                 return {like: 1, dislike: 0};
             else
                 return {like: 0, dislike: 1};
@@ -131,7 +132,6 @@ class CommentRow {
     }
 
     _getRepliesButtonMarkup(type, numReplies) {
-
         return `<div class="reply replies__block">
                 <button class="reply__button reply__button-replies">${numReplies} Replies</button>
                 <img class="replies__icon" src="${showReplies}" alt="List reply icon">
@@ -182,6 +182,7 @@ class CommentRow {
         this._discussion.querySelector('.replies__block')?.addEventListener('click', this._handleRepliesList.bind(this));
     }
 
+    // Adds a replies listener to parent only if it did not have it before
     addRepliesListenerForNew() {
         const repliesButton = this._parentDiscussion.querySelector('.replies__block');
         if (repliesButton === null || repliesButton?.getAttribute('hasEvent') === 'true')
