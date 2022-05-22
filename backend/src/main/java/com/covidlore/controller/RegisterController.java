@@ -1,8 +1,8 @@
 package com.covidlore.controller;
 
 import com.covidlore.entity.User;
-import com.covidlore.service.UserService;
 import com.covidlore.prototype.model.PrototypeUser;
+import com.covidlore.service.UserService;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -41,11 +41,10 @@ public class RegisterController {
 
     @PostMapping("/processRegistration")
     public String processRegistrationForm(@Valid @ModelAttribute("protUser") PrototypeUser prototypeUser,
-                                          BindingResult bindingResult, Model model) {
+                                          BindingResult bindingResult) {
 
         if (bindingResult.hasErrors())
             return "redirect:/register/showRegistrationForm";
-
 
         // Check if user already exists
         User existingUser = userService.findByUsername(prototypeUser.getUsername());

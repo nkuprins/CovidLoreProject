@@ -14,13 +14,11 @@ import java.util.Set;
 public class DiscussionController {
 
     private final CommentService commentService;
-    private final UserService userService;
     private final PostService postService;
     private final BeanFactory beanFactory;
 
-    public DiscussionController(CommentService commentService, UserService userService, PostService postService, BeanFactory beanFactory) {
+    public DiscussionController(CommentService commentService, PostService postService, BeanFactory beanFactory) {
         this.commentService = commentService;
-        this.userService = userService;
         this.postService = postService;
         this.beanFactory = beanFactory;
     }
@@ -65,13 +63,11 @@ public class DiscussionController {
 
     @PostMapping(value = "/changeCommentScore")
     public void changeCommentScore(@RequestBody CommentScore commentScore) {
-
         commentService.saveCommentScore(commentScore);
     }
 
     @PostMapping(value = "/changePostScore")
     public void changePostScore(@RequestBody PostScore postScore) {
-
         postService.savePostScore(postScore);
     }
 

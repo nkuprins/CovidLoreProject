@@ -1,10 +1,12 @@
 package com.covidlore.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "post_scores")
@@ -15,19 +17,10 @@ public class PostScore {
     @EmbeddedId
     private PostScoreId scoreId;
 
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "post_id")
-//    @MapsId("postId")
-//    private Post postScore;
-//
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "user_id")
-//    @MapsId("userId")
-//    private User userScore;
-
     @Column(name = "score")
     private int score;
 
+    // IDE may say that it is not needed, but actually Hibernate may need it implicitly
     public void setScore(int score) {
         this.score = score;
     }

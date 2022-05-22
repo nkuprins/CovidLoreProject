@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 /*
 @class - represents controller for simple mappings,
          where we need only one common model attribute and nothing else.
- */
+*/
 
 @Controller
 public class PageController {

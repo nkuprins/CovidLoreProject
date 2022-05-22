@@ -18,8 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class LoginController {
 
-    @Autowired
-    private BeanFactory beanFactory;
+    private final BeanFactory beanFactory;
+
+    public LoginController(BeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
+    }
 
     @GetMapping("/login")
     public String showLogin() {
@@ -30,8 +33,7 @@ public class LoginController {
     public String logout(HttpServletRequest request, HttpServletResponse response) {
 
         DefaultSingletonBeanRegistry registry = (DefaultSingletonBeanRegistry) beanFactory;
-        registry.destroySingleton("loggedInUser"); //destroys the bean object
-
+        registry.destroySingleton("loggedInUser"); //destroys the bean object for reinit
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
