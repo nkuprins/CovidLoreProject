@@ -12,12 +12,6 @@ How to run?
 
 4. Open backend/src/main/resources/application.properties and adjust data to your DB.
    Namely those fields: datasource.url, datasource.username, datasource.password
-
-5. Now you if you connected and installed everything correclty you already may try to run
-project, as I included target files. Run it in IDEA or in 
-terminal java -jar backend/target/backend-1.0.0-SNAPSHOT.jar
-
-6. If it does not run, then unfortunately you have to build project.
-6.1 Go to 'cd parent' folder in terminal and write 'mvn clean install'
-6.2 If you do not have mvn command, then install it here https://maven.apache.org/install.html
-
+5. Go to 'cd parent' folder in terminal and write 'mvn clean install'
+6. If you do not have mvn command, then install it here https://maven.apache.org/install.html
+7. Run the builded project in Intellij IDEA or in terminal java -jar backend/target/backend-1.0.0-SNAPSHOT.jar
