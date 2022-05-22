@@ -46,6 +46,8 @@ class ChartView extends View {
             data.map(el => el.cnt_case), document.querySelector(`#chartTBody-${indexOfBody}`));
     }
 
+    // Key - is the title of the chart column
+    // Value - is the value of the chart column
     _addChartToSection(chartKeys, chartValues, chartBody) {
         const markup = `
         <tr>

@@ -24,18 +24,18 @@ class NewsView extends View {
         this._newsList = document.querySelectorAll('p');
     }
 
-    _generateMarkupForTable(el, i) {
+    _generateMarkupForTable(news, i) {
 
         const newsBlockId = `newsBlock-${i-1}`;
         const backgroundImage = new Image();
-        backgroundImage.src = el.image;
+        backgroundImage.src = news.image;
 
         // If we failed to load image due to API conflicts
         backgroundImage.onerror = () =>
             document.querySelector(`#${newsBlockId}`).style = `background-image: url('${defaultNewsImg}');`;
 
         const newsBlock = `<td id="${newsBlockId}" style="background-image: url('${backgroundImage.src}');">
-                    <p id="news-${i - 1}" class="news__title">${el.title}</p></td>`
+                    <p id="news-${i - 1}" class="news__title">${news.title}</p></td>`
 
         if (i % 4 === 0) // end of tr and start of new tr
             return `${newsBlock}</tr><tr>`;

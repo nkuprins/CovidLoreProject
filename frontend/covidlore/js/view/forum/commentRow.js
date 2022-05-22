@@ -3,7 +3,7 @@ import talkIcon from "../../../img/talk-icon.png";
 import likeImage from "../../../img/like.png";
 import dislikeImage from "../../../img/dislike.png";
 import ReplyFormView from "./replyFormView";
-import DiscussionData from "../../model/DiscussionData";
+import DiscussionData from "../../model/discussionData";
 import showReplies from "../../../img/show-replies.png";
 import {processCommentsDataLoad} from "../../controller/discussionController";
 import {processChangeCommentScoreRequest} from "../../controller/discussionController";

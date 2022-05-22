@@ -2,9 +2,9 @@ import {AJAX_JSON, AJAX_PLAIN, dataToNormalFormat} from "../helper";
 
 export default class DiscussionData {
 
-    static _lastPrimaryKey = 0;
-    static _user;
-    _loadedSubReplies = [];
+    static _lastPrimaryKey = 0; // last primary key of the comment
+    static _user; // current logged in user
+    _loadedSubReplies = []; // keep track of already loaded sub replies on the current discussion
     _csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
 
     loadQuestionData() {
@@ -14,6 +14,10 @@ export default class DiscussionData {
         return AJAX_JSON(`http://localhost:8080/api/discussion/post/${questionId}`);
     }
 
+    /* The ‘level’ parameter determines the number of comments to load
+    (we do not want to load immediately all comments of the thread, as it would violate performance.
+    Hence, we load only if the Show Replies button was pressed or when the page is opened)
+    */
     loadCommentData(level) {
         level = String(level).includes('question') ? 0 : level;
         const queryString = window.location.search;
@@ -60,8 +64,6 @@ export default class DiscussionData {
             score: score === 'like' ? 1 : -1
         }
         isComment ? scoreObj.scoreId.commentId = commentId : scoreObj.scoreId.postId = commentId;
-
-        console.log(scoreObj);
 
         fetch(url, {
             method: 'POST',

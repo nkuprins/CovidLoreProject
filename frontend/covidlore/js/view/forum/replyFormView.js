@@ -1,5 +1,5 @@
 import CommentRow from "./commentRow";
-import DiscussionData from "../../model/DiscussionData";
+import DiscussionData from "../../model/discussionData";
 import {processCommentsDataCreate, processCommentsDataLoad} from "../../controller/discussionController";
 
 class ReplyFormView {
@@ -50,6 +50,7 @@ class ReplyFormView {
 
         const parentId = this._parentDiscussion.id.slice(13);
 
+        // We first want to load replies of this parent node, if they were not loaded yet
         processCommentsDataLoad(parentId).then(() => {
             const commentData = processCommentsDataCreate(parentId, replyText);
             const commentRow = new CommentRow(this._parentDiscussion, commentData, true);

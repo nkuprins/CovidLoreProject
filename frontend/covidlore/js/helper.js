@@ -3,10 +3,7 @@ export const readJSONCountriesGeolocation = function () {
     return require('../../countriesData');
 }
 
-export const readJSONExampleData = function () {
-    return require('../../exampleData.json');
-}
-
+// Search in data until we get the valid data by country name
 export const findDataByCountry = function (data, countryName) {
     return data.find(el => el.iso3166_1 === countryName);
 }
@@ -21,6 +18,7 @@ export const getTopByProperty = function (array, property, N) {
         .map(el => ({ countryName: el.iso3166_1, cnt_case: el[property] }));
 }
 
+// Data is of the format 2022-01-01
 export const dataToNormalFormat = function (date) {
     return date.toISOString().substring(0, date.toISOString().indexOf('T'));
 }

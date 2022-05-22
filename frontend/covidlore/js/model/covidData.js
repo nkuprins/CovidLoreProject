@@ -18,6 +18,7 @@ class CovidData {
         return this._cachedData;
     }
 
+    // If the data is cached, then load it, otherwise fetch it from API
     async loadData() {
 
         if (!localStorage.getItem('covidData')) {
@@ -66,8 +67,8 @@ class CovidData {
             `inject=true&cols=date_stamp,iso3166_1,cnt_confirmed,cnt_death&where=(date_stamp=${dateFormatted})` +
             `&format=amcharts&limit=5000`);
 
-        if (!this._isValidData(result.dataProvider)) {
-            // The data is empty because there has not been published data on the current date yet.
+        if (!this._setTopCases(result.dataProvider)) {
+            // The set of top cases failed, as there has not been published data on the current date yet.
             // So try to fetch data of a previous day.
             return await this._getCovidDataAjax(dayOffset + 1);
         } else {
@@ -76,10 +77,9 @@ class CovidData {
     }
 
 
-    // We need top 5 values for our charts. Sometimes either confirmed or death cases are not published by API
-    // Hence, we should ensure that they both exist by today and
-    // beforehand assign them to fields _topConfirmedCases and _topDeathCases
-    _isValidData(data) {
+    // We need top 5 values for our charts.
+    // Set data if hasValid is true
+    _setTopCases(data) {
 
          if (data.length === 0) return false;
 
@@ -91,7 +91,7 @@ class CovidData {
             return false;
 
          this._topDeathCases = getTopByProperty(data, 'cnt_death', 5);
-         return hasValidCases(this._topConfirmedCases)
+         return hasValidCases(this._topDeathCases)
     }
 }
 

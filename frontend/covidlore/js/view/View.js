@@ -25,6 +25,8 @@ export default class View {
         document.querySelector('.spinner')?.remove();
     }
 
+    // If the selector is already object, it is returned,
+    // otherwise it is (class name or id) and we query it on the page.
     _getObjectByKey(selector) {
         let obj;
         if (typeof selector === "string")
@@ -35,6 +37,8 @@ export default class View {
         return obj;
     }
 
+    // Clean the inner text and then insert after begin
+    // Selector can be element/class name/id
     insertCleanTextAfterBy(selector, text) {
         const obj = this._getObjectByKey(selector);
         if (obj === null) return;
@@ -42,6 +46,8 @@ export default class View {
         obj.insertAdjacentText('afterbegin', text);
     }
 
+    // Clean the inner html and then insert after begin
+    // Selector can be element/class name/id
     insertCleanHTMLAfterBy(selector, html) {
         const obj = this._getObjectByKey(selector);
         if (obj === null) return;
