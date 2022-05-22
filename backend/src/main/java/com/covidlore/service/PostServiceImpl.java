@@ -6,6 +6,8 @@ import com.covidlore.entity.Post;
 import com.covidlore.entity.PostScore;
 import com.covidlore.helper.OrderPost;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -36,11 +38,13 @@ public class PostServiceImpl implements PostService {
         return postRepository.findById(postId).orElse(null);
     }
 
+    @Transactional
     @Override
     public void savePost(Post post) {
         postRepository.save(post);
     }
 
+    @Transactional
     @Override
     public void savePostScore(PostScore postScore) {
         postScoresRepository.save(postScore);

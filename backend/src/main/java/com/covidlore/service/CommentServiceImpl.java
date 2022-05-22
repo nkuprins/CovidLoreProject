@@ -5,6 +5,7 @@ import com.covidlore.dao.CommentScoresRepository;
 import com.covidlore.entity.Comment;
 import com.covidlore.entity.CommentScore;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -28,11 +29,13 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findByPostIdAndParentCommentId(postId, parentId);
     }
 
+    @Transactional
     @Override
     public void saveComment(Comment comment) {
         commentRepository.save(comment);
     }
 
+    @Transactional
     @Override
     public void saveCommentScore(CommentScore commentScore) {
         commentScoresRepository.save(commentScore);
@@ -43,6 +46,7 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.getById(commentId);
     }
 
+    @Transactional
     @Override
     public int lastCommentId() {
         return commentRepository.lastCommentId();
