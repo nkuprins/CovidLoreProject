@@ -8,7 +8,7 @@ How to run?
 
 2. Open backend and install all maven dependencies.
 
-3. Now run .sql script to create database in folder DB. 
+3. Now run .sql script in folder DB to create database. 
 
 4. Open backend/src/main/resources/application.properties and adjust data to your DB.
    Namely those fields: datasource.url, datasource.username, datasource.password
