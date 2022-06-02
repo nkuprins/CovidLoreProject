@@ -28,7 +28,7 @@ class CovidData {
             // Load data from localStorage
             this._cachedData = JSON.parse(localStorage.getItem('covidData'));
 
-            if (!this._isFreshData(this._cachedData[0].date_stamp.slice(-2))) {
+            if (!this._hasFreshCache(this._cachedData[0].date_stamp.slice(-2))) {
                 localStorage.clear();
                 await this.loadData();
             } else {
@@ -43,10 +43,15 @@ class CovidData {
         localStorage.setItem('covidData', JSON.stringify(this._cachedData));
         localStorage.setItem('covidTopConfirmed', JSON.stringify(this._topConfirmedCases));
         localStorage.setItem('covidTopDeath', JSON.stringify(this._topDeathCases));
+        localStorage.setItem('triedToFetch', String(new Date().getHours()));
     }
 
     // We want to clear cache if the new data is published.
-    _isFreshData(lastDate) {
+    _hasFreshCache(lastDate) {
+        // We already tried to fetch ned data within an hour, so do not try until the new hour.
+        if (localStorage.getItem('triedToFetch') === String(new Date().getHours()))
+            return true;
+
         const timeDifference = Number(dataToNormalFormat(new Date()).slice(-2)) - Number(lastDate.slice(-2));
         return timeDifference === 1;
     }
