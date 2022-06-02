@@ -33,13 +33,12 @@ public class LoginController {
     public String logout(HttpServletRequest request, HttpServletResponse response) {
 
         DefaultSingletonBeanRegistry registry = (DefaultSingletonBeanRegistry) beanFactory;
-        registry.destroySingleton("loggedInUser"); //destroys the bean object for reinit
+        registry.destroySingleton("loggedInUser"); //destroys the bean for reinit
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
+        if (authentication != null)
             new SecurityContextLogoutHandler().logout(request, response, authentication);
 
-        }
 
         return "redirect:/login";
     }
