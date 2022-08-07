@@ -1,7 +1,0 @@
-.DS_STORE
-*.iml
-frontend/node_modules/
-backend/.idea/
-backend/target/
-frontend/target/
-.gitignore
