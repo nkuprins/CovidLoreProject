@@ -1,10 +1,11 @@
 package com.covidlore.entity;
 
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
 
 @Entity
 @Table(name = "comment_scores")

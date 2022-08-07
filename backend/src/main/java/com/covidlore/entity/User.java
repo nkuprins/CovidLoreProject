@@ -2,7 +2,7 @@ package com.covidlore.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 // Again just for grading and clarification,
