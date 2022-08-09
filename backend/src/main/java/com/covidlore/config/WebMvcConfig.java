@@ -2,8 +2,12 @@ package com.covidlore.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -26,6 +30,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
         if (!registry.hasMappingForPattern("/**"))
             registry.addResourceHandler("/**")
                     .addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+       registry.addViewController("/login").setViewName("login");
     }
 
     @Override

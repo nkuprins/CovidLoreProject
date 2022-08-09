@@ -1,44 +1,30 @@
 package com.covidlore.controller;
 
-import com.covidlore.entity.User;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 /*
 @class - represents controller for simple mappings,
-         where we need only one common model attribute and nothing else.
+         where we need only one common session attribute and nothing else.
 */
 
 @Controller
+@SessionAttributes("profileImage")
 public class PageController {
 
-    private final BeanFactory beanFactory;
-
-    public PageController(BeanFactory beanFactory) {
-        this.beanFactory = beanFactory;
-    }
-
-    private User getLoggedInUser() {
-        return this.beanFactory.getBean(User.class);
-    }
-
     @GetMapping("/discussion")
-    public String showDiscussion(Model model) {
-        model.addAttribute("profileImage", this.getLoggedInUser().getProfileImage());
+    public String showDiscussion() {
         return "discussion";
     }
 
     @GetMapping("/map")
-    public String showMap(Model model) {
-        model.addAttribute("profileImage", this.getLoggedInUser().getProfileImage());
+    public String showMap() {
         return "map";
     }
 
     @GetMapping("/news")
-    public String showNews(Model model) {
-        model.addAttribute("profileImage", this.getLoggedInUser().getProfileImage());
+    public String showNews() {
         return "news";
     }
 }
