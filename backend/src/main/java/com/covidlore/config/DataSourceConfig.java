@@ -14,15 +14,8 @@ import java.util.Objects;
 @PropertySource("classpath:application.properties")
 public class DataSourceConfig {
 
-    private final Environment env;
-
-    @Autowired
-    public DataSourceConfig(Environment env) {
-        this.env = env;
-    }
-
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource(Environment env) {
 
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("spring.datasource.driver-class-name")));
