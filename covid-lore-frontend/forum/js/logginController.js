@@ -14,7 +14,7 @@ class SecureLogin {
             clientId: 'frontend-login-client'
         }
         const keycloak = new Keycloak(config);
-        keycloak.init({onLoad: `login-required`}).then(authenticated => {
+        keycloak.init({onLoad: `login-required`, checkLoginIframe: false}).then(authenticated => {
             if (authenticated)
                 localStorage.setItem("accessToken", keycloak.token);
         })
@@ -23,13 +23,6 @@ class SecureLogin {
             redirectUri: "http://localhost:1234"
         }))
     }
-
-    isLogged() {
-
-        return localStorage.getItem("accessToken") &&
-            Date.now() !== jwtDecode(localStorage.getItem("accessToken")).auth_time;
-    }
-
 
 }
 

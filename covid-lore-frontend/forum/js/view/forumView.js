@@ -1,10 +1,40 @@
-import {AJAX_JSON} from "../helper";
+import sumLike from "../../img/like.png";
+import sumDislike from "../../img/dislike.png";
+
 
 class ForumView {
 
     constructor() {
         this._addNewsBody = document.querySelector('.absolute__block__body');
+        this._forumTableBody = document.querySelector(`tbody`);
         this._rotateImage();
+    }
+
+    showForumTopicView(data) {
+
+        Object.entries(data).forEach(entry => {
+            const [_, post] = entry;
+            console.log(post);
+            const markup = `<tr class="thread__body"
+                onclick="window.location.href='/discussion.html?p=${post.postId}'">
+                <td class="col1">${post.title}</td>
+                <td>${post.user.username}</td>
+                <td>
+                    <div>
+                        <p class="thread__score-block">${post.sumLike}</p>
+                        <img class="thread__score-block thread__image" src=${sumLike} alt="like">
+                    </div>
+                    <div>
+                        <p class="thread__score-block">${post.sumDisLike}</p>
+                        <img class="thread__score-block thread__image" src=${sumDislike} alt="dislike">
+                    </div>
+                </td>
+                <td>${post.date}</td>
+            </tr>`
+
+
+            this._forumTableBody.insertAdjacentHTML('afterbegin', markup);
+        })
     }
 
     _rotateImage() {

@@ -542,16 +542,15 @@ var _logginControllerDefault = parcelHelpers.interopDefault(_logginController);
 var _forumData = require("../data/forumData");
 var _forumDataDefault = parcelHelpers.interopDefault(_forumData);
 const init = function() {
-    // if (!logginController.isLogged())
     (0, _logginControllerDefault.default).initKeyCloak();
     new (0, _navViewDefault.default)(2).addHandlerNavHover();
     (0, _forumViewDefault.default).addSortButtonsListener();
     (0, _forumViewDefault.default).addNewThreadListener();
-    const data = (0, _forumDataDefault.default).fetchForumData().then((data)=>console.log(data));
+    const data = (0, _forumDataDefault.default).fetchForumData().then((data)=>(0, _forumViewDefault.default).showForumTopicView(data));
 };
 init();
 
-},{"../view/navView":"pEWxL","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../view/forumView":"es64f","../logginController":"dqzYx","../data/forumData":"jSfBV"}],"pEWxL":[function(require,module,exports) {
+},{"../view/navView":"pEWxL","../view/forumView":"es64f","../logginController":"dqzYx","../data/forumData":"jSfBV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"pEWxL":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class NavView {
@@ -613,11 +612,38 @@ exports.export = function(dest, destName, get) {
 },{}],"es64f":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _helper = require("../helper");
+var _likePng = require("../../img/like.png");
+var _likePngDefault = parcelHelpers.interopDefault(_likePng);
+var _dislikePng = require("../../img/dislike.png");
+var _dislikePngDefault = parcelHelpers.interopDefault(_dislikePng);
 class ForumView {
     constructor(){
         this._addNewsBody = document.querySelector(".absolute__block__body");
+        this._forumTableBody = document.querySelector(`tbody`);
         this._rotateImage();
+    }
+    showForumTopicView(data) {
+        Object.entries(data).forEach((entry)=>{
+            const [_, post] = entry;
+            console.log(post);
+            const markup = `<tr class="thread__body"
+                onclick="window.location.href='/discussion.html?p=${post.postId}'">
+                <td class="col1">${post.title}</td>
+                <td>${post.user.username}</td>
+                <td>
+                    <div>
+                        <p class="thread__score-block">${post.sumLike}</p>
+                        <img class="thread__score-block thread__image" src=${(0, _likePngDefault.default)} alt="like">
+                    </div>
+                    <div>
+                        <p class="thread__score-block">${post.sumDisLike}</p>
+                        <img class="thread__score-block thread__image" src=${(0, _dislikePngDefault.default)} alt="dislike">
+                    </div>
+                </td>
+                <td>${post.date}</td>
+            </tr>`;
+            this._forumTableBody.insertAdjacentHTML("afterbegin", markup);
+        });
     }
     _rotateImage() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -654,27 +680,47 @@ class ForumView {
 }
 exports.default = new ForumView();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../helper":"5MBeC"}],"5MBeC":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "AJAX_JSON", ()=>AJAX_JSON);
-parcelHelpers.export(exports, "AJAX_JSON_HEADER", ()=>AJAX_JSON_HEADER);
-parcelHelpers.export(exports, "AJAX_PLAIN", ()=>AJAX_PLAIN);
-const AJAX_JSON = async function(url) {
-    return AJAX_JSON_HEADER(url);
-};
-const AJAX_JSON_HEADER = async function(url, header) {
-    const fetchData = fetch(url, header);
-    const response = (await fetchData).text();
-    return await response;
-};
-const AJAX_PLAIN = async function(url) {
-    const fetchData = fetch(url);
-    const response = (await fetchData).text();
-    return await response;
-};
+},{"../../img/like.png":"g1dVQ","../../img/dislike.png":"iFXZH","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"g1dVQ":[function(require,module,exports) {
+module.exports = require("./helpers/bundle-url").getBundleURL("ObJuQ") + "like.74d36320.png" + "?" + Date.now();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dqzYx":[function(require,module,exports) {
+},{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
+"use strict";
+var bundleURL = {};
+function getBundleURLCached(id) {
+    var value = bundleURL[id];
+    if (!value) {
+        value = getBundleURL();
+        bundleURL[id] = value;
+    }
+    return value;
+}
+function getBundleURL() {
+    try {
+        throw new Error();
+    } catch (err) {
+        var matches = ("" + err.stack).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^)\n]+/g);
+        if (matches) // The first two stack frames will be this function and getBundleURLCached.
+        // Use the 3rd one, which will be a runtime in the original bundle.
+        return getBaseURL(matches[2]);
+    }
+    return "/";
+}
+function getBaseURL(url) {
+    return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
+} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
+function getOrigin(url) {
+    var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
+    if (!matches) throw new Error("Origin not found");
+    return matches[0];
+}
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+exports.getOrigin = getOrigin;
+
+},{}],"iFXZH":[function(require,module,exports) {
+module.exports = require("./helpers/bundle-url").getBundleURL("ObJuQ") + "dislike.20ceb363.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"dqzYx":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _keycloakJs = require("keycloak-js");
@@ -691,7 +737,8 @@ class SecureLogin {
         };
         const keycloak = new (0, _keycloakJsDefault.default)(config);
         keycloak.init({
-            onLoad: `login-required`
+            onLoad: `login-required`,
+            checkLoginIframe: false
         }).then((authenticated)=>{
             if (authenticated) localStorage.setItem("accessToken", keycloak.token);
         });
@@ -699,13 +746,10 @@ class SecureLogin {
                 redirectUri: "http://localhost:1234"
             }));
     }
-    isLogged() {
-        return localStorage.getItem("accessToken") && Date.now() !== (0, _jwtDecodeDefault.default)(localStorage.getItem("accessToken")).auth_time;
-    }
 }
 exports.default = new SecureLogin();
 
-},{"keycloak-js":"3RfCw","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","jwt-decode":"ljM1w"}],"3RfCw":[function(require,module,exports) {
+},{"keycloak-js":"3RfCw","jwt-decode":"ljM1w","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3RfCw":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "default", ()=>Keycloak);
@@ -2721,11 +2765,31 @@ class ForumData {
                 "Authorization": "Bearer " + localStorage.getItem("accessToken")
             }
         };
-        return (0, _helper.AJAX_JSON_HEADER)("http://192.168.1.113:8090/callme/ping", header);
+        return (0, _helper.AJAX_JSON_HEADER)("http://192.168.1.113:8090/posts", header);
     }
 }
 exports.default = new ForumData();
 
-},{"../helper":"5MBeC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["kHvGx","k5sOC"], "k5sOC", "parcelRequire10c2")
+},{"../helper":"5MBeC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5MBeC":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "AJAX_JSON", ()=>AJAX_JSON);
+parcelHelpers.export(exports, "AJAX_JSON_HEADER", ()=>AJAX_JSON_HEADER);
+parcelHelpers.export(exports, "AJAX_PLAIN", ()=>AJAX_PLAIN);
+const AJAX_JSON = async function(url) {
+    return AJAX_JSON_HEADER(url);
+};
+const AJAX_JSON_HEADER = async function(url, header) {
+    const fetchData = fetch(url, header);
+    const response = (await fetchData).json();
+    return await response;
+};
+const AJAX_PLAIN = async function(url) {
+    const fetchData = fetch(url);
+    const response = (await fetchData).text();
+    return await response;
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["kHvGx","k5sOC"], "k5sOC", "parcelRequire10c2")
 
 //# sourceMappingURL=forum.dd7395d0.js.map

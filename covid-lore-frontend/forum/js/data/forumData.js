@@ -9,7 +9,7 @@ class ForumData {
             }
         }
 
-        return AJAX_JSON_HEADER("http://192.168.1.113:8090/callme/ping", header);
+        return AJAX_JSON_HEADER("http://192.168.1.113:8090/posts", header);
     }
 
 }

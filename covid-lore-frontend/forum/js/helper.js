@@ -5,7 +5,7 @@ export const AJAX_JSON = async function (url) {
 
 export const AJAX_JSON_HEADER = async function (url, header) {
     const fetchData = fetch(url, header);
-    const response = (await fetchData).text();
+    const response = (await fetchData).json();
     return await response;
 }
 

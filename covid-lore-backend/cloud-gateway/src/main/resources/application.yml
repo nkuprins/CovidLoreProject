@@ -21,14 +21,12 @@ spring:
           uri: lb://resource-example
           predicates:
             - Path=/zalupa,/callme/**
-          filters:
-#            - TokenRelay=
-#            - RemoveRequestHeader=Cookie
-            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
         - id: post-service
           uri: lb://post-service
           predicates:
             - Path=/posts
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
   security:
     oauth2:
       client:

@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
-@CrossOrigin(value = "http://localhost:8761/", allowCredentials = "true")
+@CrossOrigin(value = "http://localhost:1234/")
 public class PostController {
 
     private final PostService postService;

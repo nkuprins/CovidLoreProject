@@ -3,7 +3,7 @@
   "version": "1.0.0-SNAPSHOT",
   "description": "Application for forum page",
   "scripts": {
-    "start": "HOST=192.168.1.113 parcel forum/templates/forum.html",
+    "start": "parcel forum/templates/forum.html forum/templates/map.html forum/templates/discussion.html forum/templates/news.html",
     "build": "parcel build forum.html"
   },
   "author": "",

@@ -18,9 +18,9 @@
     <nav class="nav">
         <img class="nav__logo" src="/logo.3f66af6c.png" alt="Logotype of the App">
         <ul class="nav__box">
-            <li class="nav__element nav__btn_el"><a id="0" class="nav__button" href="map">Map</a></li>
-            <li class="nav__element nav__btn_el"><a id="1" class="nav__button" href="news">News</a></li>
-            <li class="nav__element nav__btn_el"><a id="2" class="nav__button" href="forum">Forum</a></li>
+            <li class="nav__element nav__btn_el"><a id="0" class="nav__button" href="/map.html">Map</a></li>
+            <li class="nav__element nav__btn_el"><a id="1" class="nav__button" href="/news.html">News</a></li>
+            <li class="nav__element nav__btn_el"><a id="2" class="nav__button" href="/forum.html">Forum</a></li>
             <li class="nav__element nav__img_el">
                 <div class="dropdown">
                     <img class="nav__img" th:src="@{/img/profiles/profile{img}.png(img=${profileImage})}" alt="Profile image">
@@ -62,36 +62,22 @@
     <hr class="article__line">
     <table>
         <thead>
-            </thead><td class="col1 thead__title">
-                Topic
-            </td>
-            <td class="col2 thead__title">
-                Author
-            </td>
-            <td class="col3 thead__title">
-                Likes
-            </td>
-            <td class="col5 thead__title">
-                Activity
-            </td>
-        
-        <tbody>
-        <tr class="thread__body" th:each="post: ${allPosts}" th:onclick="|window.location.href='/discussion?p=${post.postId}'|">
-            <td class="col1" th:text="${post.title}"></td>
-            <td th:text="${post.user.username}"></td>
-            <td>
-                <div>
-                    <p class="thread__score-block" th:text="${post.sumLike}"></p>
-                    <img class="thread__score-block thread__image" src="/like.74d36320.png" alt="like">
-                </div>
-                <div>
-                    <p class="thread__score-block" th:text="${post.sumDisLike}"></p>
-                    <img class="thread__score-block thread__image" src="/dislike.20ceb363.png" alt="dislike">
-                </div>
-            </td>
-            <td th:text="${post.getDate()}"></td>
+        <tr>
+        <td class="col1 thead__title">
+            Topic
+        </td>
+        <td class="col2 thead__title">
+            Author
+        </td>
+        <td class="col3 thead__title">
+            Likes
+        </td>
+        <td class="col5 thead__title">
+            Activity
+        </td>
         </tr>
-        </tbody>
+        </thead>
+        <tbody></tbody>
     </table>
 </main>
 </body>
