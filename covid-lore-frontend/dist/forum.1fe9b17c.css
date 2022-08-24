@@ -1,0 +1,83 @@
+* {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Nunito Sans, sans-serif;
+  font-size: .9rem;
+}
+
+.nav {
+  height: 8vh;
+  background-color: #b42828;
+  align-items: center;
+}
+
+.nav__box {
+  float: right;
+  display: flex;
+  position: relative;
+}
+
+.nav__element {
+  list-style-type: none;
+}
+
+.nav__btn_el {
+  padding: 2.5vh;
+}
+
+.nav__img_el {
+  padding: .5vh 2vh;
+}
+
+.nav__button {
+  cursor: pointer;
+  color: #fff;
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition-duration: .5s;
+}
+
+.nav__img {
+  width: 7vh;
+  height: 7vh;
+}
+
+.nav__logo {
+  width: 22vh;
+  padding-top: .4vh;
+  padding-left: 2vh;
+}
+
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.dropdown-content {
+  width: 90%;
+  z-index: 10;
+  background-color: #40424a;
+  align-items: center;
+  padding: .5vh;
+  display: none;
+  position: absolute;
+}
+
+.dropdown-content a {
+  color: #fff;
+  margin: auto;
+}
+
+.dropdown:hover .dropdown-content {
+  display: flex;
+}
+
+#logout_button {
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=forum.1fe9b17c.css.map */

@@ -5,8 +5,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-// Again just for grading and clarification,
-// if IDE tells, 'is never assigned' ignore it, as Hibernate does it implicitly. You may change it in settings
 @NoArgsConstructor
 @Getter
 public class User {

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>CovidLore</title>
+    <link rel="icon" href="../img/profiles/profile1.png">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="../css/forum.css">
+    <link rel="stylesheet" href="../css/add_thread.css">
+    <link rel="stylesheet" href="../css/absolute_centre-block.css">
+
+    <script defer src="../js/controller/forumController.js" type="module"></script>
+
+</head>
+<body>
+<header>
+    <nav class="nav">
+        <img class="nav__logo" src="../img/logo.png" alt="Logotype of the App">
+        <ul class="nav__box">
+            <li class="nav__element nav__btn_el"><a id="0" class="nav__button" href="map">Map</a></li>
+            <li class="nav__element nav__btn_el"><a id="1" class="nav__button" href="news">News</a></li>
+            <li class="nav__element nav__btn_el"><a id="2" class="nav__button" href="forum">Forum</a></li>
+            <li class="nav__element nav__img_el">
+                <div class="dropdown">
+                    <img class="nav__img" th:src="@{/img/profiles/profile{img}.png(img=${profileImage})}" alt="Profile image">
+                    <div class="dropdown-content">
+                        <a id="logout_button">Logout</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <div class="absolute__block__body disabled-obj">
+        <div class="absolute__block__background"></div>
+        <div class="absolute__block">
+            <button class="absolute__block__button">X</button>
+            <h2 class="absolute__block__title add__block__title">Add New Thread</h2>
+            <form th:action="@{/saveThread}" method="POST">
+                <label>
+                    <input name="title" type="text" placeholder="Title">
+                </label>
+                <textarea name="description" type="text" placeholder="Description"></textarea>
+                <button class="form__button" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="options__box">
+        <div class="options__sort-box">
+            <p class="options__element add__new__thread">NEW THREAD</p>
+            <div id="top" class="options__element sort__element">
+                TOP<img class="sort__icon" src="../img/show-replies.png" alt="List sort icon">
+            </div>
+            <div id="latest" class="options__element sort__element">
+                LATEST<img class="sort__icon" src="../img/show-replies.png" alt="List sort icon">
+            </div>
+        </div>
+    </div>
+    <hr class="article__line">
+    <table>
+        <thead>
+            <td class="col1 thead__title">
+                Topic
+            </td>
+            <td class="col2 thead__title">
+                Author
+            </td>
+            <td class="col3 thead__title">
+                Likes
+            </td>
+            <td class="col5 thead__title">
+                Activity
+            </td>
+        </thead>
+        <tbody>
+        <tr class="thread__body" th:each="post: ${allPosts}"
+            th:onclick="|window.location.href='/discussion?p=${post.postId}'|">
+            <td class="col1" th:text="${post.title}"></td>
+            <td th:text="${post.user.username}"></td>
+            <td>
+                <div>
+                    <p class="thread__score-block" th:text="${post.sumLike}"></p>
+                    <img class="thread__score-block thread__image" src="../img/like.png" alt="like">
+                </div>
+                <div>
+                    <p class="thread__score-block" th:text="${post.sumDisLike}"></p>
+                    <img class="thread__score-block thread__image" src="../img/dislike.png" alt="dislike">
+                </div>
+            </td>
+            <td th:text="${post.getDate()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

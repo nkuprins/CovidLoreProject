@@ -1,9 +1,14 @@
 spring:
   application:
     name: post-client
+#  security:
+#    oauth2:
+#        resourceserver:
+#          jwt:
+#            issuer-uri: http://localhost:8080/realms/MyRealm
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
 server:
-  port: 0
+  port: 5050

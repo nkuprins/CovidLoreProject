@@ -1,0 +1,50 @@
+.add__block__title {
+	 margin-bottom: 2vh;
+}
+ form {
+	 width: 99.7%;
+	 height: 71%;
+}
+ textarea:focus, input:focus {
+	 outline: none;
+	 color: #000;
+}
+ textarea:enabled, input:enabled {
+	 color: #40424a;
+}
+ input {
+	 font-size: 1.2rem;
+	 height: 10%;
+	 width: 99.6%;
+}
+ textarea {
+	 font-family: 'Nunito Sans', sans-serif;
+	 font-size: 1.2rem;
+	 color: #40424a;
+	 width: 100%;
+	 height: 80%;
+	 resize: none;
+}
+ .form__submit:hover {
+	 background-color: #881e1e;
+	 border-color: #881e1e;
+}
+ .form__button {
+	 transition: 0.17s;
+	 cursor: pointer;
+	 font-weight: bold;
+	 width: 100%;
+	 height: 11.5%;
+	 margin-top: -0.5vh;
+	 color: white;
+	 border: 0.2vh #881e1e solid;
+	 border-radius: 0 0 3vh 3vh;
+	 background-color: #b42828;
+}
+ .no__event-obj {
+	 pointer-events: none;
+}
+ .disabled-obj {
+	 display: none;
+}
+ 

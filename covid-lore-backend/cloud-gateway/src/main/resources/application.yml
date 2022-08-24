@@ -1,18 +1,51 @@
 server:
   port: 8090
-spring:
-  application:
-    name: cloud-gateway
-#  cloud:
-#    gateway:
-#      routes:
-#        - id: postModule
-#          uri: lb://post-client
-#          predicates:
-#            - Path=/forum/**
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
-
-secret: mysecret
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    gateway:
+      globalcors:
+          cors-configurations:
+            '[/**]':
+              allowed-origins: "http://localhost:1234"
+              allowed-methods: "*"
+              allowed-headers: "*"
+              allow-credentials: true
+      routes:
+        - id: resource-example
+          uri: lb://resource-example
+          predicates:
+            - Path=/zalupa,/callme/**
+          filters:
+#            - TokenRelay=
+#            - RemoveRequestHeader=Cookie
+            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+        - id: post-service
+          uri: lb://post-service
+          predicates:
+            - Path=/posts
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            token-uri: http://localhost:8080/realms/MyRealm/protocol/openid-connect/token
+            authorization-uri: http://localhost:8080/realms/MyRealm/protocol/openid-connect/auth
+            user-info-uri: http://localhost:8080/realms/MyRealm/protocol/openid-connect/userinfo
+            user-name-attribute: preferred_username
+        registration:
+          keycloak-login-client:
+            provider: keycloak
+            client-id: spring-login-client
+            client-secret: 9FUSyoA8H9EZZPlOygqcjTe5AxHyEZ1E
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/MyRealm
+          jwk-set-uri: http://localhost:8080/realms/MyRealm/protocol/openid-connect/certs
