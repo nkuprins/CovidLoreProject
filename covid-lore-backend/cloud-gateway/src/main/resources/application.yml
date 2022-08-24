@@ -10,25 +10,27 @@ spring:
   cloud:
     gateway:
       globalcors:
-          cors-configurations:
-            '[/**]':
-              allowed-origins: "http://localhost:1234"
-              allowed-methods: "*"
-              allowed-headers: "*"
-              allow-credentials: true
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowed-origins: "http://localhost:1234"
+            allowed-methods: "*"
+            allowed-headers: "*"
+            allow-credentials: true
       routes:
         - id: resource-example
           uri: lb://resource-example
           predicates:
             - Path=/zalupa,/callme/**
           filters:
-#            - TokenRelay=
+            - TokenRelay
 #            - RemoveRequestHeader=Cookie
-            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
         - id: post-service
           uri: lb://post-service
           predicates:
             - Path=/posts
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
   security:
     oauth2:
       client:

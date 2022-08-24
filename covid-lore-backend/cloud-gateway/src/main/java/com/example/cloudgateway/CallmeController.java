@@ -1,6 +1,8 @@
 package com.example.cloudgateway;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +16,10 @@ import reactor.core.publisher.Mono;
 @CrossOrigin(value = "http://localhost:1234")
 public class CallmeController {
 
-//    @GetMapping(value = "/token")
-//    public Mono<String> getHome(@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient) {
-//        return Mono.just(authorizedClient.getAccessToken().getTokenValue());
-//    }
+    @GetMapping(value = "/token")
+    public Mono<String> getHome(@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient) {
+        return Mono.just(authorizedClient.getAccessToken().getTokenValue());
+    }
 
     @GetMapping("/")
     public Mono<String> index(WebSession session) {
