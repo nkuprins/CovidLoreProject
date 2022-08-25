@@ -1,5 +1,6 @@
 import sumLike from "../../img/like.png";
 import sumDislike from "../../img/dislike.png";
+import {processSortUpdate} from "../controller/forumController";
 
 
 class ForumView {
@@ -7,14 +8,13 @@ class ForumView {
     constructor() {
         this._addNewsBody = document.querySelector('.absolute__block__body');
         this._forumTableBody = document.querySelector(`tbody`);
-        this._rotateImage();
     }
 
     showForumTopicView(data) {
 
+        this._forumTableBody.innerHTML = ``;
         Object.entries(data).forEach(entry => {
             const [_, post] = entry;
-            console.log(post);
             const markup = `<tr class="thread__body"
                 onclick="window.location.href='/discussion.html?p=${post.postId}'">
                 <td class="col1">${post.title}</td>
@@ -37,42 +37,29 @@ class ForumView {
         })
     }
 
-    _rotateImage() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const order = String(urlParams.get('o'));
+    _rotateImage(sortOption, isAscending) {
 
         let sortImage;
-        if (order.includes('Like'))
+        if (sortOption === 'Like')
             sortImage = document.querySelector('#top');
-        else if (order.includes('Date'))
+        else if (sortOption === 'Date')
             sortImage = document.querySelector('#latest');
 
-        if (order.includes('Asc'))
-            sortImage.querySelector('.sort__icon').classList.add('rotate__sort__icon')
+        sortImage.querySelector('.sort__icon').classList.toggle('rotate__sort__icon');
+
     }
 
     addSortButtonsListener() {
-        document.querySelectorAll('.sort__element').forEach(el => el.addEventListener('click', this._handleSort))
+        document.querySelectorAll('.sort__element').forEach(el => el.addEventListener('click', this._handleSort.bind(this)))
     }
 
-    async _handleSort(e) {
+    _handleSort(e) {
 
-        const response = await (await fetch("http://192.168.1.113:8090/callme/ping")).catch(err =>
-        {
-            console.log("ERRORRRRRRRR");
-            console.log(err);
-            window.location.href = "http://192.168.1.113:8090";
-        }
-        )
-
-
-
-        // const el = e.target.closest('.sort__element');
-        // const sortOption = el.id === 'top' ? 'Like' : 'Date';
-        // const isAscending = !el.querySelector('.sort__icon').classList.contains('rotate__sort__icon')
-        // const ascending = isAscending ? 'Asc' : 'Desc';
-        //
-        // window.location=`/forum?o=${sortOption}${ascending}`;
+        const el = e.target.closest('.sort__element');
+        const sortOption = el.id === 'top' ? 'Like' : 'Date';
+        const isAscending = !el.querySelector('.sort__icon').classList.contains('rotate__sort__icon')
+        this._rotateImage(sortOption, isAscending);
+        processSortUpdate(sortOption, isAscending);
     }
 
     addNewThreadListener() {

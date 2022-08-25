@@ -1,10 +1,12 @@
 package com.covidlore.postservice.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Formula;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 // Again just for grading and clarification,
 // if IDE tells, 'is never assigned' ignore it, as Hibernate does it implicitly. You may change it in settings
@@ -19,6 +21,7 @@ public class Post {
     @Column(name = "post_id")
     private int postId;
 
+    @Setter
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "creator_id")
     private User user;
@@ -38,9 +41,13 @@ public class Post {
     @Column(name = "description")
     private String description;
 
-    public Post(User user, String date, String title, String description) {
-        this.user = user;
-        this.date = date;
+    @PrePersist
+    public void processPost() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.date = LocalDateTime.now().format(dateFormatter);
+    }
+
+    public Post(String title, String description) {
         this.title = title;
         this.description = description;
     }

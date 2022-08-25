@@ -41,8 +41,6 @@ main {
 
 .options__element:hover {
   color: #3a3c42;
-  text-underline-offset: 1.5vh;
-  text-decoration: underline;
   transition: all .4s;
 }
 
