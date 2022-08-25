@@ -535,6 +535,7 @@ function hmrAcceptRun(bundle, id) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "processSortUpdate", ()=>processSortUpdate);
+parcelHelpers.export(exports, "processFormSubmit", ()=>processFormSubmit);
 var _navView = require("../view/navView");
 var _navViewDefault = parcelHelpers.interopDefault(_navView);
 var _forumView = require("../view/forumView");
@@ -548,6 +549,7 @@ const init = function() {
     new (0, _navViewDefault.default)(2).addHandlerNavHover();
     (0, _forumViewDefault.default).addSortButtonsListener();
     (0, _forumViewDefault.default).addNewThreadListener();
+    (0, _forumViewDefault.default).addSubmitFormListener();
     (0, _forumDataDefault.default).fetchForumData().then((data)=>(0, _forumViewDefault.default).showForumTopicView(data));
 };
 const processSortUpdate = function(sortOption, isAscending) {
@@ -555,6 +557,9 @@ const processSortUpdate = function(sortOption, isAscending) {
     const sortBy = sortOption === "Like" ? (a, b)=>isAscending ? a.sumLike - b.sumLike : b.sumLike - a.sumLike : (a, b)=>isAscending ? new Date(a.date) - new Date(b.date) : new Date(b.date) - new Date(a.date);
     (0, _forumDataDefault.default).forumData.sort(sortBy);
     (0, _forumViewDefault.default).showForumTopicView((0, _forumDataDefault.default).forumData);
+};
+const processFormSubmit = function(title, description) {
+    (0, _forumDataDefault.default).saveAJAX(title.trim(), description.trim());
 };
 init();
 
@@ -629,6 +634,8 @@ class ForumView {
     constructor(){
         this._addNewsBody = document.querySelector(".absolute__block__body");
         this._forumTableBody = document.querySelector(`tbody`);
+        this.formTitle = document.getElementById(`title__field`);
+        this.formDescription = document.getElementById(`description__field`);
     }
     showForumTopicView(data) {
         this._forumTableBody.innerHTML = ``;
@@ -637,7 +644,7 @@ class ForumView {
             const markup = `<tr class="thread__body"
                 onclick="window.location.href='/discussion.html?p=${post.postId}'">
                 <td class="col1">${post.title}</td>
-                <td>${post.user.username}</td>
+                <td>${post.creatorUsername}</td>
                 <td>
                     <div>
                         <p class="thread__score-block">${post.sumLike}</p>
@@ -653,11 +660,11 @@ class ForumView {
             this._forumTableBody.insertAdjacentHTML("afterbegin", markup);
         });
     }
-    _rotateImage(sortOption, isAscending) {
-        let sortImage;
-        if (sortOption === "Like") sortImage = document.querySelector("#top");
-        else if (sortOption === "Date") sortImage = document.querySelector("#latest");
+    _rotateImage(sortOption) {
+        let sortImage = sortOption === "Like" ? document.querySelector("#top") : document.querySelector("#latest");
+        let otherImage = sortOption === "Like" ? document.querySelector("#latest") : document.querySelector("#top");
         sortImage.querySelector(".sort__icon").classList.toggle("rotate__sort__icon");
+        otherImage.querySelector(".sort__icon").classList?.remove("rotate__sort__icon");
     }
     addSortButtonsListener() {
         document.querySelectorAll(".sort__element").forEach((el)=>el.addEventListener("click", this._handleSort.bind(this)));
@@ -666,7 +673,7 @@ class ForumView {
         const el = e.target.closest(".sort__element");
         const sortOption = el.id === "top" ? "Like" : "Date";
         const isAscending = !el.querySelector(".sort__icon").classList.contains("rotate__sort__icon");
-        this._rotateImage(sortOption, isAscending);
+        this._rotateImage(sortOption);
         (0, _forumController.processSortUpdate)(sortOption, isAscending);
     }
     addNewThreadListener() {
@@ -676,6 +683,13 @@ class ForumView {
     _handleNewThread() {
         document.querySelector(".absolute__block__background").classList.toggle("no__event-obj");
         this._addNewsBody.classList.toggle("disabled-obj");
+    }
+    addSubmitFormListener() {
+        document.querySelector("form").addEventListener("submit", this._handleSubmit.bind(this));
+    }
+    _handleSubmit(e) {
+        e.preventDefault();
+        (0, _forumController.processFormSubmit)(this.formTitle.value, this.formDescription.value);
     }
 }
 exports.default = new ForumView();
@@ -2768,6 +2782,22 @@ class ForumData {
         };
         this.forumData = await (0, _helper.AJAX_JSON_HEADER)("http://192.168.1.113:8090/posts", header);
         return this.forumData;
+    }
+    saveAJAX(title, description) {
+        const data = {
+            title: title,
+            description: description
+        };
+        const url = "http://192.168.1.113:8090/posts";
+        console.log(url);
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("accessToken"),
+                "Content-Type": "application/json"
+            }
+        }).then(()=>window.location = "http://localhost:1234/forum.html");
     }
 }
 exports.default = new ForumData();

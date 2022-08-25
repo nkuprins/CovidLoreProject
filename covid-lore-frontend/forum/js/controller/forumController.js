@@ -11,6 +11,7 @@ const init = function () {
     new NavView(2).addHandlerNavHover();
     forumView.addSortButtonsListener();
     forumView.addNewThreadListener();
+    forumView.addSubmitFormListener();
 
     forumData.fetchForumData().then(data =>
         forumView.showForumTopicView(data)
@@ -28,6 +29,10 @@ export const processSortUpdate = function (sortOption, isAscending) {
 
     forumData.forumData.sort(sortBy);
     forumView.showForumTopicView(forumData.forumData);
+}
+
+export const processFormSubmit = function (title, description) {
+    forumData.saveAJAX(title.trim(), description.trim());
 }
 
 init();

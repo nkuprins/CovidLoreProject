@@ -1,6 +1,6 @@
 import sumLike from "../../img/like.png";
 import sumDislike from "../../img/dislike.png";
-import {processSortUpdate} from "../controller/forumController";
+import {processFormSubmit, processSortUpdate} from "../controller/forumController";
 
 
 class ForumView {
@@ -8,6 +8,8 @@ class ForumView {
     constructor() {
         this._addNewsBody = document.querySelector('.absolute__block__body');
         this._forumTableBody = document.querySelector(`tbody`);
+        this.formTitle = document.getElementById(`title__field`);
+        this.formDescription = document.getElementById(`description__field`);
     }
 
     showForumTopicView(data) {
@@ -18,7 +20,7 @@ class ForumView {
             const markup = `<tr class="thread__body"
                 onclick="window.location.href='/discussion.html?p=${post.postId}'">
                 <td class="col1">${post.title}</td>
-                <td>${post.user.username}</td>
+                <td>${post.creatorUsername}</td>
                 <td>
                     <div>
                         <p class="thread__score-block">${post.sumLike}</p>
@@ -37,15 +39,13 @@ class ForumView {
         })
     }
 
-    _rotateImage(sortOption, isAscending) {
+    _rotateImage(sortOption) {
 
-        let sortImage;
-        if (sortOption === 'Like')
-            sortImage = document.querySelector('#top');
-        else if (sortOption === 'Date')
-            sortImage = document.querySelector('#latest');
+        let sortImage = (sortOption === 'Like') ? document.querySelector('#top') : document.querySelector('#latest');
+        let otherImage = (sortOption === 'Like') ? document.querySelector('#latest') : document.querySelector('#top');;
 
         sortImage.querySelector('.sort__icon').classList.toggle('rotate__sort__icon');
+        otherImage.querySelector('.sort__icon').classList?.remove('rotate__sort__icon');
 
     }
 
@@ -58,7 +58,7 @@ class ForumView {
         const el = e.target.closest('.sort__element');
         const sortOption = el.id === 'top' ? 'Like' : 'Date';
         const isAscending = !el.querySelector('.sort__icon').classList.contains('rotate__sort__icon')
-        this._rotateImage(sortOption, isAscending);
+        this._rotateImage(sortOption);
         processSortUpdate(sortOption, isAscending);
     }
 
@@ -70,6 +70,15 @@ class ForumView {
     _handleNewThread() {
         document.querySelector('.absolute__block__background').classList.toggle('no__event-obj');
         this._addNewsBody.classList.toggle('disabled-obj');
+    }
+
+    addSubmitFormListener() {
+        document.querySelector('form').addEventListener('submit', this._handleSubmit.bind(this));
+    }
+
+    _handleSubmit(e) {
+        e.preventDefault();
+        processFormSubmit(this.formTitle.value, this.formDescription.value);
     }
 }
 

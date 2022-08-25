@@ -1,17 +1,20 @@
 package com.covidlore.postservice.rest;
 
 import com.covidlore.postservice.entity.Post;
-import com.covidlore.postservice.entity.User;
 import com.covidlore.postservice.helper.OrderPost;
 import com.covidlore.postservice.service.PostService;
+import com.nimbusds.jwt.JWTParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.server.resource.BearerTokenAuthenticationToken;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -28,17 +31,15 @@ public class PostController {
 
     @GetMapping
     public List<Post> showPosts(@RequestParam(name = "o", required = false, defaultValue = "Default") OrderPost orderPost) {
-
         return postService.findAll(orderPost);
     }
 
     @PostMapping
-    public ResponseEntity<Post> savePost(@RequestBody Post post, @AuthenticationPrincipal User user) {
+    public ResponseEntity<Post> savePost(@RequestBody Post post, JwtAuthenticationToken user) {
 
-
-        log.info("SOMETHING HAS HAPPEND");
-        log.info(user.getUsername());
-        post.setUser(user);
+        String preferredUsername =
+                String.valueOf(user.getTokenAttributes().get("preferred_username"));
+        post.setCreatorUsername(preferredUsername);
         Post saved = postService.savePost(post);
 
         return new ResponseEntity<>(saved, HttpStatus.CREATED);

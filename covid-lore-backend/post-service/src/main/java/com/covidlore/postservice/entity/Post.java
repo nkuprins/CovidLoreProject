@@ -22,9 +22,8 @@ public class Post {
     private int postId;
 
     @Setter
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "creator_id")
-    private User user;
+    @Column(name = "creator_username")
+    private String creatorUsername ;
 
     @Formula("(select COALESCE(sum(ps.score), 0) from post_scores ps where ps.post_id = post_id AND ps.score > 0)")
     private long sumLike;
