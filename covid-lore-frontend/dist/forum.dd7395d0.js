@@ -533,12 +533,9 @@ function hmrAcceptRun(bundle, id) {
 
 },{}],"k5sOC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "processSortUpdate", ()=>processSortUpdate);
-parcelHelpers.export(exports, "processFormSubmit", ()=>processFormSubmit);
 var _navView = require("../view/navView");
 var _navViewDefault = parcelHelpers.interopDefault(_navView);
-var _forumView = require("../view/forumView");
+var _forumView = require("../view/forum/forumView");
 var _forumViewDefault = parcelHelpers.interopDefault(_forumView);
 var _logginController = require("../logginController");
 var _logginControllerDefault = parcelHelpers.interopDefault(_logginController);
@@ -547,23 +544,26 @@ var _forumDataDefault = parcelHelpers.interopDefault(_forumData);
 const init = function() {
     (0, _logginControllerDefault.default).initKeyCloak();
     new (0, _navViewDefault.default)(2).addHandlerNavHover();
-    (0, _forumViewDefault.default).addSortButtonsListener();
+    (0, _forumViewDefault.default).addSortButtonsListener(sortUpdateHandler);
     (0, _forumViewDefault.default).addNewThreadListener();
-    (0, _forumViewDefault.default).addSubmitFormListener();
-    (0, _forumDataDefault.default).fetchForumData().then((data)=>(0, _forumViewDefault.default).showForumTopicView(data));
+    (0, _forumViewDefault.default).addSubmitFormListener(formSubmitHandler);
+    (0, _forumDataDefault.default).fetchForumData().then((data)=>{
+        (0, _forumViewDefault.default).prepareForumTopicView();
+        (0, _forumViewDefault.default).showForumTopicView(data);
+    });
 };
-const processSortUpdate = function(sortOption, isAscending) {
+const sortUpdateHandler = function(sortOption, isAscending) {
     if (!(0, _forumDataDefault.default).forumData) return;
     const sortBy = sortOption === "Like" ? (a, b)=>isAscending ? a.sumLike - b.sumLike : b.sumLike - a.sumLike : (a, b)=>isAscending ? new Date(a.date) - new Date(b.date) : new Date(b.date) - new Date(a.date);
     (0, _forumDataDefault.default).forumData.sort(sortBy);
     (0, _forumViewDefault.default).showForumTopicView((0, _forumDataDefault.default).forumData);
 };
-const processFormSubmit = function(title, description) {
+const formSubmitHandler = function(title, description) {
     (0, _forumDataDefault.default).saveAJAX(title.trim(), description.trim());
 };
 init();
 
-},{"../view/navView":"pEWxL","../view/forumView":"es64f","../logginController":"dqzYx","../data/forumData":"jSfBV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"pEWxL":[function(require,module,exports) {
+},{"../view/navView":"pEWxL","../view/forum/forumView":"ap8xj","../logginController":"dqzYx","../data/forumData":"jSfBV","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"pEWxL":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class NavView {
@@ -622,20 +622,29 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"es64f":[function(require,module,exports) {
+},{}],"ap8xj":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _likePng = require("../../img/like.png");
+var _likePng = require("../../../img/like.png");
 var _likePngDefault = parcelHelpers.interopDefault(_likePng);
-var _dislikePng = require("../../img/dislike.png");
+var _dislikePng = require("../../../img/dislike.png");
 var _dislikePngDefault = parcelHelpers.interopDefault(_dislikePng);
-var _forumController = require("../controller/forumController");
-class ForumView {
+var _view = require("../View");
+var _viewDefault = parcelHelpers.interopDefault(_view);
+class ForumView extends (0, _viewDefault.default) {
     constructor(){
+        super();
         this._addNewsBody = document.querySelector(".absolute__block__body");
         this._forumTableBody = document.querySelector(`tbody`);
-        this.formTitle = document.getElementById(`title__field`);
-        this.formDescription = document.getElementById(`description__field`);
+        this._formTitle = document.getElementById(`title__field`);
+        this._formDescription = document.getElementById(`description__field`);
+        this.renderDarkSpinner("table");
+        this._tableHead = document.querySelector("thead");
+        this._tableHead.classList.add("hidden__element");
+    }
+    prepareForumTopicView() {
+        this.removeSpinner();
+        this._tableHead.classList.remove("hidden__element");
     }
     showForumTopicView(data) {
         this._forumTableBody.innerHTML = ``;
@@ -666,15 +675,14 @@ class ForumView {
         sortImage.querySelector(".sort__icon").classList.toggle("rotate__sort__icon");
         otherImage.querySelector(".sort__icon").classList?.remove("rotate__sort__icon");
     }
-    addSortButtonsListener() {
-        document.querySelectorAll(".sort__element").forEach((el)=>el.addEventListener("click", this._handleSort.bind(this)));
-    }
-    _handleSort(e) {
-        const el = e.target.closest(".sort__element");
-        const sortOption = el.id === "top" ? "Like" : "Date";
-        const isAscending = !el.querySelector(".sort__icon").classList.contains("rotate__sort__icon");
-        this._rotateImage(sortOption);
-        (0, _forumController.processSortUpdate)(sortOption, isAscending);
+    addSortButtonsListener(handler) {
+        document.querySelectorAll(".sort__element").forEach((el)=>el.addEventListener("click", (function(e) {
+                const el = e.target.closest(".sort__element");
+                const sortOption = el.id === "top" ? "Like" : "Date";
+                const isAscending = !el.querySelector(".sort__icon").classList.contains("rotate__sort__icon");
+                this._rotateImage(sortOption);
+                handler(sortOption, isAscending);
+            }).bind(this)));
     }
     addNewThreadListener() {
         document.querySelector(".add__new__thread").addEventListener("click", this._handleNewThread.bind(this));
@@ -684,17 +692,16 @@ class ForumView {
         document.querySelector(".absolute__block__background").classList.toggle("no__event-obj");
         this._addNewsBody.classList.toggle("disabled-obj");
     }
-    addSubmitFormListener() {
-        document.querySelector("form").addEventListener("submit", this._handleSubmit.bind(this));
-    }
-    _handleSubmit(e) {
-        e.preventDefault();
-        (0, _forumController.processFormSubmit)(this.formTitle.value, this.formDescription.value);
+    addSubmitFormListener(handler) {
+        document.querySelector("form").addEventListener("submit", (function(e) {
+            e.preventDefault();
+            handler(this._formTitle.value, this._formDescription.value);
+        }).bind(this));
     }
 }
 exports.default = new ForumView();
 
-},{"../../img/like.png":"g1dVQ","../../img/dislike.png":"iFXZH","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../controller/forumController":"k5sOC"}],"g1dVQ":[function(require,module,exports) {
+},{"../../../img/like.png":"g1dVQ","../../../img/dislike.png":"iFXZH","../View":"cYwy4","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"g1dVQ":[function(require,module,exports) {
 module.exports = require("./helpers/bundle-url").getBundleURL("ObJuQ") + "like.74d36320.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -733,6 +740,65 @@ exports.getOrigin = getOrigin;
 
 },{}],"iFXZH":[function(require,module,exports) {
 module.exports = require("./helpers/bundle-url").getBundleURL("ObJuQ") + "dislike.20ceb363.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"cYwy4":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _spinnerPng = require("../../img/spinner.png");
+var _spinnerPngDefault = parcelHelpers.interopDefault(_spinnerPng);
+var _spinnerDarkPng = require("../../img/spinnerDark.png");
+var _spinnerDarkPngDefault = parcelHelpers.interopDefault(_spinnerDarkPng);
+class View {
+    _generateSpinner(selector, isDark) {
+        console.log((0, _spinnerPngDefault.default));
+        const markup = `<div class="spinner">
+            <img src="${isDark ? (0, _spinnerDarkPngDefault.default) : (0, _spinnerPngDefault.default)}">
+                <p class="spinner__text">Fetching the data<br>Please wait</p>
+            </div>`;
+        document.querySelector(selector).insertAdjacentHTML("afterbegin", markup);
+    }
+    renderSpinner(selector) {
+        this._generateSpinner(selector, false);
+    }
+    renderDarkSpinner(selector) {
+        this._generateSpinner(selector, true);
+    }
+    removeSpinner() {
+        document.querySelector(".spinner")?.remove();
+    }
+    // TODO: DELETE THIS???
+    // If the selector is already object, it is returned,
+    // otherwise it is (class name or id) and we query it on the page.
+    _getObjectByKey(selector) {
+        let obj;
+        if (typeof selector === "string") obj = document.querySelector(selector);
+        else obj = selector;
+        return obj;
+    }
+    // Clean the inner text and then insert after begin
+    // Selector can be element/class name/id
+    insertCleanTextAfterBy(selector, text) {
+        const obj = this._getObjectByKey(selector);
+        if (obj === null) return;
+        obj.innerText = "";
+        obj.insertAdjacentText("afterbegin", text);
+    }
+    // Clean the inner html and then insert after begin
+    // Selector can be element/class name/id
+    insertCleanHTMLAfterBy(selector, html) {
+        const obj = this._getObjectByKey(selector);
+        if (obj === null) return;
+        obj.innerHTML = "";
+        obj.insertAdjacentHTML("afterbegin", html);
+    }
+}
+exports.default = View;
+
+},{"../../img/spinner.png":"7b1lY","../../img/spinnerDark.png":"4tuVi","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7b1lY":[function(require,module,exports) {
+module.exports = require("./helpers/bundle-url").getBundleURL("ObJuQ") + "spinner.9f70c0cc.png" + "?" + Date.now();
+
+},{"./helpers/bundle-url":"lgJ39"}],"4tuVi":[function(require,module,exports) {
+module.exports = require("./helpers/bundle-url").getBundleURL("ObJuQ") + "spinnerDark.11620548.png" + "?" + Date.now();
 
 },{"./helpers/bundle-url":"lgJ39"}],"dqzYx":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -2080,8 +2146,8 @@ function fromByteArray(uint8) {
 }
 
 },{}],"ahVaM":[function(require,module,exports) {
-var process = require("process");
 var global = arguments[3];
+var process = require("process");
 /**
  * [js-sha256]{@link https://github.com/emn178/js-sha256}
  *

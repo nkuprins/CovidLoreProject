@@ -9,12 +9,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="zuul-proxy" />
         <module name="post-service" />
-        <module name="resource-example" />
         <module name="eureka-server" />
         <module name="cloud-gateway" />
         <module name="post-client" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="resource-example" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

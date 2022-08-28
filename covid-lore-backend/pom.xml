@@ -18,7 +18,6 @@
         <module>eureka-server</module>
         <module>post-client</module>
         <module>post-service</module>
-        <module>resource-example</module>
     </modules>
 
 </project>

@@ -1,5 +1,5 @@
 import NavView from "../view/navView";
-import forumView from "../view/forumView";
+import forumView from "../view/forum/forumView";
 import secureLogin from "../logginController";
 import forumData from "../data/forumData"
 
@@ -9,17 +9,19 @@ const init = function () {
     secureLogin.initKeyCloak();
 
     new NavView(2).addHandlerNavHover();
-    forumView.addSortButtonsListener();
+    forumView.addSortButtonsListener(sortUpdateHandler);
     forumView.addNewThreadListener();
-    forumView.addSubmitFormListener();
+    forumView.addSubmitFormListener(formSubmitHandler);
 
-    forumData.fetchForumData().then(data =>
-        forumView.showForumTopicView(data)
+    forumData.fetchForumData().then(data => {
+            forumView.prepareForumTopicView();
+            forumView.showForumTopicView(data);
+        }
     );
 
 }
 
-export const processSortUpdate = function (sortOption, isAscending) {
+const sortUpdateHandler = function (sortOption, isAscending) {
     if (!forumData.forumData)
         return;
 
@@ -31,7 +33,7 @@ export const processSortUpdate = function (sortOption, isAscending) {
     forumView.showForumTopicView(forumData.forumData);
 }
 
-export const processFormSubmit = function (title, description) {
+const formSubmitHandler = function (title, description) {
     forumData.saveAJAX(title.trim(), description.trim());
 }
 

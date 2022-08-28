@@ -37,6 +37,8 @@ main {
  .options__element:hover {
 	 color: #3a3c42;
 	 transition: 0.4s;
+	 text-decoration: underline;
+	 text-underline-offset: 1.5vh;
 }
  .article__line {
 	 width: 99.8%;

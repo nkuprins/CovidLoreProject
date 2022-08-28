@@ -1,0 +1,67 @@
+form {
+	 margin: 2vh;
+	 background-color: white;
+	 border-radius: 1.5vh;
+	 border: 1px solid white;
+	 overflow: hidden;
+}
+
+ textarea:focus {
+	 outline: none;
+	 background-color: transparent;
+	 color: #000;
+}
+
+ textarea:enabled {
+	 color: #40424a;
+}
+ textarea {
+	 font-family: 'Nunito Sans', sans-serif;
+	 font-size: 1rem;
+	 color: #40424a;
+	 padding: 1vh;
+	 width: 100%;
+	 min-height: 20vh;
+	 border: none;
+	 margin-top: 0;
+	 vertical-align: top;
+	 resize: none;
+}
+ .form__actions {
+	 padding-top: 1.2vh;
+	 background-color: #f0f0f0;
+	 height: 6vh;
+	 width: 100%;
+	 float: right;
+	 display: inline-block;
+	 position: relative;
+}
+ .form__cancel:hover {
+	 background-color: rgba(112, 110, 110, 0.1);
+	 border-color: rgba(112, 110, 110, 0.1);
+}
+ .form__submit:hover {
+	 background-color: #881e1e;
+	 border-color: #881e1e;
+}
+ .form__button {
+	 position: relative;
+	 float: right;
+	 transition: 0.17s;
+	 cursor: pointer;
+	 font-weight: bold;
+	 width: 8vh;
+	 height: 4vh;
+	 border-radius: 2vh;
+}
+ .form__cancel {
+	 color: #b42828;
+	 background-color: rgba(112, 110, 110, 0);
+	 border-color: rgba(112, 110, 110, 0);
+}
+ .form__submit {
+	 color: white;
+	 border: 0.4vh #881e1e solid;
+	 background-color: #b42828;
+}
+ 

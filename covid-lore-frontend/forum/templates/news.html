@@ -1,10 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>CovidLore</title>
+    <link rel="icon" href="../static/img/profiles/profile1.png">
+
+    <link rel="stylesheet" href="../static/css/spinner.css">
+    <link rel="stylesheet" href="../static/css/news.css">
+    <link rel="stylesheet" href="../static/css/selected_news.css">
+    <link rel="stylesheet" href="../static/css/absolute_centre-block.css">
+    <link rel="stylesheet" href="../static/css/nav.css">
+    <script defer src="/webjars/frontend/1.0.0-SNAPSHOT/newsController.js" type="module"></script>
+
 </head>
 <body>
+<header>
+    <nav class="nav">
+        <img class="nav__logo" src="../static/img/logo.png" alt="Logotype of the App">
+        <ul class="nav__box">
+            <li class="nav__element nav__btn_el"><a id="0" class="nav__button" href="map">Map</a></li>
+            <li class="nav__element nav__btn_el"><a id="1" class="nav__button" href="news">News</a></li>
+            <li class="nav__element nav__btn_el"><a id="2" class="nav__button" href="forum">Forum</a></li>
+            <li class="nav__element nav__img_el">
+                <div class="dropdown">
+                    <img class="nav__img" th:src="@{../static/img/profiles/profile{img}.png(img=${profileImage})}" alt="Profile image">
+                    <div class="dropdown-content">
+                        <a href="/logout">Logout</a>
+                    </div>
+                </div>
+            </li>        </ul>
+    </nav>
+</header>
+<main>
+    <div class="absolute__block__body disabled-obj">
+        <div class="absolute__block__background"></div>
+        <div class="absolute__block">
+            <button class="absolute__block__button">X</button>
+            <h2 class="absolute__block__title"></h2>
+            <div class="selected__news__description"></div>
+            <div class="selected__news__resource"></div>
+            <div class="selected__news__date"></div>
+        </div>
+    </div>
+    <div class="news__section">
+        <table>
+            <tbody>
 
+            </tbody>
+        </table>
+    </div>
+</main>
 </body>
 </html>

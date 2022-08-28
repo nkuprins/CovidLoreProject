@@ -66,7 +66,4 @@
 .dropdown:hover .dropdown-content {
 	display: flex;
 }
-
-#logout_button {
-	cursor: pointer;
-}
+ 
