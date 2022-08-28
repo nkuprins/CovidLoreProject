@@ -1,4 +1,4 @@
-package com.covidlore.postservice.config;
+package com.example.commentservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

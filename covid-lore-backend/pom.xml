@@ -16,7 +16,7 @@
     <modules>
         <module>cloud-gateway</module>
         <module>eureka-server</module>
-        <module>post-client</module>
+        <module>comment-service</module>
         <module>post-service</module>
     </modules>
 
