@@ -4,28 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>CovidLore</title>
-  <link rel="icon" href="../static/img/profiles/profile1.png">
+  <link rel="icon" href="../img/profiles/profile1.png">
 
 
-  <link rel="stylesheet" href="../static/css/nav.css">
-  <link rel="stylesheet" href="../static/css/reply-form.css">
-  <link rel="stylesheet" href="../static/css/discussion.css">
+  <link rel="stylesheet" href="../css/nav.css">
+  <link rel="stylesheet" href="../css/reply-form.css">
+  <link rel="stylesheet" href="../css/discussion.css">
 
-  <script defer src="/webjars/frontend/1.0.0-SNAPSHOT/discussionController.js" type="module"></script>
+  <script defer src="../js/controller/discussionController.js" type="module"></script>
 </head>
 <body>
 <header>
   <nav class="nav">
-    <img class="nav__logo" src="../static/img/logo.png" alt="Logotype of the App">
+    <img class="nav__logo" src="../img/logo.png" alt="Logotype of the App">
     <ul class="nav__box">
-      <li class="nav__element nav__btn_el"><a id="0" class="nav__button" href="map">Map</a></li>
-      <li class="nav__element nav__btn_el"><a id="1" class="nav__button" href="news">News</a></li>
-      <li class="nav__element nav__btn_el"><a id="2" class="nav__button" href="forum">Forum</a></li>
+      <li class="nav__element nav__btn_el"><a id="0" class="nav__button" href="map.html">Map</a></li>
+      <li class="nav__element nav__btn_el"><a id="1" class="nav__button" href="news.html">News</a></li>
+      <li class="nav__element nav__btn_el"><a id="2" class="nav__button" href="forum.html">Forum</a></li>
       <li class="nav__element nav__img_el">
         <div class="dropdown">
-          <img class="nav__img" th:src="@{../static/img/profiles/profile{img}.png(img=${profileImage})}" alt="Profile image">
+          <div class="nav__setting">
+            <div class="nav__rectangle"></div>
+            <div class="nav__rectangle"></div>
+            <div class="nav__rectangle"></div>
+          </div>
           <div class="dropdown-content">
-            <a href="/logout">Logout</a>
+            <a id="logout_button">Exit</a>
           </div>
         </div>
       </li>    </ul>

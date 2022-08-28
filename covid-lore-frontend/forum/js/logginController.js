@@ -1,6 +1,5 @@
 
 import Keycloak from "keycloak-js";
-import jwtDecode from 'jwt-decode';
 
 class SecureLogin {
 
@@ -20,7 +19,7 @@ class SecureLogin {
         })
 
         this._logoutButton.addEventListener('click', () => keycloak.logout({
-            redirectUri: "http://localhost:1234"
+            redirectUri: "http://localhost:1234/forum.html"
         }))
     }
 

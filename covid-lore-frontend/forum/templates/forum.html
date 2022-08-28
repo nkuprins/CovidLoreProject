@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
     <title>CovidLore</title>
-    <link rel="icon" href="../img/profiles/profile1.png">
     <link rel="stylesheet" href="../css/nav.css">
     <link rel="stylesheet" href="../css/forum.css">
     <link rel="stylesheet" href="../css/add_thread_form.css">
@@ -25,9 +24,13 @@
             <li class="nav__element nav__btn_el"><a id="2" class="nav__button" href="forum.html">Forum</a></li>
             <li class="nav__element nav__img_el">
                 <div class="dropdown">
-                    <img class="nav__img" th:src="@{/img/profiles/profile{img}.png(img=${profileImage})}" alt="Profile image">
+                    <div class="nav__setting">
+                        <div class="nav__rectangle"></div>
+                        <div class="nav__rectangle"></div>
+                        <div class="nav__rectangle"></div>
+                    </div>
                     <div class="dropdown-content">
-                        <a id="logout_button">Logout</a>
+                        <a id="logout_button">Exit</a>
                     </div>
                 </div>
             </li>
