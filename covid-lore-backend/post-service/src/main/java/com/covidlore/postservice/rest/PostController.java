@@ -30,8 +30,14 @@ public class PostController {
     }
 
     @GetMapping
-    public List<Post> showPosts(@RequestParam(name = "o", required = false, defaultValue = "Default") OrderPost orderPost) {
-        return postService.findAll(orderPost);
+    public ResponseEntity<List<Post>> showPosts(
+            @RequestParam(name = "o", required = false, defaultValue = "Default") OrderPost orderPost) {
+        return new ResponseEntity<>(postService.findAll(orderPost), HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<Post> readPost(@PathVariable int postId) {
+        return new ResponseEntity<>(postService.findById(postId), HttpStatus.ACCEPTED);
     }
 
     @PostMapping

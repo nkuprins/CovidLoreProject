@@ -53,7 +53,7 @@ class ReplyFormView {
         // We first want to load replies of this parent node, if they were not loaded yet
         this.loadDataHandler(parentId).then(() => {
             const commentData = this.saveDataHandler(parentId, replyText);
-            const commentRow = new CommentRow(this._parentDiscussion, commentData, true);
+            const commentRow = new CommentRow(this._parentDiscussion, commentData, true, this.loadDataHandler, this.saveDataHandler);
             commentRow.showPost();
             commentRow.addReplyListener();
             commentRow.addCommentsScoreListener();

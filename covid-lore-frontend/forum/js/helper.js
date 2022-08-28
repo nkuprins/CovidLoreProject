@@ -34,7 +34,11 @@ export const AJAX_JSON_HEADER = async function (url, header) {
 }
 
 export const AJAX_PLAIN = async function (url) {
-    const fetchData = fetch(url);
+    return AJAX_PLAIN_HEADER(url);
+}
+
+export const AJAX_PLAIN_HEADER = async function (url, header) {
+    const fetchData = fetch(url, header);
     const response = (await fetchData).text();
     return await response;
 }

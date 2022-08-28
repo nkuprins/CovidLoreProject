@@ -2,8 +2,12 @@ import NavView from "../view/navView";
 import discussionData from "../data/discussionData";
 import QuestionRow from "../view/forum/questionRow";
 import CommentRow from "../view/forum/commentRow";
+import secureLogin from "../logginController";
 
 const init = function () {
+
+    secureLogin.initKeyCloak();
+
 
     new NavView(2).addHandlerNavHover();
 
@@ -16,7 +20,7 @@ const init = function () {
             questionRow.addReplyListener();
             questionRow.addQuestionScoreListener(processChangePostScoreRequest);
 
-            loadCommentsData(`question-${data.postId}`).then();
+            loadCommentsData(`question-${questionData.postId}`).then();
         })
     )
 }
@@ -31,10 +35,10 @@ const loadCommentsData = async function (parentId) {
     discussionData.addLoadedSubReplies(parentId);
 
     await discussionData.loadCommentData(parentId).then(comments => {
+        console.log(parentId);
         Object.entries(comments).forEach((entries) => {
             const [_, commentData] = entries;
             const parentNode = document.querySelector(`#comment-post-${parentId}`);
-
             const commentRow = new CommentRow(parentNode, commentData, false, loadCommentsData, saveCommentsData);
             commentRow.showPost();
             commentRow.addReplyListener();

@@ -1,4 +1,5 @@
-import {AJAX_JSON, AJAX_PLAIN, dataToNormalFormat} from "../helper";
+import {AJAX_JSON, AJAX_JSON_HEADER, AJAX_PLAIN, AJAX_PLAIN_HEADER, dataToNormalFormat} from "../helper";
+import {API_GATEWAY} from "../config";
 
 class DiscussionData {
 
@@ -10,7 +11,11 @@ class DiscussionData {
     _loadedSubReplies = [];
 
     async setInitialData() {
-        this.lastPrimaryKey = await AJAX_PLAIN(`http://localhost:8080/api/discussion/lastCommentId`);
+        this.lastPrimaryKey = await AJAX_PLAIN_HEADER(`${API_GATEWAY}/comment/lastCommentId`, { "headers": {
+            "Authorization": "Bearer " + localStorage.getItem("accessToken"),
+            'Content-Type': 'application/json'
+        }});
+        this.lastPrimaryKey++;
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         this.questionId = urlParams.get('p');
@@ -21,7 +26,10 @@ class DiscussionData {
     }
 
     loadQuestionData() {
-        return AJAX_JSON(`http://localhost:8080/api/discussion/post/${this.questionId}`);
+        return AJAX_JSON_HEADER(`${API_GATEWAY}/posts/${this.questionId}`, { "headers":{
+            "Authorization": "Bearer " + localStorage.getItem("accessToken"),
+                'Content-Type': 'application/json'
+        }});
     }
 
     /* The ‘level’ parameter determines the number of comments to load
@@ -30,7 +38,10 @@ class DiscussionData {
     */
     loadCommentData(level) {
         level = String(level).includes('question') ? 0 : level;
-        return AJAX_JSON(`http://localhost:8080/api/discussion/comment/${this.questionId}${level ? `/${level}` : ''}`);
+        return AJAX_JSON_HEADER(`${API_GATEWAY}/comment/${this.questionId}${level ? `/${level}` : ''}`, { "headers":{
+            "Authorization": "Bearer " + localStorage.getItem("accessToken"),
+            'Content-Type': 'application/json'
+        }});
     }
 
     hasLoadedSubReply(id) {
@@ -51,31 +62,38 @@ class DiscussionData {
             postId: new URLSearchParams(window.location.search).get('p'),
             sumDisLike: 0,
             sumLike: 0,
-            user: DiscussionData._user
         }
     }
 
     sendCreateCommentRequest(commentData) {
-        const url = 'http://localhost:8080/api/discussion/createComment';
+        const url = `${API_GATEWAY}/comment/createComment`;
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(commentData),
-            headers: { 'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": "Bearer " + localStorage.getItem("accessToken")
+            },
         }).then();
     }
 
     sendChangeScoreRequest(commentId, score, isComment) {
-        const url = `http://localhost:8080/api/discussion/change${isComment ? 'Comment' : 'Post'}Score`;
+        const url = `${API_GATEWAY}/comment/change${isComment ? 'Comment' : 'Post'}Score`;
         const scoreObj = {
-            scoreId: { userId: DiscussionData._user.userId},
-            score: score === 'like' ? 1 : -1
+            score: score === 'like' ? 1 : -1,
+            scoreId: {
+
+            }
         }
         isComment ? scoreObj.scoreId.commentId = commentId : scoreObj.scoreId.postId = commentId;
 
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(scoreObj),
-            headers: { 'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": "Bearer " + localStorage.getItem("accessToken")
+            },
         }).then();
     }
 }

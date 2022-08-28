@@ -17,14 +17,14 @@ spring:
               allowed-headers: "*"
               allow-credentials: true
       routes:
-        - id: resource-example
-          uri: lb://resource-example
-          predicates:
-            - Path=/zalupa,/callme/**
         - id: post-service
           uri: lb://post-service
           predicates:
-            - Path=/posts
+            - Path=/posts/**
+        - id: comment-service
+          uri: lb://comment-service
+          predicates:
+            - Path=/comment/**
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
   security:

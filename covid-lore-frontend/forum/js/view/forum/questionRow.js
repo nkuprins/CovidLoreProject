@@ -1,5 +1,4 @@
 import CommentRow from "./commentRow";
-import {processChangePostScoreRequest} from "../../controller/discussionController";
 
 class QuestionRow extends CommentRow {
 
@@ -26,20 +25,16 @@ class QuestionRow extends CommentRow {
         }
     }
 
-    addQuestionScoreListener() {
+    addQuestionScoreListener(handler) {
         this.discussion.querySelectorAll('.score__buttons div')
-            .forEach(el => el.addEventListener('click', this._handleQuestionScoreClick.bind(this)))
+            .forEach(el => el.addEventListener('click', function (e) {
+                const selectedScore = e.target.closest('div'); // div has id=like/id=dislike
+                const selectedScoreText = selectedScore.querySelector('p');
+                const questionId = selectedScore.closest('.comment__post').id;
+                this.changeScoreOnClick(selectedScore, selectedScoreText, questionId);
+                handler(questionId, selectedScoreText.id);
+            }.bind(this)))
     }
-
-    _handleQuestionScoreClick(e) {
-
-        const selectedScore = e.target.closest('div'); // div has id=like/id=dislike
-        const selectedScoreText = selectedScore.querySelector('p');
-        const questionId = selectedScore.closest('.comment__post').id;
-        this.changeScoreOnClick(selectedScore, selectedScoreText, questionId);
-        processChangePostScoreRequest(questionId, selectedScoreText.id);
-    }
-
 }
 
 export default QuestionRow;

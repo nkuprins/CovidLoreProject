@@ -8,6 +8,7 @@ import java.util.List;
 public interface PostService {
 
     List<Post> findAll(OrderPost orderPost);
+    Post findById(int postId);
     Post savePost(Post post);
 
 }

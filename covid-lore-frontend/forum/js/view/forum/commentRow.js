@@ -3,7 +3,6 @@ import talkIcon from "../../../img/talk-icon.png";
 import likeImage from "../../../img/like.png";
 import dislikeImage from "../../../img/dislike.png";
 import ReplyFormView from "./replyFormView";
-import DiscussionData from "../../data/discussionData";
 import showReplies from "../../../img/show-replies.png";
 
 class CommentRow {
@@ -52,7 +51,7 @@ class CommentRow {
 
     // If we find on local storage a liketype, then load it, otherwise return {0, 0}
     calculateScore() {
-        const scoreType = localStorage.getItem(`score-comment-post-${this.commentData.commentId}-${DiscussionData.getLoggedInUsername()}`);
+        const scoreType = localStorage.getItem(`score-comment-post-${this.commentData.commentId}`);
         if (scoreType !== null)
             if (scoreType === 'like')
                 return {like: 1, dislike: 0};
@@ -97,12 +96,12 @@ class CommentRow {
                 ${options.aboveLine}
                 <div class="comment__row-body">
                     <div class="comment__avatar">
-                    <svg class="avatar"><use href="${result}#profile${d.user.profileImage}"></use></svg>
+                    <svg class="avatar"><use href="${result}#profile1"></use></svg>
                     </div>
                     <div class="comment__body">
                     <div class="comment__metadata">
                         <div class="metadata__account">
-                            <span class="nickname">${d.user.username}</span>
+                            <span class="nickname">${this.isNewInsert ? 'You' : d.creatorUsername}</span>
                         </div>
                         <div class="metadata__post-time">${d.commentDate ?? d.date}</div>
                     </div>
@@ -160,7 +159,7 @@ class CommentRow {
         } else {
             const repliesButtonMarkup = this._getRepliesButtonMarkup(type, 1);
             this.parentDiscussion.querySelector('.reply__block').insertAdjacentHTML('afterend', repliesButtonMarkup);
-            this.addRepliesListenerForNew(this.repliesHandler);
+            this.addRepliesListenerForNew();
         }
     }
 
