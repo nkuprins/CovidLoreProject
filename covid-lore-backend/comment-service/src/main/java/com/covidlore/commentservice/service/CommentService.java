@@ -1,6 +1,6 @@
-package com.example.commentservice.service;
+package com.covidlore.commentservice.service;
 
-import com.example.commentservice.entity.Comment;
+import com.covidlore.commentservice.entity.Comment;
 
 import java.util.Set;
 

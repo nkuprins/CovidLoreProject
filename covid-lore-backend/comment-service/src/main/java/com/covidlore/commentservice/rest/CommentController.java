@@ -1,10 +1,7 @@
-package com.example.commentservice.rest;
+package com.covidlore.commentservice.rest;
 
-import com.example.commentservice.entity.Comment;
-import com.example.commentservice.entity.CommentScore;
-import com.example.commentservice.entity.PostScore;
-import com.example.commentservice.service.CommentService;
-import com.example.commentservice.service.ScoreService;
+import com.covidlore.commentservice.service.CommentService;
+import com.covidlore.commentservice.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +16,10 @@ import java.util.Set;
 public class CommentController {
 
     private final CommentService commentService;
-    private final ScoreService scoreService;
 
     @Autowired
-    public CommentController(CommentService commentService, ScoreService scoreService) {
+    public CommentController(CommentService commentService) {
         this.commentService = commentService;
-        this.scoreService = scoreService;
     }
 
     @GetMapping(value = "/lastCommentId")
@@ -57,19 +52,4 @@ public class CommentController {
 
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
-
-    @PostMapping(value = "/changeCommentScore")
-    public ResponseEntity<CommentScore> changeCommentScore(@RequestBody CommentScore commentScore, JwtAuthenticationToken user) {
-        commentScore.getScoreId().setUserId(user.getName());
-        CommentScore saved = scoreService.saveCommentScore(commentScore);
-        return new ResponseEntity<>(saved, HttpStatus.CREATED);
-    }
-
-    @PostMapping(value = "/changePostScore")
-    public ResponseEntity<PostScore> changePostScore(@RequestBody PostScore postScore, JwtAuthenticationToken user) {
-        postScore.getScoreId().setUserId(user.getName());
-        PostScore saved = scoreService.savePostScore(postScore);
-        return new ResponseEntity<>(saved, HttpStatus.CREATED);
-    }
-
 }

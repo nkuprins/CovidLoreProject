@@ -1,4 +1,4 @@
-package com.example.commentservice.entity;
+package com.covidlore.commentservice.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

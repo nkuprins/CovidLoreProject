@@ -1,9 +1,9 @@
-package com.example.commentservice.service;
+package com.covidlore.commentservice.service;
 
-import com.example.commentservice.dao.CommentRepository;
+import com.covidlore.commentservice.dao.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.commentservice.entity.Comment;
+import com.covidlore.commentservice.entity.Comment;
 
 import java.util.Set;
 

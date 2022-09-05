@@ -1,6 +1,6 @@
-package com.example.commentservice.dao;
+package com.covidlore.commentservice.dao;
 
-import com.example.commentservice.entity.Comment;
+import com.covidlore.commentservice.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
