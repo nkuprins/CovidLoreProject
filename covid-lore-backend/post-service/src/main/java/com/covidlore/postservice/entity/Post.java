@@ -5,6 +5,7 @@ import org.hibernate.annotations.Formula;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -12,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 // if IDE tells, 'is never assigned' ignore it, as Hibernate does it implicitly. You may change it in settings
 @Entity
 @Table(name = "post")
+@RequiredArgsConstructor
 @NoArgsConstructor
 @Getter
 public class Post {
@@ -25,29 +27,22 @@ public class Post {
     @Column(name = "creator_username")
     private String creatorUsername ;
 
-    @Formula("(select COALESCE(sum(ps.score), 0) from post_scores ps where ps.post_id = post_id AND ps.score > 0)")
-    private long sumLike;
-
-    @Formula("(select COALESCE(sum(ps.score), 0) from post_scores ps where ps.post_id = post_id AND ps.score < 0)")
-    private long sumDisLike;
-
     @Column(name = "post_date")
     private String date;
 
     @Column(name = "title")
+    @NonNull
+    @NotNull
     private String title;
 
     @Column(name = "description")
+    @NonNull
+    @NotNull
     private String description;
 
     @PrePersist
     public void processPost() {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         this.date = LocalDateTime.now().format(dateFormatter);
-    }
-
-    public Post(String title, String description) {
-        this.title = title;
-        this.description = description;
     }
 }

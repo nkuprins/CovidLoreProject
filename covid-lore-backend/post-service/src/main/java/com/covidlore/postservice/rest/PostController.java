@@ -1,20 +1,16 @@
 package com.covidlore.postservice.rest;
 
+import com.covidlore.postservice.dao.PostRepository;
 import com.covidlore.postservice.entity.Post;
-import com.covidlore.postservice.helper.OrderPost;
-import com.covidlore.postservice.service.PostService;
-import com.nimbusds.jwt.JWTParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.server.resource.BearerTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -22,31 +18,29 @@ import java.util.Map;
 @CrossOrigin(value = "http://localhost:1234/")
 public class PostController {
 
-    private final PostService postService;
+    private final PostRepository postRepository;
 
     @Autowired
-    public PostController(PostService postService) {
-        this.postService = postService;
+    public PostController(PostRepository postService) {
+        this.postRepository = postService;
     }
 
     @GetMapping
-    public ResponseEntity<List<Post>> showPosts(
-            @RequestParam(name = "o", required = false, defaultValue = "Default") OrderPost orderPost) {
-        return new ResponseEntity<>(postService.findAll(orderPost), HttpStatus.ACCEPTED);
+    public ResponseEntity<List<Post>> showPosts() {
+        return new ResponseEntity<>(postRepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{postId}")
     public ResponseEntity<Post> readPost(@PathVariable int postId) {
-        return new ResponseEntity<>(postService.findById(postId), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(postRepository.findById(postId).get(), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Post> savePost(@RequestBody Post post, JwtAuthenticationToken user) {
+    public ResponseEntity<Post> savePost(@Valid @RequestBody Post post, JwtAuthenticationToken user) {
 
-        String preferredUsername =
-                String.valueOf(user.getTokenAttributes().get("preferred_username"));
+        String preferredUsername = String.valueOf(user.getTokenAttributes().get("preferred_username"));
         post.setCreatorUsername(preferredUsername);
-        Post saved = postService.savePost(post);
+        Post saved = postRepository.save(post);
 
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
