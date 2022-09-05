@@ -7,12 +7,4 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
-    List<Post> findAllByOrderByDateAsc();
-    List<Post> findAllByOrderByDateDesc();
-
-    List<Post> findAllByOrderBySumLikeAsc();
-    List<Post> findAllByOrderBySumLikeDesc();
-
-    List<Post> findAllBy();
-
 }
