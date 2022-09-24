@@ -196,8 +196,7 @@ class CommentRow {
 
     _handleRepliesList(e) {
         const article = e.target.closest('.comment__post');
-        const parentId = article.id.slice(13);
-        this.repliesHandler(parentId).then((hasLoadedNewData) => {
+        this.repliesHandler(article.id).then((hasLoadedNewData) => {
             e.target.parentNode.querySelector('.replies__icon').classList.toggle('rotate__replies__icon');
             if (!hasLoadedNewData)
                 this._processRepliesListView(article, (el) => el.classList.toggle('hidden-obj')); // hide posts

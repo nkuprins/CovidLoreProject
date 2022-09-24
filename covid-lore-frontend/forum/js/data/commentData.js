@@ -5,10 +5,6 @@ import {get} from "leaflet/src/dom/DomUtil";
 
 class CommentData {
 
-    // // last primary key of the comment is required to keep synchronous backend and frontend parentId
-    // // TODO: Probably, this dependency between 'f' and 'b' is bad; hence reengineer it.
-    // lastPrimaryKey = 0;
-
     // keep track of already loaded sub replies on the current discussion
     _loadedSubReplies = [];
 
@@ -27,16 +23,6 @@ class CommentData {
                 'Content-Type': 'application/json'
             }}
     }
-
-    // async setInitialData() {
-    //     // this.lastPrimaryKey = await AJAX_PLAIN_HEADER(`${API_GATEWAY}/comment/lastCommentId`, getAuthOption());
-    //     // this.lastPrimaryKey++;
-    //
-    // }
-
-    // nextPrimaryKey() {
-    //     this.lastPrimaryKey++;
-    // }
 
     loadQuestionData() {
         return AJAX_JSON_HEADER(`${API_GATEWAY}/posts/${this._questionId}`, getAuthOption());
@@ -77,7 +63,7 @@ class CommentData {
     }
 
     sendPostCommentRequest(commentData) {
-        const url = `${API_GATEWAY}/comment/createComment`;
+        const url = `${API_GATEWAY}/comment`;
         const {commentDate, numOfChildren, sumDisLike, sumLike , ...restData} = commentData;
         fetch(url, {
             method: 'POST',

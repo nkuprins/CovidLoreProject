@@ -1,11 +1,12 @@
 import {AJAX_JSON_HEADER, getAuthOption} from "../helper";
+import {API_GATEWAY} from "../config";
 
 class ForumData {
 
     forumData;
 
     async fetchForumData() {
-        this.forumData = await AJAX_JSON_HEADER("http://192.168.1.113:8090/posts", getAuthOption())
+        this.forumData = await AJAX_JSON_HEADER(`${API_GATEWAY}/posts`, getAuthOption())
         return this.forumData;
     }
 
@@ -14,7 +15,7 @@ class ForumData {
             title: title,
             description: description
         }
-        const url = 'http://192.168.1.113:8090/posts';
+        const url = `${API_GATEWAY}/posts`;
         console.log(url)
         fetch(url, {
             method: 'POST',

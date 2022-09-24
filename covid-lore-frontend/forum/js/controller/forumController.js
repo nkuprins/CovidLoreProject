@@ -5,7 +5,7 @@ import forumData from "../data/forumData"
 
 const init = async function () {
 
-    //await secureLogin.initKeyCloak();
+    await secureLogin.initKeyCloak();
 
     new NavView(2).addHandlerNavHover();
     forumView.addSortButtonsListener(sortUpdateHandler);

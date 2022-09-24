@@ -2,8 +2,8 @@ import CommentRow from "./commentRow";
 
 class CommentQuestionRow extends CommentRow {
 
-    constructor(parentDiscussion, questionData) {
-        super(parentDiscussion, questionData);
+    constructor(parentDiscussion, questionData, repliesHandler, saveDataHandler) {
+        super(parentDiscussion, questionData, false, repliesHandler, saveDataHandler);
     }
 
     showQuestionArticle() {

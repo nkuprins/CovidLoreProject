@@ -16,7 +16,7 @@ const init = async function () {
         data.commentId = `question-${data.postId}`;
         const parentNode = document.querySelector('main');
 
-        const questionRow = new CommentQuestionRow(parentNode, data);
+        const questionRow = new CommentQuestionRow(parentNode, data, loadCommentsData, saveCommentsData);
         questionRow.showQuestionArticle();
         questionRow.addReplyListener();
         questionRow.addQuestionScoreListener(processChangePostScoreRequest);
@@ -38,7 +38,7 @@ const loadCommentsData = async function (parentId) {
     await commentData.loadCommentData(parentId).then(comments => {
         Object.entries(comments).forEach((entries) => {
             const [_, commentData] = entries;
-            const parentNode = document.querySelector(`#comment-post-${parentId}`);
+            const parentNode = document.querySelector(`#${parentId}`);
             const commentRow = new CommentRow(parentNode, commentData, false, loadCommentsData, saveCommentsData);
             commentRow.showPost();
             commentRow.addReplyListener();
@@ -55,7 +55,7 @@ const loadCommentsData = async function (parentId) {
 const saveCommentsData = function (parentCommentId, replyText) {
 
     const data = commentData.assembleCommentData(parentCommentId, replyText);
-    data.sendPostCommentRequest(data)
+    commentData.sendPostCommentRequest(data)
     return data;
 }
 

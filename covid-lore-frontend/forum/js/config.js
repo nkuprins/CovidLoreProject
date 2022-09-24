@@ -7,4 +7,4 @@ export const API_MAP_URL = 'https://tiles.stadiamaps.com/tiles/alidade_smooth_da
 export const API_NEWS_URL = 'https://api.currentsapi.services/v1/search?' +
                             'keywords=Covid&language=en&limit=5&' +
                             'apiKey=7WV5FlUEV2wlMP8UwqO-I1epQPlYZjMcYR7bRElFEIbLC_zj'
-export const API_GATEWAY = `http://192.168.1.113:8090`;
+export const API_GATEWAY = `http://192.168.0.101:8090`;

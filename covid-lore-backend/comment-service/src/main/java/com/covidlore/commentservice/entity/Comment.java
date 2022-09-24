@@ -17,7 +17,6 @@ import java.time.format.DateTimeFormatter;
 public class Comment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
     @NonNull
     @NotNull
