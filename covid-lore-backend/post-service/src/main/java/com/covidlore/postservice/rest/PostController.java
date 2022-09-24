@@ -31,13 +31,12 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<Post> readPost(@PathVariable int postId) {
+    public ResponseEntity<Post> showPost(@PathVariable int postId) {
         return new ResponseEntity<>(postRepository.findById(postId).get(), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Post> savePost(@Valid @RequestBody Post post, JwtAuthenticationToken user) {
-
         String preferredUsername = String.valueOf(user.getTokenAttributes().get("preferred_username"));
         post.setCreatorUsername(preferredUsername);
         Post saved = postRepository.save(post);

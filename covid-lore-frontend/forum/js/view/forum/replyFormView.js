@@ -2,15 +2,15 @@ import CommentRow from "./commentRow";
 
 class ReplyFormView {
 
-    constructor(parentDiscussionRow, loadDataHandler, saveDataHandler) {
-        this._parentDiscussion = parentDiscussionRow.parentNode;
-        this._showForm(parentDiscussionRow);
+    constructor(parentCommentRow, loadDataHandler, saveDataHandler) {
+        this._parentComment = parentCommentRow.parentNode;
+        this._showForm(parentCommentRow);
         this._addReplyFormListener();
         this.loadDataHandler = loadDataHandler;
         this.saveDataHandler = saveDataHandler;
     }
 
-    _showForm(parentDiscussionRow) {
+    _showForm(parentCommentRow) {
         const formMarkup = `<article class="discussion__post form__article">
              <div class="discussion__row">
                   <form action="" method="POST">
@@ -26,8 +26,8 @@ class ReplyFormView {
              </article>`;
 
         this._handleFormCancel() // close form if it was already open
-        parentDiscussionRow.insertAdjacentHTML('afterend', formMarkup);
-        parentDiscussionRow.scrollIntoView();
+        parentCommentRow.insertAdjacentHTML('afterend', formMarkup);
+        parentCommentRow.scrollIntoView();
     }
 
     _addReplyFormListener() {
@@ -48,12 +48,12 @@ class ReplyFormView {
         const replyText = replyFormArticle.querySelector('textarea').value; // Get text in the form
         replyFormArticle.remove(); // Remove the form article
 
-        const parentId = this._parentDiscussion.id.slice(13);
+        const {id} = this._parentComment;
 
         // We first want to load replies of this parent node, if they were not loaded yet
-        this.loadDataHandler(parentId).then(() => {
-            const commentData = this.saveDataHandler(parentId, replyText);
-            const commentRow = new CommentRow(this._parentDiscussion, commentData, true, this.loadDataHandler, this.saveDataHandler);
+        this.loadDataHandler(id).then(() => {
+            const commentData = this.saveDataHandler(id, replyText);
+            const commentRow = new CommentRow(this._parentComment, commentData, true, this.loadDataHandler, this.saveDataHandler);
             commentRow.showPost();
             commentRow.addReplyListener();
             commentRow.addCommentsScoreListener();

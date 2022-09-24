@@ -1,8 +1,7 @@
 package com.covidlore.scoresservice.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.covidlore.scoresservice.contraints.PossibleValues;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -13,14 +12,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "post_scores")
 @Getter
-@Setter
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 public class PostScore {
 
     @EmbeddedId
+    @NonNull
     private PostScoreId scoreId;
 
     @Column(name = "score")
-    private int score;
+    @PossibleValues(allowedValues = {-1, 1})
+    private final int score;
 
 }

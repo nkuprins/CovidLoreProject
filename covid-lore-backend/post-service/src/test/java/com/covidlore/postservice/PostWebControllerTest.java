@@ -20,13 +20,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(PostController.class)
 @WithMockUser("Nikitos")
 @AutoConfigureMockMvc
-public class PostControllerTest {
+public class PostWebControllerTest {
 
     @Autowired
     private MockMvc mvc;
@@ -60,7 +61,7 @@ public class PostControllerTest {
     @Test
     public void savePostDefault() throws Exception {
 
-        Mockito.when(postRepository.save(ArgumentMatchers.any(Post.class))).thenReturn(this.defaultPostMock);
+        Mockito.when(postRepository.save(any(Post.class))).thenReturn(this.defaultPostMock);
 
         mvc.perform(MockMvcRequestBuilders
                         .post("/posts")

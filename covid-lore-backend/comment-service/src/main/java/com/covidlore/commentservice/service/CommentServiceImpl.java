@@ -19,9 +19,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Set<Comment> findByPostAndParent(int postId, int parentId) {
+    public Set<Comment> findByPostAndParent(int postId, String parentId) {
 
-        if (parentId <= 0)
+        if (parentId.isBlank())
             return commentRepository.findByPostIdAndParentCommentIdIsNull(postId);
 
         return commentRepository.findByPostIdAndParentCommentId(postId, parentId);
@@ -33,12 +33,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment findById(int commentId) {
-        return commentRepository.getReferenceById(commentId);
-    }
-
-    @Override
-    public long lastCommentId() {
-        return commentRepository.lastCommentId();
+    public Comment findById(String commentId) {
+        return commentRepository.findByCommentId(commentId);
     }
 }

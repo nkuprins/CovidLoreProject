@@ -19,7 +19,7 @@ export const getTopByProperty = function (array, property, N) {
 }
 
 // Data is of the format 2022-01-01
-export const dataToNormalFormat = function (date) {
+export const dataToYMNFormat = function (date) {
     return date.toISOString().substring(0, date.toISOString().indexOf('T'));
 }
 
@@ -41,4 +41,13 @@ export const AJAX_PLAIN_HEADER = async function (url, header) {
     const fetchData = fetch(url, header);
     const response = (await fetchData).text();
     return await response;
+}
+
+export const getAuthOption = function () {
+    return {
+        "headers": {
+            "Authorization": "Bearer " + localStorage.getItem("accessToken"),
+            'Content-Type': 'application/json'
+        }
+    }
 }

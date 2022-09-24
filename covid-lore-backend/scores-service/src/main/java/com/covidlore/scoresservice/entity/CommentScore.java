@@ -1,25 +1,27 @@
 package com.covidlore.scoresservice.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.covidlore.scoresservice.contraints.PossibleValues;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "comment_scores")
 @Getter
-@Setter
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 public class CommentScore {
 
     @EmbeddedId
+    @NonNull
     private CommentScoreId scoreId;
 
     @Column(name = "score")
-    private int score;
+    @PossibleValues(allowedValues = {-1, 1})
+    private final int score;
 
 }

@@ -1,27 +1,32 @@
 package com.covidlore.commentservice.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "comments")
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
+@NoArgsConstructor(force = true)
 @Getter
 public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
-    private int commentId;
+    @NonNull
+    @NotNull
+    private String commentId;
 
     @Column(name = "post_id")
-    private int postId;
+    @Min(1)
+    @NotNull
+    private final int postId;
 
     @Column(name = "creator_username")
     @Setter
@@ -31,21 +36,23 @@ public class Comment {
     private String commentDate;
 
     @Column(name = "description")
+    @NonNull
+    @NotNull
     private String description;
 
     @Column(name = "parent_comment_id")
-    private Integer parentCommentId;
+    private final String parentCommentId;
 
     @Column(name = "childs")
     private int numOfChildren;
 
-    @Formula("(select COALESCE(sum(cs.score), 0) from comment_scores cs where cs.comment_id = comment_id AND cs.score > 0)")
-    private long sumLike;
-
-    @Formula("(select COALESCE(sum(cs.score), 0) from comment_scores cs where cs.comment_id = comment_id AND cs.score < 0)")
-    private long sumDisLike;
-
     public void increaseChildren() {
         this.numOfChildren++;
+    }
+
+    @PrePersist
+    public void processPost() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.commentDate = LocalDateTime.now().format(dateFormatter);
     }
 }

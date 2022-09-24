@@ -7,10 +7,10 @@ import showReplies from "../../../img/show-replies.png";
 
 class CommentRow {
 
-    discussion;
+    comment;
 
     constructor(parentDiscussion, commentData, isNewInsert, repliesHandler, saveDataHandler) {
-        this.parentDiscussion = parentDiscussion;
+        this.parentComment = parentDiscussion;
         this.commentData = commentData;
         this.isNewInsert = isNewInsert;
         this.repliesHandler = repliesHandler;
@@ -27,20 +27,20 @@ class CommentRow {
             if (this.isNewInsert)
                 this._processParent(cssType);
 
-            this._insertSubReply(this.parentDiscussion, rowMarkup);
+            this._insertSubReply(this.parentComment, rowMarkup);
         }
     }
 
     _getCommentCSSType() {
         // Not direct reply to question__article
-        const isSubReply = this.parentDiscussion.id !== 'main' &&
-            !this.parentDiscussion.classList.contains('question__article');
+        const isSubReply = this.parentComment.id !== 'main' &&
+            !this.parentComment.classList.contains('question__article');
 
         // Is sub-reply of main__comment__article
-        const isReplyToMain = isSubReply && this.parentDiscussion.classList.contains('main__comment__article');
+        const isReplyToMain = isSubReply && this.parentComment.classList.contains('main__comment__article');
 
         // Is first sub-reply of main__comment__article
-        const isFirstSubReply = isReplyToMain && this.parentDiscussion.querySelectorAll('.sub__comment__article').length === 0;
+        const isFirstSubReply = isReplyToMain && this.parentComment.querySelectorAll('.sub__comment__article').length === 0;
 
         return {
             isFirstSubReply: isFirstSubReply,
@@ -77,20 +77,20 @@ class CommentRow {
 
     _insertSubReply(parentDiscussion, rowMarkup) {
         parentDiscussion.lastElementChild.insertAdjacentHTML('afterend', rowMarkup);
-        this.discussion = parentDiscussion.lastElementChild;
+        this.comment = parentDiscussion.lastElementChild;
     }
 
     insertDirectly(rowMarkup, after) {
         const main = document.querySelector('main');
         const el = main.lastElementChild ?? main;
         el.insertAdjacentHTML(after, rowMarkup);
-        this.discussion = main.lastElementChild.previousElementSibling;
+        this.comment = main.lastElementChild.previousElementSibling;
     }
 
     _generateRowMarkup(options) {
         const d = this.commentData;
 
-        return `<article id="comment-post-${d.commentId}" 
+        return `<article id="${d.commentId}" 
                             class="comment__post ${options.articleClass}" ${options.overflow}>
              <div class="comment__row">
                 ${options.aboveLine}
@@ -143,50 +143,50 @@ class CommentRow {
 
         // Show replies of the parent node if they were hidden
         // or if the replies of the parent node were not loaded yet, then load them
-        this._processRepliesListView(this.parentDiscussion, (el) => {
+        this._processRepliesListView(this.parentComment, (el) => {
             let hadHidden = false;
             if (el.classList.contains('hidden-obj')) {
                 el.classList.remove('hidden-obj');
                 hadHidden = true;
             }
             if (hadHidden)
-                this.parentDiscussion.querySelector('.replies__icon').classList.toggle('rotate__replies__icon');
+                this.parentComment.querySelector('.replies__icon').classList.toggle('rotate__replies__icon');
         });
 
-        const repliesButton = this.parentDiscussion.querySelector('.reply__button-replies');
+        const repliesButton = this.parentComment.querySelector('.reply__button-replies');
         if (repliesButton !== null) {
             repliesButton.innerText = (Number(repliesButton.innerText[0]) + 1) + " Replies";
         } else {
             const repliesButtonMarkup = this._getRepliesButtonMarkup(type, 1);
-            this.parentDiscussion.querySelector('.reply__block').insertAdjacentHTML('afterend', repliesButtonMarkup);
+            this.parentComment.querySelector('.reply__block').insertAdjacentHTML('afterend', repliesButtonMarkup);
             this.addRepliesListenerForNew();
         }
     }
 
     // Traverses all articles with scope 1 and performs task on each element, except if it is FORM
-    _processRepliesListView(parentDiscussion, task) {
+    _processRepliesListView(parentComment, task) {
 
-        const childDiscussions = parentDiscussion.querySelectorAll(':scope > .comment__post');
+        const childDiscussions = parentComment.querySelectorAll(':scope > .comment__post');
         childDiscussions.forEach(el => {
             if (!el.classList.contains('form__article')) task(el);
         })
     }
 
     addReplyListener() {
-        this.discussion.querySelector('.reply__block')
+        this.comment.querySelector('.reply__block')
             .addEventListener('click', function (e) {
-                const parentDiscussionRow = e.target.closest('.comment__row');
-                new ReplyFormView(parentDiscussionRow, this.repliesHandler, this.saveDataHandler);
+                const parentCommentRow = e.target.closest('.comment__row');
+                new ReplyFormView(parentCommentRow, this.repliesHandler, this.saveDataHandler);
             }.bind(this));
     }
 
     addRepliesListenerForLoadedData() {
-        this.discussion.querySelector('.replies__block')?.addEventListener('click', this._handleRepliesList.bind(this));
+        this.comment.querySelector('.replies__block')?.addEventListener('click', this._handleRepliesList.bind(this));
     }
 
     // Adds a replies listener to parent only if it did not have it before
     addRepliesListenerForNew() {
-        const repliesButton = this.parentDiscussion.querySelector('.replies__block');
+        const repliesButton = this.parentComment.querySelector('.replies__block');
         if (repliesButton === null || repliesButton?.getAttribute('hasEvent') === 'true')
             return;
 
@@ -205,8 +205,8 @@ class CommentRow {
     }
 
     addCommentsScoreListener(handler) {
-        this.discussion.commentScoreChangeHandler = handler
-        this.discussion.querySelectorAll('.score__buttons div')
+        this.comment.commentScoreChangeHandler = handler
+        this.comment.querySelectorAll('.score__buttons div')
             .forEach(el => el.addEventListener('click', this._handleScoreClick.bind(this)))
     }
 
@@ -240,7 +240,7 @@ class CommentRow {
         const selectedScoreText = selectedScore.querySelector('p');
         const postId = selectedScore.closest('.comment__post').id;
         this.changeScoreOnClick(selectedScore, selectedScoreText, postId);
-        this.discussion.commentScoreChangeHandler(postId, selectedScoreText.id);
+        this.comment.commentScoreChangeHandler(postId, selectedScoreText.id);
     }
 }
 

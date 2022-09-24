@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Set;
 
 @RestController
@@ -22,24 +23,18 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @GetMapping(value = "/lastCommentId")
-    public ResponseEntity<Long> readLastCommentId() {
-        return new ResponseEntity<>(commentService.lastCommentId(), HttpStatus.ACCEPTED);
-    }
-
     @GetMapping("/{postId}")
-    public ResponseEntity<Set<Comment>> readComments(@PathVariable int postId) {
-        return new ResponseEntity<>(commentService.findByPostAndParent(postId, 0), HttpStatus.ACCEPTED);
+    public ResponseEntity<Set<Comment>> showComments(@PathVariable int postId) {
+        return new ResponseEntity<>(commentService.findByPostAndParent(postId, ""), HttpStatus.OK);
     }
 
-    @GetMapping("/{postId}/{level}")
-    public ResponseEntity<Set<Comment>> readCommentsOnLevel(@PathVariable int postId, @PathVariable int level) {
-        return new ResponseEntity<>(commentService.findByPostAndParent(postId, level), HttpStatus.ACCEPTED);
+    @GetMapping("/{postId}/{parentId}")
+    public ResponseEntity<Set<Comment>> showCommentsOfParent(@PathVariable int postId, @PathVariable String parentId) {
+        return new ResponseEntity<>(commentService.findByPostAndParent(postId, parentId), HttpStatus.OK);
     }
 
-    @PostMapping(value = "/createComment")
-    public ResponseEntity<Comment> createComment(@RequestBody Comment comment, JwtAuthenticationToken user) {
-
+    @PostMapping
+    public ResponseEntity<Comment> saveComment(@Valid @RequestBody Comment comment, JwtAuthenticationToken user) {
         String preferredUsername = String.valueOf(user.getTokenAttributes().get("preferred_username"));
         comment.setCreatorUsername(preferredUsername);
         Comment saved = commentService.saveComment(comment);

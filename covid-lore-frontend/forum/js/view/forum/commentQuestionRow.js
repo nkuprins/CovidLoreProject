@@ -1,12 +1,12 @@
 import CommentRow from "./commentRow";
 
-class QuestionRow extends CommentRow {
+class CommentQuestionRow extends CommentRow {
 
     constructor(parentDiscussion, questionData) {
-        super(parentDiscussion, questionData, false);
+        super(parentDiscussion, questionData);
     }
 
-    createQuestionArticle() {
+    showQuestionArticle() {
         const rowMarkup = this._generateRowMarkup(this._getRowMarkupCSSOption());
         this.insertDirectly(rowMarkup, 'afterbegin');
     }
@@ -26,7 +26,7 @@ class QuestionRow extends CommentRow {
     }
 
     addQuestionScoreListener(handler) {
-        this.discussion.querySelectorAll('.score__buttons div')
+        this.comment.querySelectorAll('.score__buttons div')
             .forEach(el => el.addEventListener('click', function (e) {
                 const selectedScore = e.target.closest('div'); // div has id=like/id=dislike
                 const selectedScoreText = selectedScore.querySelector('p');
@@ -37,4 +37,4 @@ class QuestionRow extends CommentRow {
     }
 }
 
-export default QuestionRow;
+export default CommentQuestionRow;

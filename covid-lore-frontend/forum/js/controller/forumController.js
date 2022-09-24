@@ -3,10 +3,9 @@ import forumView from "../view/forum/forumView";
 import secureLogin from "../logginController";
 import forumData from "../data/forumData"
 
+const init = async function () {
 
-const init = function () {
-
-    secureLogin.initKeyCloak();
+    //await secureLogin.initKeyCloak();
 
     new NavView(2).addHandlerNavHover();
     forumView.addSortButtonsListener(sortUpdateHandler);

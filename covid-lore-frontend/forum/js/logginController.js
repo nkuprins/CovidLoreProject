@@ -5,7 +5,7 @@ class SecureLogin {
 
     _logoutButton = document.getElementById("logout_button");
 
-    initKeyCloak() {
+    async initKeyCloak() {
 
         const config = {
             url: 'http://localhost:8080',
@@ -13,14 +13,14 @@ class SecureLogin {
             clientId: 'frontend-login-client'
         }
         const keycloak = new Keycloak(config);
-        keycloak.init({onLoad: `login-required`, checkLoginIframe: false}).then(authenticated => {
-            if (authenticated)
-                localStorage.setItem("accessToken", keycloak.token);
-        })
-
         this._logoutButton.addEventListener('click', () => keycloak.logout({
             redirectUri: "http://localhost:1234/forum.html"
         }))
+
+        const authenticated = await keycloak.init({onLoad: `login-required`, checkLoginIframe: false});
+        if (authenticated)
+            localStorage.setItem("accessToken", keycloak.token);
+        return authenticated;
     }
 
 }

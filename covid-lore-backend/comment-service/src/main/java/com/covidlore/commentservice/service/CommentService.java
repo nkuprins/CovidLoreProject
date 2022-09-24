@@ -6,9 +6,7 @@ import java.util.Set;
 
 public interface CommentService {
 
-    Set<Comment> findByPostAndParent(int postId, int parentId);
+    Set<Comment> findByPostAndParent(int postId, String parentId);
     Comment saveComment(Comment comment);
-
-    Comment findById(int commentId);
-    long lastCommentId();
+    Comment findById(String commentId);
 }

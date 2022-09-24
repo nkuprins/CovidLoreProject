@@ -1,17 +1,11 @@
-import {AJAX_JSON_HEADER} from "../helper";
+import {AJAX_JSON_HEADER, getAuthOption} from "../helper";
 
 class ForumData {
 
     forumData;
 
     async fetchForumData() {
-        const header = {
-            "headers": {
-                "Authorization": "Bearer " + localStorage.getItem("accessToken")
-            }
-        }
-
-        this.forumData = await AJAX_JSON_HEADER("http://192.168.1.113:8090/posts", header)
+        this.forumData = await AJAX_JSON_HEADER("http://192.168.1.113:8090/posts", getAuthOption())
         return this.forumData;
     }
 
@@ -25,10 +19,7 @@ class ForumData {
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(data),
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("accessToken"),
-                'Content-Type': 'application/json'
-            }
+            headers: getAuthOption().headers
         }).then(() => window.location = 'http://localhost:1234/forum.html');
 
     }

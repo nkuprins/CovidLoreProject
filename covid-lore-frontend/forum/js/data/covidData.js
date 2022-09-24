@@ -1,5 +1,5 @@
 import {API_COVID_URL} from "../config";
-import {AJAX_JSON, dataToNormalFormat, getTopByProperty} from "../helper";
+import {AJAX_JSON, dataToYMNFormat, getTopByProperty} from "../helper";
 
 class CovidData {
 
@@ -52,7 +52,7 @@ class CovidData {
         if (localStorage.getItem('triedToFetch') === String(new Date().getHours()))
             return true;
 
-        const timeDifference = Number(dataToNormalFormat(new Date()).slice(-2)) - Number(lastDate.slice(-2));
+        const timeDifference = Number(dataToYMNFormat(new Date()).slice(-2)) - Number(lastDate.slice(-2));
         return timeDifference === 1;
     }
 
@@ -66,7 +66,7 @@ class CovidData {
 
         const lastDataDate = new Date();
         lastDataDate.setDate(lastDataDate.getDate() - dayOffset); // set Date to last available covid data day
-        const dateFormatted = dataToNormalFormat(lastDataDate);
+        const dateFormatted = dataToYMNFormat(lastDataDate);
 
         const result = await AJAX_JSON(API_COVID_URL +
             `inject=true&cols=date_stamp,iso3166_1,cnt_confirmed,cnt_death&where=(date_stamp=${dateFormatted})` +
