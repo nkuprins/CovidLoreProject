@@ -35,6 +35,12 @@ public class Post {
     @NotNull
     private String description;
 
+    @Setter
+    private long sumLikes;
+
+    @Setter
+    private long sumDislikes;
+
     @PrePersist
     public void processPost() {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

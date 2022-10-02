@@ -1,12 +1,14 @@
 package com.covidlore.scoresservice;
 
 
-import com.covidlore.scoresservice.entity.CommentScore;
-import com.covidlore.scoresservice.entity.CommentScoreId;
-import com.covidlore.scoresservice.entity.PostScore;
-import com.covidlore.scoresservice.entity.PostScoreId;
+import com.covidlore.scoresservice.entity.*;
+import com.covidlore.scoresservice.entity.comment.CommentScore;
+import com.covidlore.scoresservice.entity.comment.CommentScoreId;
+import com.covidlore.scoresservice.entity.post.PostScore;
+import com.covidlore.scoresservice.entity.post.PostScoreId;
 import com.covidlore.scoresservice.rest.ScoreController;
 import com.covidlore.scoresservice.service.ScoreService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -37,43 +39,44 @@ public class ScoresWebControllerTest {
     @MockBean
     private ScoreService scoreService;
 
-    private final String defaultCommentScoreMockStr =
-                    "{\"scoreId\": " +
-                    "{\"commentId\":0, \"userId\": \"Nikitos\"}," +
-                    " \"score\": 1}";
-
-    private final String defaultPostScoreMockStr =
-                    "{\"scoreId\": " +
-                    "{\"postId\":0, \"userId\": \"Nikitos\"}," +
-                    " \"score\": -1}";
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
-    public void postCommentScore() throws Exception {
+    public void putCommentScore() throws Exception {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         CommentScoreId id = new CommentScoreId(0);
         id.setUserId(username);
-        CommentScore commentScore = new CommentScore(id, 1);
+        Score commentScore = new CommentScore(id, -1);
 
-        Mockito.when(scoreService.saveCommentScore(any(CommentScore.class))).thenReturn(commentScore);
+        String jsonExpected = objectMapper.writeValueAsString(commentScore);
+
+        Mockito.when(scoreService.saveScore(any(CommentScore.class))).thenReturn(commentScore);
 
         mvc.perform(MockMvcRequestBuilders
-                        .post("/score/changeCommentScore")
-                        .content("{\"score\": \"1\"," +
-                                "\"scoreId\": {\"commentId\": \"0\"}}")
+                        .put("/score/putScore")
+                        .content("{" +
+                                "\"type\": \"comment\"," +
+                                "\"score\": \"-1\"," +
+                                "\"scoreId\": {\"primaryId\": \"0\"}" +
+                                "}")
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(jwt())
                 )
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.content().json(this.defaultCommentScoreMockStr));
+                .andExpect(MockMvcResultMatchers.content().json(jsonExpected));
     }
 
     @Test
-    public void postCommentScoreError() throws Exception {
+    public void putCommentScoreError() throws Exception {
 
         mvc.perform(MockMvcRequestBuilders
-                        .post("/score/changeCommentScore")
-                        .content("{\"score\": \"0\"," +
-                                "\"scoreId\": {\"commentId\": \"0\"}}")
+                        .put("/score/putScore")
+                        .content("{" +
+                                "\"type\": \"comment\"," +
+                                "\"score\": \"0\"," +
+                                "\"scoreId\": {\"primaryId\": \"0\"}" +
+                                "}")
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(jwt())
                 )
@@ -81,32 +84,40 @@ public class ScoresWebControllerTest {
     }
 
     @Test
-    public void postPostScore() throws Exception {
+    public void putPostScore() throws Exception {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         PostScoreId id = new PostScoreId(0);
         id.setUserId(username);
-        PostScore postScore = new PostScore(id, -1);
+        Score postScore = new PostScore(id, -1);
 
-        Mockito.when(scoreService.savePostScore(any(PostScore.class))).thenReturn(postScore);
+        String jsonExpected = objectMapper.writeValueAsString(postScore);
+
+        Mockito.when(scoreService.saveScore(any(PostScore.class))).thenReturn(postScore);
 
         mvc.perform(MockMvcRequestBuilders
-                        .post("/score/changePostScore")
-                        .content("{\"score\": \"1\"," +
-                                "\"scoreId\": {\"postId\": \"0\"}}")
+                        .put("/score/putScore")
+                        .content("{" +
+                                "\"type\": \"post\"," +
+                                "\"score\": \"1\"," +
+                                "\"scoreId\": {\"primaryId\": \"0\"}" +
+                                "}")
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(jwt())
                 )
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.content().json(this.defaultPostScoreMockStr));
+                .andExpect(MockMvcResultMatchers.content().json(jsonExpected));
     }
 
     @Test
-    public void postPostScoreError() throws Exception {
+    public void putPostScoreError() throws Exception {
 
         mvc.perform(MockMvcRequestBuilders
-                        .post("/score/changePostScore")
-                        .content("{\"score\": \"999\"," +
-                                "\"scoreId\": {\"postId\": \"0\"}}")
+                        .put("/score/putScore")
+                        .content("{" +
+                                "\"type\": \"post\"," +
+                                "\"score\": \"999\"," +
+                                "\"scoreId\": {\"primaryId\": \"0\"}" +
+                                "}")
                         .contentType(MediaType.APPLICATION_JSON)
                         .with(jwt())
                 )

@@ -12,7 +12,7 @@ const init = async function () {
     forumView.addNewThreadListener();
     forumView.addSubmitFormListener(formSubmitHandler);
 
-    forumData.fetchForumData().then(data => {
+    forumData.fetchPostData().then(data => {
             forumView.prepareForumTopicView();
             forumView.showForumTopicView(data);
         }

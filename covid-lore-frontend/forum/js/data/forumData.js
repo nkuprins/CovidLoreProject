@@ -5,7 +5,7 @@ class ForumData {
 
     forumData;
 
-    async fetchForumData() {
+    async fetchPostData() {
         this.forumData = await AJAX_JSON_HEADER(`${API_GATEWAY}/posts`, getAuthOption())
         return this.forumData;
     }

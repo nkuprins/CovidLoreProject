@@ -25,6 +25,10 @@ spring:
           uri: lb://comment-service
           predicates:
             - Path=/comment/**
+        - id: scores-service
+          uri: lb://scores-service
+          predicates:
+              - Path=/score/**
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
   security:

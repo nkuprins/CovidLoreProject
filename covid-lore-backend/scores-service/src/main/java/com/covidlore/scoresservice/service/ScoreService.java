@@ -1,11 +1,9 @@
 package com.covidlore.scoresservice.service;
 
-import com.covidlore.scoresservice.entity.CommentScore;
-import com.covidlore.scoresservice.entity.PostScore;
+import com.covidlore.scoresservice.entity.Score;
 
 public interface ScoreService {
 
-    CommentScore saveCommentScore(CommentScore commentScore);
-    PostScore savePostScore(PostScore postScore);
+    Score saveScore(Score score);
 
 }

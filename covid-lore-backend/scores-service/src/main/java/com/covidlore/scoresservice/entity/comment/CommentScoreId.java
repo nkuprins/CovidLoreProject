@@ -1,5 +1,6 @@
-package com.covidlore.scoresservice.entity;
+package com.covidlore.scoresservice.entity.comment;
 
+import com.covidlore.scoresservice.entity.ScoreId;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -12,15 +13,16 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @RequiredArgsConstructor
 @NoArgsConstructor(force = true)
-public class CommentScoreId implements Serializable {
+public class CommentScoreId implements Serializable, ScoreId {
 
     @Serial
-    private static final long serialVersionUID = -4543385774779230646L;
+    private static final long serialVersionUID = 54930920940322L;
 
     @Column(name = "comment_id")
-    private final int commentId;
+    private final int primaryId;
 
     @Column(name = "user_id")
     @Setter
     private String userId;
+
 }

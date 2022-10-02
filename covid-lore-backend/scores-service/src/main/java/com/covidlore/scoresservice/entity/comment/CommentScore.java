@@ -1,20 +1,19 @@
-package com.covidlore.scoresservice.entity;
+package com.covidlore.scoresservice.entity.comment;
 
 import com.covidlore.scoresservice.contraints.PossibleValues;
+import com.covidlore.scoresservice.entity.Score;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.*;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "comment_scores")
 @Getter
 @NoArgsConstructor(force = true)
 @RequiredArgsConstructor
-public class CommentScore {
+@JsonTypeName("comment")
+public class CommentScore implements Score {
 
     @EmbeddedId
     @NonNull
