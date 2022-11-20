@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface PostScoreRepository extends ScoreRepository, JpaRepository<PostScore, Integer> {
-
-    Optional<Score> findByScoreId(PostScoreId scoreId);
-
-}
+//public interface PostScoreRepository extends ScoreRepository, JpaRepository<PostScore, Integer> {
+//
+//    Optional<Score> findByScoreId(PostScoreId scoreId);
+//
+//}

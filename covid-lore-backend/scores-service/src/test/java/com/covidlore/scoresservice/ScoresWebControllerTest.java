@@ -45,7 +45,7 @@ public class ScoresWebControllerTest {
     @Test
     public void putCommentScore() throws Exception {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        CommentScoreId id = new CommentScoreId(0);
+        PostScoreId id = new PostScoreId(0);
         id.setUserId(username);
         Score commentScore = new CommentScore(id, -1);
 

@@ -9,18 +9,18 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-
 @Entity
 @Table(name = "post_scores")
 @Getter
 @NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @JsonTypeName("post")
-public class PostScore implements Score {
+public class PostScore extends Score {
 
-    @EmbeddedId
-    @NonNull
-    private PostScoreId scoreId;
+    public PostScore(PostScoreId scoreId, int score) {
+        super(scoreId);
+        this.score = score;
+    }
 
     @Column(name = "score")
     @PossibleValues(allowedValues = {-1, 1})

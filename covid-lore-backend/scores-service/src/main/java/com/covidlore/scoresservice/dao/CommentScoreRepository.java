@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface CommentScoreRepository extends ScoreRepository, JpaRepository<CommentScore, Integer> {
-
-    Optional<Score> findByScoreId(CommentScoreId scoreId);
-
-}
+//public interface CommentScoreRepository extends ScoreRepository, JpaRepository<CommentScore, Integer> {
+//
+//    Optional<Score> findByScoreId(CommentScoreId scoreId);
+//
+//}

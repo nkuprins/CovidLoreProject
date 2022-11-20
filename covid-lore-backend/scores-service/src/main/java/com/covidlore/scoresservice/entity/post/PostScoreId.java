@@ -18,7 +18,7 @@ public class PostScoreId implements Serializable, ScoreId {
     @Serial
     private static final long serialVersionUID = 54930920940322L;
 
-    @Column(name = "post_id")
+    @Column(name = "score_id")
     private final int primaryId;
 
     @Column(name = "user_id")

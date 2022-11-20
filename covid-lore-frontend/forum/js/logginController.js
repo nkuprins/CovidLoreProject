@@ -1,5 +1,6 @@
 
 import Keycloak from "keycloak-js";
+import {REALM_URL} from "./config";
 
 class SecureLogin {
 
@@ -8,7 +9,7 @@ class SecureLogin {
     async initKeyCloak() {
 
         const config = {
-            url: 'http://localhost:8080',
+            url: REALM_URL,
             realm: 'MyRealm',
             clientId: 'frontend-login-client'
         }
