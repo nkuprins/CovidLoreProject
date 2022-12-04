@@ -1,4 +1,4 @@
-package com.covidlore.scoresservice.contraints;
+package com.covidlore.scoresservice.constraints;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -11,8 +11,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Retention(RUNTIME)
 @Target({ FIELD, PARAMETER })
-@Constraint(validatedBy = PossibleValuesValidator.class)
-public @interface PossibleValues {
+@Constraint(validatedBy = PossibleNumbersValidator.class)
+public @interface PossibleNumbers {
 
     String message() default "Not possible number";
 

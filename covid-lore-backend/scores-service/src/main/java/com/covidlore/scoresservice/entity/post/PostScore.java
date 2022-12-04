@@ -1,11 +1,10 @@
 package com.covidlore.scoresservice.entity.post;
 
-import com.covidlore.scoresservice.contraints.PossibleValues;
+import com.covidlore.scoresservice.constraints.PossibleNumbers;
 import com.covidlore.scoresservice.entity.Score;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
@@ -23,7 +22,7 @@ public class PostScore extends Score {
     }
 
     @Column(name = "score")
-    @PossibleValues(allowedValues = {-1, 1})
+    @PossibleNumbers(allowedValues = {-1, 1})
     private final int score;
 
 }

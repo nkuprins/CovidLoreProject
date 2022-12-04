@@ -1,18 +1,16 @@
-package com.covidlore.scoresservice.contraints;
+package com.covidlore.scoresservice.constraints;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class PossibleValuesValidator implements ConstraintValidator<PossibleValues, Integer> {
+public class PossibleNumbersValidator implements ConstraintValidator<PossibleNumbers, Integer> {
 
     int[] values;
 
     @Override
-    public void initialize(PossibleValues constraintAnnotation) {
+    public void initialize(PossibleNumbers constraintAnnotation) {
         values = constraintAnnotation.allowedValues();
     }
 

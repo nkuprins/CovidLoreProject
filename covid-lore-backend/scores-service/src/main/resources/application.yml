@@ -6,11 +6,6 @@ spring:
     url: jdbc:mysql://localhost:3306/covid_lore?useSSL=false&serverTimezone=UTC
     username: springstudent
     password: springstudent
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8080/realms/MyRealm
 eureka:
   client:
     service-url:
